@@ -1,7 +1,6 @@
-import { Toaster } from "@/components/ui/toaster";
-import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Navbar from "./_components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <main>{children}</main>
-        <Toaster />
-      </body>
-    </html>
+    <div className="w-full h-full flex flex-col relative">
+      <div className=" w-full fixed z-40 top-0 right-0 left-0 bg-white">
+        <Navbar />
+      </div>
+      <main className="w-full pt-20">{children}</main>
+    </div>
   );
 }
