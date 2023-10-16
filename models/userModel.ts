@@ -5,8 +5,9 @@ export interface IUser{
     email:string,
     password:string,
     isverifiedByEmail:boolean,
-    role:string,
-    avatar:string,
+    role?:string,
+    token?:string,
+    forgotPasswordtoken:string
 }
 const userSchema =new mongoose.Schema<IUser>({
     name:{
@@ -31,9 +32,11 @@ const userSchema =new mongoose.Schema<IUser>({
         required:true,
         default:'public'
     },
-    avatar:{
+    token:{
         type:String,
-        required:true,
+    },
+    forgotPasswordtoken:{
+        type:String
     }
 });
 

@@ -5,15 +5,35 @@ import FullFlex from "@/components/common/Fullflex";
 import { useForm } from "react-hook-form";
 import Links from "@/components/common/Links";
 import { Eye, EyeOff } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { apiinstance } from "@/services/Api";
 
 export default function page() {
+  const { toast } = useToast();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const [showpassword, setShowpassword] = useState<boolean>(false);
-
+  const handleLogin = async (datas: any) => {
+    try {
+      const { data } = await apiinstance.post("user/login", datas);
+      if (data) {
+        console.log(data);
+        // toast({
+        //   title: "Login Success",
+        //   description: data.message,
+        //   variant: "success",
+        // });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error?.response.data.error,
+      });
+    }
+  };
   return (
     <div className="flex w-screen h-screen">
       <div className=" w-[40%]">
@@ -22,7 +42,7 @@ export default function page() {
       <FullFlex className="w-[60%] flex-col bg-[#e3f2ff]">
         <h1 className=" text-2xl font-semibold pb-4">Login</h1>
         <form
-          onSubmit={handleSubmit((data) => console.log(data))}
+          onSubmit={handleSubmit((data) => handleLogin(data))}
           className=" flex flex-col gap-5 w-[70%]"
         >
           <FullFlex className="flex-col items-start">

@@ -5,10 +5,12 @@ import FullFlex from "@/components/common/Fullflex";
 import { FieldValue, useForm } from "react-hook-form";
 import Links from "@/components/common/Links";
 import { Eye, EyeOff } from "lucide-react";
-import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
+import { apiinstance } from "@/services/Api";
+import Loader from "@/components/common/Loader";
 
 export default function page() {
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const {
     register,
@@ -17,6 +19,7 @@ export default function page() {
   } = useForm();
   const [showpassword, setShowpassword] = useState<boolean>(false);
   const registerUser = async (datas: any) => {
+    setLoading(true);
     try {
       if (datas?.password !== datas?.cpassword) {
         return toast({
@@ -24,22 +27,26 @@ export default function page() {
           description: "Password and confirm password should match.",
         });
       }
-      const formdata = new FormData();
-      if (datas) {
-        formdata.append("name", datas.name);
-        formdata.append("email", datas.email);
-        formdata.append("password", datas.password);
-        //formdata.append("avatar", datas.avatar);
+      const { data } = await apiinstance.post("user/register", datas);
+      if (data) {
+        toast({
+          title: "Success",
+          description: data.message,
+          variant: "success",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: data.error,
+          variant: "destructive",
+        });
       }
-      const res = await axios.post(
-        "http://localhost:3000/api/user/register",
-        formdata
-      );
-      console.log(res);
+      setLoading(false);
     } catch (error: any) {
+      setLoading(false);
       toast({
         title: "Error",
-        description: error?.message,
+        description: error?.response.data.error,
       });
     }
   };
@@ -54,6 +61,7 @@ export default function page() {
         <form
           onSubmit={handleSubmit((datas) => registerUser(datas))}
           className=" flex flex-col gap-5 w-[70%]"
+          encType="multipart/form-data"
         >
           <FullFlex className="flex-col items-start">
             <label>Full Name</label>
@@ -170,52 +178,18 @@ export default function page() {
               className=" text-custom-100 text-[13px] hover:underline"
             ></Links>
           </FullFlex>
-          <FullFlex className=" flex-col justify-start">
-            <input
-              {...register("avatar", {
-                required: true,
-                validate: {
-                  maxSize: (value) => {
-                    if (value[0].size > 1048576) {
-                      return "File size must be less than 1MB";
-                    }
-                    return true;
-                  },
-                  allowedTypes: (value) => {
-                    const allowedTypes = [
-                      "image/jpeg",
-                      "image/png",
-                      "image/jpg",
-                    ]; // Define your allowed file types
-                    if (!allowedTypes.includes(value[0].type)) {
-                      return "File type not allowed";
-                    }
-                    return true;
-                  },
-                },
-              })}
-              type="file"
-              className="w-full"
-            />
-            {errors?.avatar && (
-              <p className=" text-xs text-red-600 w-full">
-                {errors.avatar?.type === "required"
-                  ? "Please attach an avatar"
-                  : errors?.avatar?.message?.toString()}
-              </p>
-            )}
-          </FullFlex>
+
           <FullFlex
             className="w-full
           "
           >
-            {!isLoading ? (
+            {!loading ? (
               <input
                 type="submit"
                 className="bg-custom-100 px-3 py-2 text-white rounded-[10px] w-full cursor-pointer hover:scale-105"
               />
             ) : (
-              <p>Loading</p>
+              <Loader />
             )}
           </FullFlex>
           <Links
