@@ -7,9 +7,14 @@ import Links from "@/components/common/Links";
 import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
+import Loader from "@/components/common/Loader";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function page() {
+  const router = useRouter();
   const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -17,20 +22,29 @@ export default function page() {
   } = useForm();
   const [showpassword, setShowpassword] = useState<boolean>(false);
   const handleLogin = async (datas: any) => {
+    setLoading(true);
     try {
-      const { data } = await apiinstance.post("user/login", datas);
-      if (data) {
-        console.log(data);
-        // toast({
-        //   title: "Login Success",
-        //   description: data.message,
-        //   variant: "success",
-        // });
+      const res = await apiinstance.post("user/login", datas);
+      if (res.status == 200) {
+        await signIn("credentials", {
+          email: res?.data.user.email,
+          token: res?.data.user.token,
+          role: res?.data.user.role,
+          name: res?.data.user.name,
+        });
+        toast({
+          title: "Login Success",
+          description: res.data.message,
+          variant: "success",
+        });
+        setLoading(false);
+        router.push("/");
       }
     } catch (error: any) {
+      setLoading(false);
       toast({
         title: "Error",
-        description: error?.response.data.error,
+        description: error?.response.data.message || "Some error occured",
       });
     }
   };
@@ -68,7 +82,7 @@ export default function page() {
             <label>Password</label>
             <div className="flex justify-between items-center w-full border-b-2 border-b-custom-100 py-0">
               <input
-                {...register("password", {
+                {...register("pass", {
                   required: true,
                 })}
                 type={`${showpassword ? "text" : "password"}`}
@@ -94,7 +108,7 @@ export default function page() {
               )}
             </div>
 
-            {errors?.password && (
+            {errors?.pass && (
               <p className=" text-xs text-red-600">Please provide password</p>
             )}
           </FullFlex>
@@ -106,10 +120,16 @@ export default function page() {
             ></Links>
           </FullFlex>
           <FullFlex className="w-full">
-            <input
-              type="submit"
-              className="bg-custom-100 px-3 py-2 text-white rounded-[10px] w-full cursor-pointer hover:scale-105"
-            />
+            {loading ? (
+              <div className="bg-custom-100 px-3 py-2 text-white rounded-[10px] w-full cursor-pointer hover:scale-105 flex items-center justify-center">
+                <Loader color="#ffffff" height="20" width="20" radius="20" />
+              </div>
+            ) : (
+              <input
+                type="submit"
+                className="bg-custom-100 px-3 py-2 text-white rounded-[10px] w-full cursor-pointer hover:scale-105"
+              />
+            )}
           </FullFlex>
           <Links
             name="Not Registered Yet?"

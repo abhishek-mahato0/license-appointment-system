@@ -8,6 +8,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
 import Loader from "@/components/common/Loader";
+import { redirect } from "next/navigation";
 
 export default function page() {
   const [loading, setLoading] = useState(false);
@@ -42,6 +43,7 @@ export default function page() {
         });
       }
       setLoading(false);
+      redirect("/login");
     } catch (error: any) {
       setLoading(false);
       toast({
