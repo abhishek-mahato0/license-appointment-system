@@ -17,10 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <div className="w-full h-full flex flex-col relative">
-      <div className=" w-full fixed z-40 top-0 right-0 left-0 bg-white">
+      <div className="fixed z-40 top-0 left-0 bg-white bottom-0">
         <Navbar />
       </div>
-      <main className="w-full pt-20">{children}</main>
+      <main className="w-full pl-[105px]">{children}</main>
     </div>
   );
 }

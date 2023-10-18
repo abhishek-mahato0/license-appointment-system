@@ -18,7 +18,15 @@ module.exports = {
     extend: {
       colors: {
         custom:{
-          100:'#0388f8'
+          100:'#0388f8',
+          150:'#0388f8',
+          50:'#e3f2ff',
+        },
+        customtext:{
+          100:'#474860'
+        },
+        custombg:{
+          100:'#e3f2ff'
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

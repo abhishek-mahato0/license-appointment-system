@@ -9,19 +9,12 @@ export const authOptions:AuthOptions = {
           name: "Credentials",
           type: 'credentials',
           credentials:{},
-          async authorize(credentials: any) {
-              console.log(credentials)
+          async authorize(credentials:any) {
+            if(credentials){
+                return credentials
+            }else{
               return null
-              // const payload = {
-              //     email: credentials?.email,
-              //     pass: credentials?.pass
-              // };
-              // const res = await apiinstance.post("user/login", payload);
-              // if (res.status == 200) {
-              //     return res?.data?.user;
-              // } else {
-              //     return null;
-              // }
+            }
           },
       })
       ],
@@ -32,26 +25,21 @@ export const authOptions:AuthOptions = {
       pages:{
           signIn:'/login'
       },
-      // callbacks: {
-      //     async jwt({ token, user, account }) {
-      //       if (account && user) {
-      //         return {
-      //           ...token,
-      //           accessToken: user.token,
-      //           refreshToken: user.refreshToken,
-      //         };
-      //       }
+      callbacks: {
+          async jwt({ token, user }) {
+          if(token && user){
+            token.jwt = user.jwt;
+            token.role=user.role;
+          }
+            return token;
+          },
       
-      //       return token;
-      //     },
-      
-      //     async session({ session, token }) {
-      //       session.user.accessToken = token.accessToken;
-      //       session.user.refreshToken = token.refreshToken;
-      //       session.user.accessTokenExpires = token.accessTokenExpires;
-      
-      //       return session;
-      //     },
-      //   },
-      
+          async session({ session, token }) {
+           if(session.user && token){
+            session.user.jwt=token.jwt
+            session.user.role=token.role;
+           }
+            return session;
+          },
+        },   
   }

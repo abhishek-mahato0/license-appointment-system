@@ -31,6 +31,7 @@ export default function page() {
           token: res?.data.user.token,
           role: res?.data.user.role,
           name: res?.data.user.name,
+          redirect: false,
         });
         toast({
           title: "Login Success",
