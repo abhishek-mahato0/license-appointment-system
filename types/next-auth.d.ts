@@ -2,7 +2,7 @@ import NextAuth, { DefaultUser } from "next-auth"
 import { JWT } from "next-auth/jwt"
 
 interface Iuser extends DefaultUser{
-  jwt:string;
+  token:string;
   role:string;
 }
 declare module "next-auth" {
@@ -13,7 +13,7 @@ declare module "next-auth" {
       email:string,
       id:string,
       role:string,
-      jwt:string
+      token:string
     }
   }
   

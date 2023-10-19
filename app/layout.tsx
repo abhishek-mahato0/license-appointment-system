@@ -2,8 +2,8 @@ import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
 import { AuthProvider } from "@/components/AuthProvider";
+import StoreProvider from "@/components/StoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <main>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <StoreProvider>{children}</StoreProvider>
+          </AuthProvider>
         </main>
         <Toaster />
       </body>

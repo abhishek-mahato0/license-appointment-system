@@ -13,11 +13,12 @@ import {
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function Navbar() {
+  const location = usePathname();
   const { data: session } = useSession();
-  const [active, setAvtive] = useState(1);
   const [showfull, setShowfull] = useState(false);
   const dropLinks = [
     {
@@ -49,7 +50,12 @@ export default function Navbar() {
       short: "Exam",
     },
   ];
-  console.log(showfull);
+  const [active, setAvtive] = useState(
+    dropLinks.find((ele) => ele.href == location)
+  );
+  useEffect(() => {
+    setAvtive(dropLinks.find((ele) => ele.href == location));
+  }, [location]);
   return (
     <div
       className={`${
@@ -73,21 +79,23 @@ export default function Navbar() {
         <FullFlex className=" w-full flex-col items-start mt-4">
           {dropLinks.map((ele) => {
             return (
-              <FullFlex
+              <Links
+                href={ele.href}
+                name={`${showfull ? ele.name : ele.short}`}
                 className={`${
-                  active === ele.id
+                  active?.id === ele.id
                     ? "bg-custom-50 border-l-custom-100 text-custom-150 border-l-[4px]"
                     : ""
                 } hover:text-custom-150 hover:bg-custom-50 w-full h-full font-[500]
               ${
                 showfull
-                  ? "items-start justify-start py-4"
-                  : " items-center justify-center py-2"
+                  ? "items-start justify-start py-4 flex-row text-[13px]"
+                  : " items-center justify-center py-2 flex-col text-xs"
               }`}
                 key={ele.id}
-                onClick={() => setAvtive(ele.id)}
               >
-                <Links
+                {ele.comp}
+                {/* <Links
                   href={ele.href}
                   name={`${showfull ? ele.name : ele.short}`}
                   className={`${
@@ -97,8 +105,8 @@ export default function Navbar() {
                   }`}
                 >
                   {ele.comp}
-                </Links>
-              </FullFlex>
+                </Links> */}
+              </Links>
             );
           })}
         </FullFlex>

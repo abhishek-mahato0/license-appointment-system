@@ -4,10 +4,9 @@ import React from "react";
 
 export default function page() {
   const { data: session } = useSession();
-  console.log(session);
   return (
     <div className="h-[1000px]">
-      {session && JSON.stringify(session)}
+      {session && JSON.stringify(session.user)}
       Dashboard page alsejalsdf asdlkalsdjf aslkdjflkasdjfsa
     </div>
   );

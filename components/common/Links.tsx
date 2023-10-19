@@ -7,6 +7,7 @@ interface ILinks {
   children?: ReactNode;
   className?: string;
   rightChildren?: boolean;
+  onClick?: any;
 }
 
 export default function Links({
@@ -15,6 +16,7 @@ export default function Links({
   children,
   className,
   rightChildren,
+  onClick,
 }: ILinks) {
   return (
     <Link
@@ -23,6 +25,7 @@ export default function Links({
         "flex gap-1 justify-center items-center w-fit px-3 py-1",
         className
       )}
+      onClick={onClick}
     >
       {!rightChildren && children}
       {name}
