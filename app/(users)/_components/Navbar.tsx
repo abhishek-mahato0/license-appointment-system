@@ -31,7 +31,7 @@ export default function Navbar() {
     {
       id: 2,
       name: "Apply for New License",
-      href: "/apply",
+      href: "/apply/1",
       comp: <PenSquare strokeWidth={2} size={17} width={17} />,
       short: "Apply",
     },

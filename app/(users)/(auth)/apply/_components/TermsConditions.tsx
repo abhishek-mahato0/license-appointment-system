@@ -2,18 +2,17 @@
 import FullFlex from "@/components/common/Fullflex";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
+import { setBarstate, setIsAgreed } from "@/redux/slices/applynewSlice";
 import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-export default function TermsConditions({
-  checked,
-  setChecked,
-  setBarstate,
-}: {
-  checked: boolean;
-  setChecked: (value: boolean) => void;
-  setBarstate: any;
-}) {
+export default function TermsConditions() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { isTermsAgreed } = useAppSelector((state) => state.applynew);
+
   return (
     <div className="w-full h-full space-y-4">
       <h2 className=" text-custom-150 font-bold text-[16px]">
@@ -35,8 +34,8 @@ export default function TermsConditions({
       <FullFlex className=" space-x-2 items-start justify-start border-t-2 py-4 text-sm">
         <Checkbox
           id="terms"
-          onClick={() => setChecked(!checked)}
-          checked={checked}
+          onClick={() => dispatch(setIsAgreed(true))}
+          checked={isTermsAgreed}
         />
         <label htmlFor="terms">
           I have read and agreed to the mentioned terms and confitions for
@@ -47,8 +46,11 @@ export default function TermsConditions({
       <div className="w-full flex items-end justify-end">
         <Button
           className=" rounded-sm"
-          disabled={!checked}
-          onClick={() => setBarstate({ active: 2, completed: [1] })}
+          disabled={!isTermsAgreed}
+          onClick={() => {
+            dispatch(setBarstate({ active: 2, completed: [1] }));
+            router.push("/apply/2");
+          }}
         >
           Next
           <p>

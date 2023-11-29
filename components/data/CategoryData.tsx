@@ -1,8 +1,117 @@
-const categoryData = [
+export const categoryData = [
   {
     id: 1,
     name: "Motorbike,Scooter,Mooped",
     category: "A",
     src: "/images/bike.svg",
+  },
+  {
+    id: 2,
+    name: "Car, Jeep, Delivery Van",
+    category: "B",
+    src: "/images/car.svg",
+  },
+  {
+    id: 3,
+    name: "Tempo, Auto Rickshaw",
+    category: "C",
+    src: "/images/bike.svg",
+  },
+  {
+    id: 4,
+    name: "E-Rickshaw",
+    category: "C1",
+    src: "/images/bike.svg",
+  },
+  {
+    id: 5,
+    name: "Power Tiler",
+    category: "D",
+    src: "/images/bike.svg",
+  },
+  {
+    id: 6,
+    name: "Tractor",
+    category: "E",
+    src: "/images/tractor.svg",
+  },
+  {
+    id: 7,
+    category: "H",
+    name: "Road Roller, Dozer",
+    src: "/images/roadroller.svg",
+  },
+  {
+    id: 8,
+    name: "Dozer",
+    category: "H1",
+    src: "/images/dozer.svg",
+  },
+  {
+    id: 10,
+    name: "Road Roller",
+    category: "H2",
+    src: "/images/roadroller.svg",
+  },
+  {
+    id: 11,
+    name: "Crane, Fire Bridgade, Loader",
+    category: "I",
+    src: "/images/fire.svg",
+  },
+  {
+    id: 12,
+    name: "Crane",
+    category: "I1",
+    src: "/images/crane.svg",
+  },
+  {
+    id: 13,
+    name: "Fire Bridgade",
+    category: "I2",
+    src: "/images/fire.svg",
+  },
+  {
+    id: 14,
+    name: "Loader",
+    category: "I3",
+    src: "/images/bike.svg",
+  },
+  {
+    id: 15,
+    name: "Excavator",
+    category: "J1",
+    src: "/images/excavator.svg",
+  },
+  {
+    id: 16,
+    name: "Backhoe Loader",
+    category: "J2",
+    src: "/images/bike.svg",
+  },
+
+  {
+    id: 17,
+    name: "Grader",
+    category: "J3",
+    src: "/images/bike.svg",
+  },
+  {
+    id: 18,
+    name: "Forklift",
+    category: "J4",
+    src: "/images/lifter.svg",
+  },
+  {
+    id: 19,
+    name: "Other heavy equipments",
+    category: "J2",
+    src: "/images/bike.svg",
+  },
+  {
+    id: 18,
+    name: "Scooter, Mooped",
+    category: "K",
+    src: "/images/scooty.svg",
   },
 ];
