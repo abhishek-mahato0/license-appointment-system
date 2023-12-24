@@ -4,45 +4,40 @@ import ShowError from "@/utils/ShowError";
 import { generateToken } from "@/utils/generateToken";
 import { sendMail } from "@/utils/sendTokenEmail";
 import bcrypt from 'bcryptjs';
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
  
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    await dbconnect(res);
+export async function POST(req: NextRequest) {
+    await dbconnect();
     try {
-      const {email,password,name}  = req.body;
+      const {email,password,name}  = await req.json();
       if( !email || !password || ! name){
-        return ShowError(res,400,"Missing Fields")
+        return ShowError(400,"Missing Fields")
       }
       const exists = await User.findOne({email});
       if(exists){
-        return ShowError(res,400,"User already exists.")
+        return ShowError(400,"User already exists.")
       }
       let hashpassword = bcrypt.hashSync(password,10);
       if(!hashpassword){
-        return ShowError(res,400,"Some error occured.")
+        return ShowError(400,"Some error occured.")
       }
       const token = await generateToken({name,email})
       if(!token){
-        return ShowError(res,400,"Some error occured while token generration")
+        return ShowError(400,"Some error occured while token generration")
       }
       const user = new User({
         name,email,password:hashpassword,token
       })
       if(!user){
-        return ShowError(res,400,"Some error occured.")
+        return ShowError(400,"Some error occured.")
       }
         await user.save();
-        await sendMail(res,user.email,token,user._id.toString())
+        await sendMail(user.email,token,user._id.toString())
+        return NextResponse.json({message:"A verification email is sent."}, {status:201})
         
     } catch (error:any) {
-        res.status(400).json({error:error?.message})
+        return NextResponse.json({error:error?.message}, {status:400})
     }
-   
-  } else {
-    res.status(400).json({error:"Method not allowed"})
-    
-  }
 }
    
    

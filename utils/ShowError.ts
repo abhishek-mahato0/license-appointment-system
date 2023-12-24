@@ -1,5 +1,5 @@
-import { NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 
-export default function ShowError(res:NextApiResponse, status:number, message:string){
-    res.status(status).json({error:message})
+export default function ShowError(status:number, message:string){
+    return NextResponse.json({error:message}, {status:status})
 }

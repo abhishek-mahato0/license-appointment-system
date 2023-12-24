@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import { NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 
 const url = process.env.DB_URL || "";
-export default async function dbconnect(res: NextApiResponse) {
+export default async function dbconnect() {
   try {
     await mongoose.connect(url);
   } catch (error: any) {
-    res.status(400).json({ error: error?.message });
+    return NextResponse.json({ error: error?.message }, {status:400});
   }
 }

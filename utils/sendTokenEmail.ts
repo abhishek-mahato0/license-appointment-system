@@ -1,8 +1,8 @@
 import { transporter } from "@/lib/nodemailerConfig";
-import { NextApiResponse } from "next";
 import ShowError from "./ShowError";
+import { NextResponse } from "next/server";
 
-export async function sendMail(res:NextApiResponse, email:string,token:string, userId:string) {
+export async function sendMail(email:string,token:string, userId:string) {
     try {
        const info=await transporter.sendMail({
             from: 'licenseappointmant@gmail.com', // sender address
@@ -14,9 +14,9 @@ export async function sendMail(res:NextApiResponse, email:string,token:string, u
             <p>Please click the link below to verify your email </p>
             <p>${process.env.VERIFY_URL}/${userId}?token=${token}`
           })
-          return res.status(201).json({message:"An email is sent to you. Click the link given to verify your account."})
+          return NextResponse.json({message:"An email is sent to you. Click the link given to verify your account."}, {status:201})
     } catch (error:any) {
-       ShowError(res,400,error?.message)
+       ShowError(400,error?.message)
     }
     // send mail with defined transport object
    

@@ -1,20 +1,21 @@
 import { User } from "@/models/userModel";
 import ShowError from "@/utils/ShowError";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function GET(req: NextApiRequest, res: NextApiResponse) {
-  const { userId, token } = req.query;
+export async function GET(req: NextRequest, {params}:any) {
   try {
+    const userId = params.userId;
+  const token = req.nextUrl.searchParams.get('token');
     if (!userId || !token) {
-      return ShowError(res, 400, "Not valid url.");
+      return ShowError(400, "Not valid url.");
     }
     const user = await User.findById({ _id: userId.toString() });
     if (!user) {
-      return ShowError(res, 400, "No user found");
+      return ShowError(400, "No user found");
     }
     if (user?.isverifiedByEmail) {
-      return res.status(200).json({ message: "User already verified" });
+      return NextResponse.json({ message: "User already verified" }, {status:200});
     }
     const isVerified = jwt.verify(
       token as string,
@@ -31,11 +32,12 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
         }
       );
       await changed.save();
-      res.status(200).json({ message: "User verified successfully" });
+      return NextResponse.json({ message: "User verified successfully" }, {status:200});
     } else {
-      ShowError(res, 400, "No user found. Invalid token");
+      ShowError( 400, "No user found. Invalid token");
     }
   } catch (error: any) {
-    return ShowError(res, 400, error?.message);
+    console.log(error?.message);
+    return ShowError(400, error?.message);
   }
 }
