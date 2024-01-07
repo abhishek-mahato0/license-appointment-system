@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import Banner from "../_components/Banner";
 import FullFlex from "@/components/common/Fullflex";
-import { FieldValue, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Links from "@/components/common/Links";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, UserCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
 import Loader from "@/components/common/Loader";
@@ -13,6 +13,7 @@ import { redirect } from "next/navigation";
 export default function page() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const profileref = React.useRef<HTMLInputElement>(null);
   const {
     register,
     handleSubmit,
@@ -29,6 +30,7 @@ export default function page() {
         });
       }
       const { data } = await apiinstance.post("user/register", datas);
+      console.log(data);
       if (data) {
         toast({
           title: "Success",
@@ -48,7 +50,7 @@ export default function page() {
       setLoading(false);
       toast({
         title: "Error",
-        description: error?.response.data.error,
+        description: error?.response?.data?.error || "Some error occured",
       });
     }
   };
@@ -132,7 +134,6 @@ export default function page() {
                 />
               )}
             </div>
-
             {errors?.password && (
               <p className=" text-xs text-red-600">Please provide password</p>
             )}
@@ -172,6 +173,20 @@ export default function page() {
                 Password and Confirm password should match
               </p>
             )}
+          </FullFlex>
+          <FullFlex className="flex-col items-start">
+            <div onClick={() => profileref.current?.click()}>
+              <UserCircle size={40} className="cursor-pointer" />
+            </div>
+            {/* <input
+              {...register("profile", {
+                required: true,
+              })}
+              type="file"
+              placeholder="*********"
+              className=" outline-none p-3 w-full bg-[#e3f2ff] hidden"
+              ref={profileref}
+            /> */}
           </FullFlex>
           <FullFlex className="w-full justify-end">
             <Links
