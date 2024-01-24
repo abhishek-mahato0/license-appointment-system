@@ -30,6 +30,8 @@ export const authOptions:AuthOptions = {
           if(token && user){
             token.jwt = user.token;
             token.role=user.role;
+            token.document_id=user.document_id;
+            token.information_id=user.information_id;
           }
             return token;
           },
@@ -38,6 +40,8 @@ export const authOptions:AuthOptions = {
            if(session.user && token){
             session.user.token=token.jwt
             session.user.role=token.role;
+            session.user.document_id=token.document_id;
+            session.user.information_id=token.information_id;
            }
             return session;
           },
