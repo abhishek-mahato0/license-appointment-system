@@ -8,8 +8,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-  if (!session?.user) {
+  if (!session?.user?.token) {
     return redirect("/login");
+  } else if (session?.user?.information_id === "none") {
+    redirect("/detailform/information");
   }
   return <>{children}</>;
 }

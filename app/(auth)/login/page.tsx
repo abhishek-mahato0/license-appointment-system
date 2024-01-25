@@ -25,12 +25,16 @@ export default function page() {
     setLoading(true);
     try {
       const res = await apiinstance.post("user/login", datas);
+      console.log(res.data.user);
       if (res.status == 200) {
         await signIn("credentials", {
+          id: res?.data.user._id,
           email: res?.data.user.email,
           token: res?.data.user.token,
           role: res?.data.user.role,
           name: res?.data.user.name,
+          document_id: res?.data.user.document_id,
+          information_id: res?.data.user.information_id,
           redirect: false,
         });
         toast({
