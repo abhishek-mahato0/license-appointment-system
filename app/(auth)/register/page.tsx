@@ -30,7 +30,6 @@ export default function page() {
         });
       }
       const { data } = await apiinstance.post("user/register", datas);
-      console.log(data);
       if (data) {
         toast({
           title: "Success",
@@ -40,17 +39,18 @@ export default function page() {
       } else {
         toast({
           title: "Error",
-          description: data.error,
+          description: data.message,
           variant: "destructive",
         });
       }
       setLoading(false);
       redirect("/login");
     } catch (error: any) {
+      console.log(error);
       setLoading(false);
       toast({
         title: "Error",
-        description: error?.response?.data?.error || "Some error occured",
+        description: error?.response?.data?.message || "Some error occured",
       });
     }
   };
