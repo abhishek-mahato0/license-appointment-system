@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 export interface ILicense{
-    id?:string,
+    _id?:string,
     license_no:string,
     category:Array<{}>,
     license_date:Date,
@@ -16,7 +16,7 @@ export interface ILicense{
 }
 
 export interface ICitizenship{
-    id?:string,
+    _id?:string,
     citizenship_no:string,
     citizenship_type:string,
     issue_date:Date,
@@ -30,7 +30,7 @@ export interface ICitizenship{
 }
 
 export interface IDocument{
-    id?:string,
+    _id?:string,
     user_id:mongoose.Schema.Types.ObjectId,
     license:ILicense,
     citizenship:ICitizenship,
