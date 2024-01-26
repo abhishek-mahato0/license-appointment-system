@@ -9,14 +9,13 @@ export interface IUser{
     role?:string,
     token?:string,
     forgotPasswordtoken:string
-    documents?:string,
-    information?:string,
+    document_id?:string,
+    information_id?:string,
     appointment?: Array<string>,
     hasApplied:boolean, 
     avatar?:string
 
 }
-
 
 const userSchema =new mongoose.Schema<IUser>({
     name:{
@@ -44,25 +43,16 @@ const userSchema =new mongoose.Schema<IUser>({
     token:{
         type:String,
     },
-    forgotPasswordtoken:{
-        type:String
-    },
-    documents:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'document'
-    },
-    information:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'information'
-    },
+    forgotPasswordtoken:{},
+    document_id:{ type: String, required:true, default:'none'},
+    information_id:{ type:String, required:true, default:'none'},
     appointment:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'appointment'
+        type:String,
     }],
     hasApplied:{
         type:Boolean,
         default:false
-    }  
+    } 
 });
 
 export const User =mongoose.models.user || mongoose.model('user', userSchema)
