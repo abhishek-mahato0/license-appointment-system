@@ -11,7 +11,7 @@ export default async function RootLayout({
   if (!session?.user?.token) {
     return redirect("/login");
   } else if (session?.user?.information_id === "none") {
-    redirect("/detailform/information");
+    return redirect("/detailform/information/personal");
   }
   return <>{children}</>;
 }
