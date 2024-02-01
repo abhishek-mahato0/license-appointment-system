@@ -46,7 +46,6 @@ export default function page() {
       setLoading(false);
       redirect("/login");
     } catch (error: any) {
-      console.log(error);
       setLoading(false);
       toast({
         title: "Error",
