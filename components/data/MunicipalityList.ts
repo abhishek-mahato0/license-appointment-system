@@ -1,4 +1,4 @@
-export const municipalities = [
+export const municipalityList = [
   {
     province: "province1",
     data: [

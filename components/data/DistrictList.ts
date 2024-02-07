@@ -1,4 +1,4 @@
-export const districts=[
+export const districtList=[
     {
         id:1,
         province:"province1",
