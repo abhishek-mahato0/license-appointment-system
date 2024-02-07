@@ -32,7 +32,8 @@ export default function page() {
           token: res?.data.user.token,
           role: res?.data.user.role,
           name: res?.data.user.name,
-          document_id: res?.data.user.document_id,
+          citizenship_id: res?.data.user.citizenship_id,
+          license_id: res?.data.user.license_id,
           information_id: res?.data.user.information_id,
           redirect: false,
         });
