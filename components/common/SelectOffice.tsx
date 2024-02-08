@@ -53,9 +53,9 @@ export default function SelectOffice() {
         office.filter((ele) => ele.province.toString() == selectedProv)
       );
   }, [selectedProv, dispatch]);
-  useEffect(() => {
-    !selectedCat && router.push("/apply/2");
-  }, [selectedCat, dispatch]);
+  // useEffect(() => {
+  //   !selectedCat && router.push("/apply/2");
+  // }, [selectedCat, dispatch]);
   return (
     <FullFlex className="flex-col gap-4 w-full">
       <div className=" w-full flex justify-center items-center gap-6">
