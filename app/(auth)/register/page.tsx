@@ -29,17 +29,17 @@ export default function page() {
           description: "Password and confirm password should match.",
         });
       }
-      const { data } = await apiinstance.post("user/register", datas);
-      if (data) {
+      const res = await apiinstance.post("user/register", datas);
+      if (res.status === 201) {
         toast({
           title: "Success",
-          description: data.message,
+          description: res.data.message,
           variant: "success",
         });
       } else {
         toast({
           title: "Error",
-          description: data.message,
+          description: res.data.message,
           variant: "destructive",
         });
       }
