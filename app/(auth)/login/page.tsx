@@ -37,6 +37,13 @@ export default function page() {
           information_id: res?.data.user.information_id,
           redirect: false,
         });
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify({
+            id: res?.data.user._id,
+            token: res?.data.user.token,
+          })
+        );
         toast({
           title: "Login Success",
           description: res.data.message,
