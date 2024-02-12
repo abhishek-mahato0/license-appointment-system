@@ -22,7 +22,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         const matched = await bcrypt.compare(pass, exists.password)
         if (!matched) {
-            return ShowError(400, "Invalid email for password")
+            return ShowError(400, "Invalid email for password.")
         }
         const { password, ...others } = exists._doc;
 

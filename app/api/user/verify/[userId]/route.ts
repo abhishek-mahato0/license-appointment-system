@@ -10,10 +10,11 @@ export async function GET(req: NextRequest, {params}:any) {
     if (!userId || !token) {
       return ShowError(400, "Not valid url.");
     }
-    const user = await User.findById({ _id: userId.toString() });
+    const user = await User.findById(userId.toString());
     if (!user) {
       return ShowError(400, "No user found");
     }
+   
     if (user?.isverifiedByEmail) {
       return NextResponse.json({ message: "User already verified" }, {status:200});
     }

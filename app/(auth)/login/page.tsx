@@ -25,7 +25,6 @@ export default function page() {
     setLoading(true);
     try {
       const res = await apiinstance.post("user/login", datas);
-      console.log(res.data.user);
       if (res.status == 200) {
         await signIn("credentials", {
           id: res?.data.user._id,
@@ -33,10 +32,18 @@ export default function page() {
           token: res?.data.user.token,
           role: res?.data.user.role,
           name: res?.data.user.name,
-          document_id: res?.data.user.document_id,
+          citizenship_id: res?.data.user.citizenship_id,
+          license_id: res?.data.user.license_id,
           information_id: res?.data.user.information_id,
           redirect: false,
         });
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify({
+            id: res?.data.user._id,
+            token: res?.data.user.token,
+          })
+        );
         toast({
           title: "Login Success",
           description: res.data.message,
