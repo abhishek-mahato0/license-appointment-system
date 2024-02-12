@@ -10,16 +10,32 @@ import {
   ListChecks,
   LogOut,
   PenSquare,
+  PlusCircle,
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import {
+  usePathname,
+  useRouter,
+  useParams,
+  useSearchParams,
+} from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+type DropLinks = {
+  id: number;
+  name: string;
+  href: string;
+  comp: JSX.Element;
+  short: string;
+  params: string;
+};
 export default function Navbar() {
   const location = usePathname();
+  const params = useSearchParams().get("type");
   const { data: session } = useSession();
   const [showfull, setShowfull] = useState(false);
+
   const dropLinks = [
     {
       id: 1,
@@ -27,35 +43,59 @@ export default function Navbar() {
       href: "/dashboard",
       comp: <LayoutDashboardIcon strokeWidth={2} size={17} width={17} />,
       short: "Dashboard",
+      params: "",
     },
     {
       id: 2,
       name: "Apply for New License",
-      href: "/apply/1",
+      href: "/apply/1?type=new",
       comp: <PenSquare strokeWidth={2} size={17} width={17} />,
       short: "Apply",
+      params: "new",
     },
     {
       id: 3,
+      name: "Add New License Category",
+      href: "/apply/1?type=add",
+      comp: <PlusCircle strokeWidth={2} size={17} width={17} />,
+      short: "Add",
+      params: "add",
+    },
+    {
+      id: 4,
       name: "Renew License",
       href: "/renew",
       comp: <ListChecks strokeWidth={2} size={17} width={17} />,
       short: "Renew",
+      params: "",
     },
     {
-      id: 4,
+      id: 5,
       name: "Prepare For Examinations",
       href: "/prepare",
       comp: <BookOpen strokeWidth={2} size={17} width={17} />,
       short: "Exam",
+      params: "",
     },
   ];
   const [active, setAvtive] = useState(
-    dropLinks.find((ele) => ele.href == location)
+    dropLinks.find((ele: DropLinks) => {
+      if (params && ele.params != "") {
+        return ele.href == location && ele.params == params;
+      }
+      return ele.href == location;
+    })
   );
   useEffect(() => {
-    setAvtive(dropLinks.find((ele) => ele.href == location));
-  }, [location]);
+    setAvtive(
+      dropLinks.find((ele: DropLinks) => {
+        if (params && ele.params != "") {
+          return ele.href.includes(location) && ele.params.includes(params);
+        }
+        return ele.href == location;
+      })
+    );
+  }, [location, params]);
   return (
     <div
       className={`${
