@@ -19,7 +19,6 @@ export default function AddressForm() {
   const { personalInformation } = useAppSelector(
     (state) => state.profileInformation
   );
-  console.log(personalInformation);
   const router = useRouter();
   const [temdistrict, setTemDistrict] = React.useState<any>(
     districtList.filter((item) => item.province === "province1")[0]?.districts
