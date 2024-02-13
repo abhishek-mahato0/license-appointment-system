@@ -1,6 +1,8 @@
 "use client";
 
 import Outline from "@/components/common/FormDetail/Outline";
+import Loader from "@/components/common/Loader";
+import { Searchselect } from "@/components/common/Searchselect";
 import { DatePicker } from "@/components/common/SelectDate";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 import { Button } from "@/components/ui/button";
@@ -12,17 +14,30 @@ import {
   setWrittenInfo,
 } from "@/redux/slices/applynewSlice";
 import { apiinstance } from "@/services/Api";
+import { convertDate } from "@/utils/convertDate";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 type Tdata = {
   date: Date | undefined;
   shift: string;
 };
 export default function SelectDateAndTime() {
+  const [loading, setLoading] = useState({
+    medical: false,
+    written: false,
+    trial: false,
+    submission: false,
+  });
+  const router = useRouter();
+  const userInfo: any = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const { trialExamination, medicalExamination, writtenExamination } =
+    useAppSelector((state) => state.applynew);
   const { toast } = useToast();
   const dispatch = useAppDispatch();
-  const { selectedCat, selectedProv, selectedOffice } = useAppSelector(
-    (state) => state.applynew
+  const { selectedCat, selectedProv, selectedOffice } = useSelector(
+    (state: any) => state.applynew
   );
   const [medical, setMedical] = useState<Tdata>({
     date: new Date(),
@@ -55,24 +70,106 @@ export default function SelectDateAndTime() {
     },
   ];
   const fetchMedicalOccupancy = async () => {
-    dispatch(setMedicalInfo(medical));
+    try {
+      setLoading({ ...loading, medical: true });
+      const res = await apiinstance.post("/apply/countoccupancy", {
+        sdate: medical.date && convertDate(medical.date),
+        category: selectedCat,
+        office: selectedOffice,
+        examtype: "medical",
+        status: "pending",
+      });
+      if (res.status === 200) {
+        return dispatch(setMedicalInfo(res.data));
+      }
+      return toast({
+        title: "Error",
+        description: res.data.message,
+      });
+    } catch (error: any) {
+      return toast({
+        title: "Error",
+        description: error?.response?.data?.message || "Some error occured",
+      });
+    } finally {
+      setLoading({ ...loading, medical: false });
+    }
   };
   const fetchWrittenOccupancy = async () => {
-    dispatch(setWrittenInfo(written));
+    try {
+      setLoading({ ...loading, written: true });
+      const res = await apiinstance.post("/apply/countoccupancy", {
+        sdate: written.date && convertDate(written.date),
+        category: selectedCat,
+        office: selectedOffice,
+        examtype: "written",
+        status: "pending",
+      });
+      if (res.status === 200) {
+        return dispatch(setWrittenInfo(res.data));
+      }
+      return toast({
+        title: "Error",
+        description: res.data.message,
+      });
+    } catch (error: any) {
+      return toast({
+        title: "Error",
+        description: error?.response?.data?.message || "Some error occured",
+      });
+    } finally {
+      setLoading({ ...loading, written: false });
+    }
   };
   const fetchTrialOccupancy = async () => {
-    dispatch(setTrialInfo(trial));
+    try {
+      setLoading({ ...loading, trial: true });
+      const res = await apiinstance.post("/apply/countoccupancy", {
+        sdate: trial.date && convertDate(trial.date),
+        category: selectedCat,
+        office: selectedOffice,
+        examtype: "trial",
+        status: "pending",
+      });
+      if (res.status === 200) {
+        return dispatch(setTrialInfo(res.data));
+      }
+      return toast({
+        title: "Error",
+        description: res.data.message,
+      });
+    } catch (error: any) {
+      return toast({
+        title: "Error",
+        description: error?.response?.data?.message || "Some error occured",
+      });
+    } finally {
+      setLoading({ ...loading, trial: false });
+    }
   };
 
   async function applyForLicense() {
     try {
-      const res = await apiinstance.post("apply/new", {
-        selectedCat,
+      const res = await apiinstance.post("/apply/new", {
+        userId: userInfo?.id || "",
         selectedProv,
+        selectedCat,
         selectedOffice,
-        medicalExamination: { date: medical.date, shift: medical.shift },
-        writtenExamination: { date: written.date, shift: written.shift },
-        trialExamination: { date: trial.date, shift: trial.shift },
+        medicalExamination: {
+          date: medical.date && convertDate(medical.date),
+          shift: medical.shift,
+          status: "pending",
+        },
+        writtenExamination: {
+          date: written.date && convertDate(written.date),
+          shift: written.shift,
+          status: "pending",
+        },
+        trialExamination: {
+          date: trial.date && convertDate(trial.date),
+          shift: trial.shift,
+          status: "pending",
+        },
       });
       if (res.status === 201) {
         toast({
@@ -80,6 +177,7 @@ export default function SelectDateAndTime() {
           description: "Applied for license successfully",
           variant: "success",
         });
+        return router.push("/apply/payment");
       } else {
         toast({
           title: "Error",
@@ -92,6 +190,8 @@ export default function SelectDateAndTime() {
         title: "Error",
         description: error?.response?.data?.message || "Some error occured",
       });
+    } finally {
+      setLoading({ ...loading, submission: false });
     }
   }
   function checkOccupancy() {
@@ -112,16 +212,45 @@ export default function SelectDateAndTime() {
         count: 9,
       },
     ];
-    if (data.filter((d) => d.shift === medical.shift)[0].count > 10) {
-      alert("Occupancy full for medical examination");
-    } else if (data.filter((d) => d.shift === written.shift)[0].count > 10) {
-      alert("Occupancy full for written examination");
-    } else if (data.filter((d) => d.shift === trial.shift)[0].count > 10) {
-      alert("Occupancy full for trial examination");
+    if (!medicalExamination || !writtenExamination || !trialExamination) {
+      toast({
+        title: "Error",
+        description: "Please check the occupancy first",
+        variant: "destructive",
+      });
     } else {
-      applyForLicense();
+      if (
+        medicalExamination.filter((d) => d.shift === medical.shift)[0]?.count >
+        1
+      ) {
+        toast({
+          title: "Error",
+          description: "Occupancy full for medical examination",
+          variant: "destructive",
+        });
+      } else if (
+        writtenExamination.filter((d) => d.shift === written.shift)[0]?.count >
+        1
+      ) {
+        toast({
+          title: "Error",
+          description: "Occupancy full for written examination",
+          variant: "destructive",
+        });
+      } else if (
+        trialExamination.filter((d) => d.shift === trial.shift)[0]?.count > 1
+      ) {
+        toast({
+          title: "Error",
+          description: "Occupancy full for trial examination",
+          variant: "destructive",
+        });
+      } else {
+        applyForLicense();
+      }
     }
   }
+  console.log(medicalExamination, writtenExamination, trialExamination);
   return (
     <div className="flex w-[100%] flex-col mt-10 gap-10">
       <Outline title="Select Date and Time for Medical Examination">
@@ -154,7 +283,7 @@ export default function SelectDateAndTime() {
                 disabled={(date: Date) => {
                   const currentDate = new Date();
                   const maxDate = new Date();
-                  maxDate.setDate(currentDate.getDate() + 10);
+                  maxDate.setDate(currentDate.getDate() + 7);
                   return date < maxDate;
                 }}
               />
@@ -177,9 +306,17 @@ export default function SelectDateAndTime() {
             <h2 className=" font-bold text-gray-300 border-b-[1.5px] mb-2">
               Medical Examinees for category A
             </h2>
-            <p className=" text-sm">Morning: 20</p>
-            <p className=" text-sm">Afternoon: 20</p>
-            <p className=" text-sm">Morning: 20</p>
+
+            {medicalExamination && medicalExamination.length > 0 ? (
+              medicalExamination.map((item: any, index) => (
+                <p className=" text-sm" key={index}>
+                  {item.shift}: {item.count}
+                </p>
+              ))
+            ) : (
+              <p>No occupancy on this day</p>
+            )}
+
             <span className=" text-customtext-100 text-xs">
               Note: Maximun number of examinee for a shift is 20
             </span>
@@ -217,7 +354,7 @@ export default function SelectDateAndTime() {
                   const currentDate = new Date(medical.date || new Date());
                   currentDate.setDate(currentDate.getDate() + 1);
                   const maxDate = new Date();
-                  maxDate.setDate(currentDate.getDate() + 15);
+                  maxDate.setDate(currentDate.getDate() + 7);
                   return date < currentDate || date > maxDate;
                 }}
               />
@@ -240,12 +377,15 @@ export default function SelectDateAndTime() {
             <h2 className=" font-bold text-gray-300 border-b-[1.5px] mb-2">
               Written Examinees for category A
             </h2>
-            <p className=" text-sm">Morning: 20</p>
-            <p className=" text-sm">Afternoon: 20</p>
-            <p className=" text-sm">Morning: 20</p>
-            <span className=" text-customtext-100 text-xs">
-              Note: Maximun number of examinee for a shift is 20
-            </span>
+            {writtenExamination && writtenExamination?.length > 0 ? (
+              writtenExamination.map((item: any, index) => (
+                <p className=" text-sm" key={index}>
+                  {item.shift}: {item.count}
+                </p>
+              ))
+            ) : (
+              <p>No occupancy on this day</p>
+            )}
           </div>
         </div>
       </Outline>
@@ -278,7 +418,7 @@ export default function SelectDateAndTime() {
                   const currentDate = new Date(written.date || new Date());
                   currentDate.setDate(currentDate.getDate() + 2);
                   const maxDate = new Date();
-                  maxDate.setDate(currentDate.getDate() + 20);
+                  maxDate.setDate(currentDate.getDate() + 10);
                   return date < currentDate || date > maxDate;
                 }}
               />
@@ -301,16 +441,37 @@ export default function SelectDateAndTime() {
             <h2 className=" font-bold text-gray-300 border-b-[1.5px] mb-2">
               Trial Examinees for category A
             </h2>
-            <p className=" text-sm">Morning: 20</p>
-            <p className=" text-sm">Afternoon: 20</p>
-            <p className=" text-sm">Morning: 20</p>
-            <span className=" text-customtext-100 text-xs">
-              Note: Maximun number of examinee for a shift is 20
-            </span>
+            {trialExamination && trialExamination.length > 0 ? (
+              trialExamination.map((item: any, index) => (
+                <p className=" text-sm" key={index}>
+                  {item.shift}: {item.count}
+                </p>
+              ))
+            ) : (
+              <p>No occupancy on this day</p>
+            )}
           </div>
         </div>
       </Outline>
-      <button onClick={checkOccupancy}>Save</button>
+      <div className=" flex w-full justify-end">
+        <Button
+          onClick={checkOccupancy}
+          className=" w-16 float-right"
+          disabled={loading.submission}
+        >
+          {loading.submission ? (
+            <Loader
+              color="#ffffff"
+              height="20"
+              width="20"
+              radius="20"
+              type="spinner"
+            />
+          ) : (
+            "Save"
+          )}
+        </Button>
+      </div>
     </div>
   );
 }

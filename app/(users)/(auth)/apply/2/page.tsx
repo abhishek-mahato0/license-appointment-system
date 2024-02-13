@@ -7,11 +7,11 @@ import React, { useEffect } from "react";
 export default function page() {
   const router = useRouter();
   const { isTermsAgreed } = useAppSelector((state) => state.applynew);
-  useEffect(() => {
-    if (!isTermsAgreed) {
-      router.push("/apply/1");
-    }
-  }, [isTermsAgreed]);
+  // useEffect(() => {
+  //   if (!isTermsAgreed) {
+  //     router.push("/apply/1");
+  //   }
+  // }, [isTermsAgreed]);
   return (
     <div>
       <Category />

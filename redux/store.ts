@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import applySliceReducer  from './slices/applynewSlice'
+import personalInformationSliceReducer from './slices/profileInformationSlice'
 
 export const store = configureStore({
   reducer: {
-    applynew: applySliceReducer
+    applynew: applySliceReducer,
+    profileInformation: personalInformationSliceReducer,
   },
 })
 

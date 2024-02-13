@@ -17,10 +17,10 @@ export interface IInformation{
 }
 
 export interface IAddress{
-    province:number,
+    province:string,
     district:string,
     municipality:string,
-    ward_no:number,
+    ward:number,
     city:string,
     tole:string
 }
@@ -38,18 +38,18 @@ const informationSchema = new mongoose.Schema<IInformation>({
     occupation:{ type:String, required:true },
     education:{ type:String, required:true },
     permanent_address: {
-        province:{ type:Number, required:true },
+        province:{ type:String, required:true },
         district:{ type:String, required:true },
         municipality:{ type:String, required:true },
-        ward_no:{ type:Number, required:true },
+        ward:{ type:Number, required:true },
         city:{ type:String, required:true },
         tole:{ type:String, required:true }
     },
     temporary_address: {
-        province:{ type:Number, required:true },
+        province:{ type:String, required:true },
         district:{ type:String, required:true },
         municipality:{ type:String, required:true },
-        ward_no:{ type:Number, required:true },
+        ward:{ type:Number, required:true },
         city:{ type:String, required:true },
         tole:{ type:String, required:true }
     }    

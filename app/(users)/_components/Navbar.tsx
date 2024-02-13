@@ -6,11 +6,13 @@ import {
   Book,
   BookOpen,
   ChevronDown,
+  FolderSync,
   LayoutDashboardIcon,
   ListChecks,
   LogOut,
   PenSquare,
   PlusCircle,
+  User,
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -75,6 +77,22 @@ export default function Navbar() {
       href: "/prepare",
       comp: <BookOpen strokeWidth={2} size={17} width={17} />,
       short: "Exam",
+      params: "",
+    },
+    {
+      id: 6,
+      name: "Reschedule Appointment",
+      href: "/reschedule",
+      comp: <FolderSync strokeWidth={2} size={17} width={17} />,
+      short: "Reschedule",
+      params: "",
+    },
+    {
+      id: 7,
+      name: "Profile Information",
+      href: "/profile",
+      comp: <User strokeWidth={2} size={17} width={17} />,
+      short: "Profile",
       params: "",
     },
   ];
