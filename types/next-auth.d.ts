@@ -4,7 +4,8 @@ import { JWT } from "next-auth/jwt"
 interface Iuser extends DefaultUser{
   token:string;
   role:string;
-  document_id:string;
+  citizenship_id:string;
+  license_id:string;
   information_id:string;
 }
 declare module "next-auth" {
@@ -16,7 +17,8 @@ declare module "next-auth" {
       id:string,
       role:string,
       token:string,
-      document_id:string,
+      citizenship_id:string,
+      license_id:string,
       information_id:string,
     }
   }
@@ -26,7 +28,8 @@ declare module "next-auth" {
       id: string;
       role: string;
       jwt:string;
-      document_id:string;
+      citizenship_id:string;
+      license_id:string;
       information_id:string;
     }
   }
