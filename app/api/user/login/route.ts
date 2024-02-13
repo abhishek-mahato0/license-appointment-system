@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken'
 
 export async function POST(req: NextRequest, res: NextResponse) {
     try {
+        
         await dbconnect();
         const { email, pass } = await req.json();
         if (!email || !pass) {
@@ -30,9 +31,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
         if (!token) {
             return ShowError(400, "Some error occured")
         }
-        NextResponse.next().cookies.set('jwttoken', token)
+        //NextResponse.next().cookies.set('jwttoken', token)
         return NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
     } catch (error: any) {
-        ShowError(400, error?.message)
+        return ShowError(400, error?.message)
     }
 }

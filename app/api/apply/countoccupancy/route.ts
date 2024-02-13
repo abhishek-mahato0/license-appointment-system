@@ -1,4 +1,7 @@
 import dbconnect from "@/lib/dbConnect";
+import { MedicalModal } from "@/models/MedicalExamModel";
+import { TrailModal } from "@/models/TrialExamModel";
+import { WrittenModal } from "@/models/WrittenExamModel";
 import { Appointment, IAppointment } from "@/models/appointmentsModel";
 import ShowError from "@/utils/ShowError";
 import { NextRequest, NextResponse } from "next/server";
@@ -39,78 +42,42 @@ export async function switchType(
   status: string
 ) {
   if (type === "trial") {
-    const apppointment = await Appointment.find({
+    const apppointment = await TrailModal.find({
       category: category,
       office: office,
       status: status,
-      trial: {
-        $elemMatch: {
-          date: sdate,
-          status: "pending",
-        },
-      },
+      date:sdate
     });
     const newArr = Object.entries(
-      apppointment
-        .map(
-          (item) =>
-            item.trial.filter(
-              (ele: any) => ele.date == sdate && ele.status === "pending"
-            )[0]
-        )
-        ?.reduce((acc, curr) => {
+      apppointment?.reduce((acc, curr) => {
           acc[curr.shift] = (acc[curr.shift] || 0) + 1;
           return acc;
         }, {})
     ).map(([shift, count]) => ({ shift, count }));
     return NextResponse.json(newArr, { status: 200 });
   } else if (type === "written") {
-    const apppointment = await Appointment.find({
+    const apppointment = await WrittenModal.find({
       category: category,
       office: office,
       status: status,
-      written: {
-        $elemMatch: {
-          date: sdate,
-          status: "pending",
-        },
-      },
+     date:sdate
     });
     const newArr = Object.entries(
-      apppointment
-        .map(
-          (item) =>
-            item.written.filter(
-              (ele: any) => ele.date == sdate && ele.status === "pending"
-            )[0]
-        )
-        ?.reduce((acc, curr) => {
+      apppointment?.reduce((acc, curr) => {
           acc[curr.shift] = (acc[curr.shift] || 0) + 1;
           return acc;
         }, {})
     ).map(([shift, count]) => ({ shift, count }));
     return NextResponse.json(newArr, { status: 200 });
   } else {
-    const apppointment = await Appointment.find({
+    const apppointment = await MedicalModal.find({
       category: category,
       office: office,
       status: status,
-      medical: {
-        $elemMatch: {
-          date: sdate,
-          status: "pending",
-        },
-      },
+      date:sdate
     });
     const newArr = Object.entries(
-      apppointment
-        .map(
-          (item) =>
-            item.medical.filter(
-              (ele: any) => ele.date == sdate && ele.status === "pending"
-            )[0]
-        )
-        ?.reduce((acc, curr) => {
+      apppointment?.reduce((acc, curr) => {
           acc[curr.shift] = (acc[curr.shift] || 0) + 1;
           return acc;
         }, {})

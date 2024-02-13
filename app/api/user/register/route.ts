@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       }
      
       const user = new User({
-        name,email, password:hashpassword, token
+        name,email, password:hashpassword, token, isverifiedByEmail: true,
       })
       
       if(!user){
@@ -37,8 +37,9 @@ export async function POST(req: NextRequest) {
       
       await user.save();
      
-      await sendMail(user.email,token,user._id.toString())
-      return NextResponse.json({message:"A verification email is sent."}, {status:201})
+      // await sendMail(user.email,token,user._id.toString())
+      // return NextResponse.json({message:"A verification email is sent."}, {status:201})
+      return NextResponse.json({message:"User created successfully."}, {status:201})
         
     } catch (error:any) {
         ShowError(400,error?.message)
