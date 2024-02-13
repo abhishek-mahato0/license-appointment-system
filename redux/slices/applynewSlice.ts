@@ -7,14 +7,20 @@ type Barstate={
   active:number,
   completed:Array<number>
 }
+
+interface ExamineeSelected{
+  shift:string,
+  count:number
+}
 interface ApplyState {
   barState:Barstate
   selectedCat:string | null,
   isTermsAgreed:boolean
   selectedOffice: string| null,
   selectedProv:string | null,
-  selectedDate: string | null,
-  selectedTime: string | null
+  medicalExamination:Array<ExamineeSelected> | null,
+  writtenExamination:Array<ExamineeSelected> | null,
+  trialExamination:Array<ExamineeSelected> | null,
 }
 
 
@@ -26,9 +32,10 @@ const initialState: ApplyState = {
   isTermsAgreed:false,
   selectedCat:null,
   selectedOffice:null,
-  selectedDate:null,
   selectedProv:null,
-  selectedTime:null
+  medicalExamination:null,
+  writtenExamination:null,
+  trialExamination:null
 }
 
 export const counterSlice = createSlice({
@@ -46,21 +53,24 @@ export const counterSlice = createSlice({
     setSelectedCat:(state,action)=>{
       state.selectedCat=action.payload
     },
-    setSelectedDate:(state,action)=>{
-      state.selectedDate=action.payload
-    },
     setSelectedProv:(state,action)=>{
       state.selectedProv=action.payload
     },
     setSelectedOffice:(state,action)=>{
       state.selectedOffice=action.payload
     },
-    setSelectedTime:(state,action)=>{
-      state.selectedTime=action.payload
-    }
+    setMedicalInfo:(state,action)=>{
+      state.medicalExamination=action.payload
+    },
+    setWrittenInfo:(state,action)=>{
+      state.writtenExamination=action.payload
+    },
+    setTrialInfo:(state,action)=>{
+      state.trialExamination=action.payload
+    },
   },
 })
 
-export const {setBarstate,setSelectedCat,setIsAgreed,setSelectedDate,setSelectedOffice, setSelectedProv,setSelectedTime } = counterSlice.actions
+export const {setBarstate,setSelectedCat,setIsAgreed,setSelectedOffice, setSelectedProv, setWrittenInfo, setMedicalInfo, setTrialInfo } = counterSlice.actions
 
 export default counterSlice.reducer
