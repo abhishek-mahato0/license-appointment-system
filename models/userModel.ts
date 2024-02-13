@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+export interface UAppointment{
+    id:string,
+    status:string,
+}
 export interface IUser{
     id?:string,
     name:string,
@@ -9,13 +13,16 @@ export interface IUser{
     role?:string,
     token?:string,
     forgotPasswordtoken:string
-    document_id?:string,
+    citizenship_id?:string,
+    license_id?:string,
     information_id?:string,
-    appointment?: Array<string>,
+    appointment?: Array<UAppointment>,
     hasApplied:boolean, 
     avatar?:string
 
 }
+
+
 
 const userSchema =new mongoose.Schema<IUser>({
     name:{
@@ -44,11 +51,16 @@ const userSchema =new mongoose.Schema<IUser>({
         type:String,
     },
     forgotPasswordtoken:{},
-    document_id:{ type: String, required:true, default:'none'},
+    citizenship_id:{ type: String, required:true, default:'none'},
+    license_id: { type:String, required:true, default:'none'},
     information_id:{ type:String, required:true, default:'none'},
-    appointment:[{
-        type:String,
-    }],
+    appointment:
+    [
+    {
+        id:{ type:String, required:true},
+        status:{ type:String, required:true, default:'pending'}
+    }
+    ],
     hasApplied:{
         type:Boolean,
         default:false
