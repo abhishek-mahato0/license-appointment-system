@@ -8,9 +8,13 @@ export function handleFormData(item: any, register: any) {
             {...register(item.name, { required: true })}
             className=" py-1 px-2 rounded-[6px] w-[90%] bg-custom-50 border-[1px] border-custom-100"
           >
-            {item.options &&
+            {item?.options &&
               item?.options.map((option: any) => {
-                return <option value={option.value}>{option.name}</option>;
+                return (
+                  <option value={option?.value || option?.name}>
+                    {option.name}
+                  </option>
+                );
               })}
           </select>
         </>
