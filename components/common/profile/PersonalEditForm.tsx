@@ -25,6 +25,7 @@ type TPersonalInformation = {
 export default function PersonalEditForm({
   personalInformation,
 }: TPersonalInformation) {
+  const closeref = useRef<any>(null);
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const { toast } = useToast();
   const router = useRouter();
@@ -63,7 +64,12 @@ export default function PersonalEditForm({
         payload
       );
       if (res.status === 200) {
-        return toast({ title: "Success", description: res.data.message });
+        closeref.current && closeref.current.click();
+        return toast({
+          title: "Success",
+          description: res.data.message,
+          variant: "success",
+        });
       }
       return toast({ title: "Error", description: res.data.message });
     } catch (error: any) {
@@ -107,7 +113,7 @@ export default function PersonalEditForm({
         </div>
         <DialogFooter className="sm:justify-end">
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
+            <Button type="button" variant="secondary" ref={closeref}>
               Close
             </Button>
           </DialogClose>
