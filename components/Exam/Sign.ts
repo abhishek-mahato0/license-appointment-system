@@ -8,8 +8,8 @@ export const signQues=[
             c:"आगामी चोटी भन्दा बाटो संकुचित भएको",
             d:"आगामी चोटी भन्दा बाटो ढल्किएको"
         },
-        correctAnswer:"b",
-        img:"/images/signs/1.jpg"
+        correct_answer:"b",
+        img:"/images/signs/1.png"
     },
     {
         id:2,
@@ -20,8 +20,8 @@ export const signQues=[
             c:"आगामी चोटी भन्दा बाटो संकुचित भएको",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"d",
-        img:"/images/signs/2.jpg"
+        correct_answer:"d",
+        img:"/images/signs/2.png"
     },
     {
         id:3,
@@ -32,8 +32,8 @@ export const signQues=[
             c:"प्रवेश निषेध",
             d:"आगामी चोटी भन्दा बाटो ढल्किएको"
         },
-        correctAnswer:"c",
-        img:"/images/signs/3.jpg"
+        correct_answer:"c",
+        img:"/images/signs/3.png"
     },
     {
         id:4,
@@ -44,8 +44,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"आगामी चोटी भन्दा बाटो ढल्किएको"
         },
-        correctAnswer:"a",
-        img:"/images/signs/4.jpg"
+        correct_answer:"a",
+        img:"/images/signs/4.png"
     },
     {
         id:5,
@@ -56,8 +56,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"c",
-        img:"/images/signs/5.jpg"
+        correct_answer:"c",
+        img:"/images/signs/5.png"
     }, 
     {
         id:6,
@@ -68,8 +68,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"a",
-        img:"/images/signs/6.jpg"
+        correct_answer:"a",
+        img:"/images/signs/6.png"
     },
     {
         id:7,
@@ -80,8 +80,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"अधिकतम गति ४० कि.मि. प्रति घण्टा"
         },
-        correctAnswer:"d",
-        img:"/images/signs/7.jpg"
+        correct_answer:"d",
+        img:"/images/signs/7.png"
     },
     {
         id:8,
@@ -92,8 +92,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"a",
-        img:"/images/signs/8.jpg"
+        correct_answer:"a",
+        img:"/images/signs/8.png"
     },
     {
         id:9,
@@ -104,8 +104,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"b",
-        img:"/images/signs/9.jpg"
+        correct_answer:"b",
+        img:"/images/signs/9.png"
     },
     {
         id:10,
@@ -116,8 +116,8 @@ export const signQues=[
             c:"हर्न निषेध",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"c",
-        img:"/images/signs/10.jpg"
+        correct_answer:"c",
+        img:"/images/signs/10.png"
     },
     {
         id:11,
@@ -128,8 +128,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"a",
-        img:"/images/signs/11.jpg"
+        correct_answer:"a",
+        img:"/images/signs/11.png"
     },
     {
         id:12,
@@ -140,8 +140,8 @@ export const signQues=[
             c:"गति सिमा समाप्त",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"c",
-        img:"/images/signs/12.jpg"
+        correct_answer:"c",
+        img:"/images/signs/12.png"
     },
     {
         id:13,
@@ -152,8 +152,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"b",
-        img:"/images/signs/13.jpg"
+        correct_answer:"b",
+        img:"/images/signs/13.png"
     },
     {
         id:14,
@@ -164,8 +164,8 @@ export const signQues=[
             c:"आगाडी गएर बाया मोड",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"c",
-        img:"/images/signs/14.jpg"
+        correct_answer:"c",
+        img:"/images/signs/14.png"
     },
     {
         id:15,
@@ -176,8 +176,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"कुनै तिर बाट जाउ"
         },
-        correctAnswer:"d",
-        img:"/images/signs/15.jpg"
+        correct_answer:"d",
+        img:"/images/signs/15.png"
     },
     {
         id:16,
@@ -188,8 +188,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"a",
-        img:"/images/signs/16.jpg"
+        correct_answer:"a",
+        img:"/images/signs/16.png"
     },
     {
         id:17,
@@ -200,8 +200,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"b",
-        img:"/images/signs/17.jpg"
+        correct_answer:"b",
+        img:"/images/signs/17.png"
     },
     {
         id:18,
@@ -212,8 +212,8 @@ export const signQues=[
             c:"बाया मोड",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"c",
-        img:"/images/signs/18.jpg"
+        correct_answer:"c",
+        img:"/images/signs/18.png"
     },
     {
         id:19,
@@ -224,8 +224,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"बाया च्याप"
         },
-        correctAnswer:"d",
-        img:"/images/signs/19.jpg"
+        correct_answer:"d",
+        img:"/images/signs/19.png"
     },
     {
         id:20,
@@ -236,8 +236,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"पर्किङ्ग निषेध"
         },
-        correctAnswer:"b",
-        img:"/images/signs/20.jpg"
+        correct_answer:"b",
+        img:"/images/signs/20.png"
     },
     {
        id:21,
@@ -248,8 +248,8 @@ export const signQues=[
                 c:"बायाँ मोड्न निषेध",
                 d:"रोक र जन्देउ "
             },
-            correctAnswer:"d",
-            img:"/images/signs/21.jpg" 
+            correct_answer:"d",
+            img:"/images/signs/21.png" 
     },
     {
         id:22,
@@ -260,8 +260,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"मूल सडक वा गोल घुम्ती मा आउने लाई पहिला जान देउ"
         },
-        correctAnswer:"d",
-        img:"/images/signs/22.jpg"
+        correct_answer:"d",
+        img:"/images/signs/22.png"
     },
     {
         id:23,
@@ -272,8 +272,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"ट्रक निषेध"
         },
-        correctAnswer:"d",
-        img:"/images/signs/23.jpg"
+        correct_answer:"d",
+        img:"/images/signs/23.png"
     },
     {
         id:24,
@@ -284,8 +284,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"सबारी लम्बाई सिमा"
         },
-        correctAnswer:"d",
-        img:"/images/signs/24.jpg"
+        correct_answer:"d",
+        img:"/images/signs/24.png"
     },
     {
         id:25,
@@ -296,8 +296,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"d",
-        img:"/images/signs/25.jpg"
+        correct_answer:"d",
+        img:"/images/signs/25.png"
     },
     {
         id:26,
@@ -308,8 +308,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"a",
-        img:"/images/signs/26.jpg"
+        correct_answer:"a",
+        img:"/images/signs/26.png"
     },
     {
         id:27,
@@ -320,8 +320,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"a",
-        img:"/images/signs/27.jpg"
+        correct_answer:"a",
+        img:"/images/signs/27.png"
     },
     {
         id:28,
@@ -332,8 +332,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"गति सिमा समाप्त"
         },
-        correctAnswer:"a",
-        img:"/images/signs/28.jpg"
+        correct_answer:"a",
+        img:"/images/signs/28.png"
     },
     {
         id:29,
@@ -344,8 +344,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"a",
-        img:"/images/signs/29.jpg"
+        correct_answer:"a",
+        img:"/images/signs/29.png"
     },
     {
         id:30,
@@ -356,8 +356,8 @@ export const signQues=[
             c:"जाउ (अस्थाई चिन्ह )",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"c",
-        img:"/images/signs/30.jpg"
+        correct_answer:"c",
+        img:"/images/signs/30.png"
     },
     {
         id:31,
@@ -368,8 +368,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"a",
-        img:"/images/signs/31.jpg"
+        correct_answer:"a",
+        img:"/images/signs/31.png"
     },
     {
         id:32,
@@ -380,8 +380,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"b",
-        img:"/images/signs/32.jpg"
+        correct_answer:"b",
+        img:"/images/signs/32.png"
     },
     {
         id:33,
@@ -392,8 +392,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"आगाडी दुइ तर्फी बाटो सिधा"
         },
-        correctAnswer:"d",
-        img:"/images/signs/33.jpg"
+        correct_answer:"d",
+        img:"/images/signs/33.png"
     },
     {
         id:34,
@@ -404,8 +404,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"आगाडी दुइ तर्फी बाटो"
         },
-        correctAnswer:"d",
-        img:"/images/signs/34.jpg"
+        correct_answer:"d",
+        img:"/images/signs/34.png"
     },
     {
         id:35,
@@ -416,8 +416,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"a",
-        img:"/images/signs/35.jpg"
+        correct_answer:"a",
+        img:"/images/signs/35.png"
     },
     {
         id:36,
@@ -428,8 +428,8 @@ export const signQues=[
             c:"दाहिने पुरा मोड",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"c",
-        img:"/images/signs/36.jpg"
+        correct_answer:"c",
+        img:"/images/signs/36.png"
     },
     {
         id:37,
@@ -440,8 +440,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"a",
-        img:"/images/signs/37.jpg"
+        correct_answer:"a",
+        img:"/images/signs/37.png"
     },
     {
         id:38,
@@ -452,8 +452,8 @@ export const signQues=[
             c:"बायाँ मोड्न निषेध",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"a",
-        img:"/images/signs/38.jpg"
+        correct_answer:"a",
+        img:"/images/signs/38.png"
     },
     {
         id:39,
@@ -464,8 +464,8 @@ export const signQues=[
             c:"खतरनाक दबेको बाटो",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"c",
-        img:"/images/signs/39.jpg"
+        correct_answer:"c",
+        img:"/images/signs/39.png"
     },
     {
         id:40,
@@ -476,8 +476,8 @@ export const signQues=[
             c:"दुवै तिर बाट साँघुरिएको सडक",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"c",
-        img:"/images/signs/40.jpg"
+        correct_answer:"c",
+        img:"/images/signs/40.png"
     },
     {
         id:41,
@@ -488,8 +488,8 @@ export const signQues=[
             c:"खतरनाक दबेको बाटो",
             d:"पहिरो झर्ने ठाउँ"
         },
-        correctAnswer:"d",
-        img:"/images/signs/41.jpg"
+        correct_answer:"d",
+        img:"/images/signs/41.png"
     },
     {
         id:42,
@@ -500,8 +500,8 @@ export const signQues=[
             c:"दाहिने तिरबाट साँघुरिएको बाटो",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"c",
-        img:"/images/signs/42.jpg"
+        correct_answer:"c",
+        img:"/images/signs/42.png"
     },
     {
         id:43,
@@ -512,8 +512,8 @@ export const signQues=[
             c:"दाहिने तिरबाट साँघुरिएको बाटो",
             d:"दोहोरो मोड पहिले बायाँ"
         },
-        correctAnswer:"d",
-        img:"/images/signs/43.jpg"
+        correct_answer:"d",
+        img:"/images/signs/43.png"
     },
     {
         id:44,
@@ -524,8 +524,8 @@ export const signQues=[
             c:"दाहिने तिरबाट साँघुरिएको बाटो",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"a",
-        img:"/images/signs/44.jpg"
+        correct_answer:"a",
+        img:"/images/signs/44.png"
     },
     {
         id:45,
@@ -536,8 +536,8 @@ export const signQues=[
             c:"बायाँबाट सबारी आउन सक्छ",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"c",
-        img:"/images/signs/45.jpg"
+        correct_answer:"c",
+        img:"/images/signs/45.png"
     },
     {
         id:46,
@@ -548,8 +548,8 @@ export const signQues=[
             c:"दाहिने तिरबाट साँघुरिएको बाटो",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"b",
-        img:"/images/signs/46.jpg"
+        correct_answer:"b",
+        img:"/images/signs/46.png"
     },
     {
         id:47,
@@ -560,8 +560,8 @@ export const signQues=[
             c:"दाहिने तिरबाट साँघुरिएको बाटो",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"b",
-        img:"/images/signs/47.jpg"
+        correct_answer:"b",
+        img:"/images/signs/47.png"
     },
     {
         id:48,
@@ -572,8 +572,8 @@ export const signQues=[
             c:"दाहिने तिरबाट साँघुरिएको बाटो",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"b",
-        img:"/images/signs/48.jpg"
+        correct_answer:"b",
+        img:"/images/signs/48.png"
     },
     {
         id:49,
@@ -584,8 +584,8 @@ export const signQues=[
             c:"दाहिने तिरबाट साँघुरिएको बाटो",
             d:"सवारी उचाई सिमा"
         },
-        correctAnswer:"a",
-        img:"/images/signs/49.jpg"
+        correct_answer:"a",
+        img:"/images/signs/49.png"
     },
     {
         id:50,
@@ -596,7 +596,7 @@ export const signQues=[
             c:"दाहिने तिरबाट साँघुरिएको बाटो",
             d:"चौबाटो आगाडी साखा सडक"
         },
-        correctAnswer:"d",
-        img:"/images/signs/50.jpg"
+        correct_answer:"d",
+        img:"/images/signs/50.png"
     }
 ] 

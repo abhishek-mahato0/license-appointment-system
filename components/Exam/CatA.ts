@@ -1,4 +1,4 @@
-[
+export const examData = [
   {
     question: "जेब्रा क्रसिङ केका लागि प्रयोग गरिन्छ ?",
     options: {
