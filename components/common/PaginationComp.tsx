@@ -8,31 +8,41 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useSearchParams } from "next/navigation";
 
 type TPagination = {
-  data: Array<{
-    id: number;
-    page: number;
-    href?: string;
-    onclick?: () => void;
-    active?: boolean;
-  }>;
-  pathname?: string;
+  total: number;
+  current: number;
+  previous: number;
+  next: number;
+  params: string;
 };
-export default function PaginationComp({ data, pathname }: TPagination) {
+export default function PaginationComp({
+  total,
+  current,
+  previous,
+  next,
+  params,
+}: TPagination) {
+  const categoryParams = useSearchParams().get("category");
+  const typeParams = useSearchParams().get("type");
+  const page = useSearchParams().get("page");
   return (
     <Pagination>
       <PaginationContent>
-        {data.map((ele) => {
+        {Array.from({ length: total }, (_, i) => i + 1).map((ele) => {
           return (
-            <PaginationItem key={ele.id}>
+            <PaginationItem
+              key={ele}
+              className={`cursor-pointer ${
+                ele == current ? "bg-custom-100 text-white" : ""
+              }`}
+            >
               <PaginationLink
-                onClick={ele.onclick}
-                isActive={
-                  pathname?.includes(ele?.page.toString()) ? true : false
-                }
+                href={`prepare?category=${categoryParams}&type=${typeParams}&page=${ele.toString()}`}
+                isActive={ele == current ? true : false}
               >
-                {ele.page}
+                {ele}
               </PaginationLink>
             </PaginationItem>
           );
