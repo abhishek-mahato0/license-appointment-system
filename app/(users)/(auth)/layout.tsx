@@ -13,7 +13,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session, status } = useSession();
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const params = useSearchParams().get("type");
   const dispatch = useAppDispatch();
   const location = usePathname();
@@ -32,13 +32,13 @@ export default function RootLayout({
     }
   }, [location]);
   if (status === "loading") return <div>Loading...</div>;
-  else if (!session?.user?.token) {
+  else if (!userInfo?.token) {
     return redirect("/login");
-  } else if (session?.user?.information_id === "none") {
+  } else if (userInfo?.information_id === "none") {
     return redirect("/detailform/personal");
-  } else if (session?.user?.citizenship_id === "none") {
+  } else if (userInfo?.citizenship_id === "none") {
     return redirect("/detailform/citizenship");
-  } else if (session?.user?.license_id === "none" && params === "add") {
+  } else if (userInfo.license_id === "none" && params === "add") {
     return redirect("/detailform/license");
   }
   return <>{children}</>;
