@@ -32,7 +32,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
             return ShowError(400, "Some error occured")
         }
         //NextResponse.next().cookies.set('jwttoken', token)
-        return NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
+        const res = NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
+        res.cookies.set("token", token, { httpOnly: true, expires: new Date(Date.now() + 900000) });
+        return res;
+        // return NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
     } catch (error: any) {
         return ShowError(400, error?.message)
     }

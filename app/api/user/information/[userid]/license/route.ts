@@ -64,9 +64,9 @@ export async function POST(req:NextRequest,{params}:any) {
         license: licenseData
     });
     await licenseDoc.save();
-    user.license_id = licenseData.license_no;
+    user.license_id = licenseDoc._id;
     await user.save();
-    return NextResponse.json({message:"License Information Saved Successfully"}, {status:200})
+    return NextResponse.json({_id:licenseDoc._id,message:"License Information Saved Successfully"}, {status:200})
     }
      catch (error:any) {
        return ShowError(400, error?.message);

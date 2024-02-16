@@ -51,9 +51,9 @@ export async function POST(req:NextRequest,{params}:any) {
    await information.save();
     user.information_id = information._id;
     await user.save();
-    return NextResponse.json({message:"Personal Information saved Successfully"}, {status:200})
+    return NextResponse.json({_id:information._id,message:"Personal Information saved Successfully"}, {status:200})
     } catch (error:any) {
-        console.log(error)
+        
         return ShowError(500, error.message);
     }
     

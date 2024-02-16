@@ -184,7 +184,13 @@ export default function Navbar() {
               </p>
             )}
             {showfull && (
-              <LogOut className=" cursor-pointer" onClick={() => signOut()} />
+              <LogOut
+                className=" cursor-pointer"
+                onClick={() => {
+                  signOut();
+                  localStorage.removeItem("userInfo");
+                }}
+              />
             )}
           </FullFlex>
         )}

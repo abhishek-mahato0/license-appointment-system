@@ -12,6 +12,7 @@ import { useAppDispatch } from "@/redux/TypedHooks";
 import { useRouter } from "next/navigation";
 import { apiinstance } from "@/services/Api";
 import { useSession } from "next-auth/react";
+import { Updatelocalstorage } from "@/utils/Updatelocalstorage";
 import { MultiSelect } from "react-multi-select-component";
 import Select from "react-select";
 import { customStyles } from "../common/MultiselectStyles";
@@ -77,6 +78,7 @@ export default function LicenseForm() {
         description: res.data.message,
         variant: "success",
       });
+      Updatelocalstorage({ license_id: res.data._id });
       return router.push("summary/");
     } catch (error) {
       return toast({
