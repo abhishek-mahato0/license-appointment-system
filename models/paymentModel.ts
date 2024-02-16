@@ -8,7 +8,8 @@ export interface IPayment{
     payment_date:Date,
     payment_method:string,
     payment_status:string,
-    payment_gateway:string
+    payment_gateway:string,
+    verifiedBy:mongoose.Schema.Types.ObjectId
 }
 
 const paymentSchema = new mongoose.Schema<IPayment>({
@@ -20,5 +21,8 @@ const paymentSchema = new mongoose.Schema<IPayment>({
     payment_date:{ type:Date, required:true },
     payment_method:{ type:String, required:true },
     payment_status:{ type:String, required:true },
-    payment_gateway:{ type:String, required:true }
+    payment_gateway:{ type:String, required:true },
+    verifiedBy:{ type:mongoose.Schema.Types.ObjectId,
+        ref:'administrator'}
+
 })

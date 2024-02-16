@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface UAppointment{
-    id:string,
+    id:mongoose.Schema.Types.ObjectId,
     status:string,
 }
 export interface IUser{
@@ -19,11 +19,7 @@ export interface IUser{
     appointment?: Array<UAppointment>,
     hasApplied:boolean, 
     avatar?:string
-
 }
-
-
-
 const userSchema =new mongoose.Schema<IUser>({
     name:{
         type:String,
@@ -57,7 +53,7 @@ const userSchema =new mongoose.Schema<IUser>({
     appointment:
     [
     {
-        id:{ type:String, required:true},
+        id:{ type:mongoose.Schema.Types.ObjectId, ref:"appointment", required:true},
         status:{ type:String, required:true, default:'pending'}
     }
     ],

@@ -10,9 +10,9 @@ export interface IAppointment{
     status:string,
     payment:mongoose.Schema.Types.ObjectId,
     biometric: string,
-    medical: Array<string>,
-    trial: Array<string>,
-    written: Array<string>,
+    medical: Array< mongoose.Schema.Types.ObjectId>,
+    trial: Array<mongoose.Schema.Types.ObjectId>,
+    written: Array<mongoose.Schema.Types.ObjectId>,
 }
 
 const appointmentSchema = new mongoose.Schema<IAppointment>({
@@ -24,9 +24,23 @@ const appointmentSchema = new mongoose.Schema<IAppointment>({
     status:{ type:String, required:true, default:'pending' },
     payment:{ type:mongoose.Schema.Types.ObjectId},
     biometric:{type:String, required:true, default:"pending"},
-    medical:[],
-    trial:[],
-    written:[]
+    medical:{
+        type:[ mongoose.Schema.Types.ObjectId],
+        ref:"medical",
+        default:[]
+    
+    },
+    trial:{
+        type:[ mongoose.Schema.Types.ObjectId],
+        ref:"trial",
+        default:[]
+    
+    },
+    written:{
+        type:[ mongoose.Schema.Types.ObjectId],
+        ref:"written",
+        default:[]
+    }
 })
 
 export const Appointment = mongoose.models.appointment || mongoose.model<IAppointment>('appointment', appointmentSchema) 
