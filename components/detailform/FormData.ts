@@ -1,6 +1,6 @@
 import { categoryData } from "../data/CategoryData";
 import { districtList } from "../data/DistrictList";
-import { provinces } from "../data/ProvinceList";
+
 
 export const personalData=[
     {
@@ -217,9 +217,7 @@ export const citizenshipData=[
         name:"citizenshipissuedistrict",
         placeholder:"Citizenship Issue District",
         type:"select",
-        options:districtList.reduce((acc, item: any) => {
-            return acc.concat(item?.districts);
-          }, [])
+        options:districtList
     },
    
 ]
@@ -233,30 +231,29 @@ export const licenseData=[
     },
     {
         id:2,
-        name:"licenseissuedate",
+        name:"issuedate",
         placeholder:"License Issue Date",
         type:"date",
     },
     {
         id:3,
-        name:"licenseexpirydate",
+        name:"expirydate",
         placeholder:"License Expiry Date",
         type:"date",
     },
     {
         id:4,
-        name:"licenseissueoffice",
+        name:"office",
         placeholder:"License Issue Office",
         type:"select",
-        options:districtList.reduce((acc, item: any) => {
-            return acc.concat(item?.districts);
-          }, [])
+        options:districtList
     },
-    {
+]
+
+export const licenseCategoryData={
         id:5,
         name:"category",
         placeholder:"License Category",
         type:"select",
-        options: categoryData.map((category)=>({id: category.category, name:category.category, value:category.category}))
-    },
-]
+        options: categoryData.map((category)=>({id: category.category, label:category.category, value:category.category}))
+}

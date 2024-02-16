@@ -1,384 +1,695 @@
-export const districtList=[
-    {
-        id:1,
-        province:"province1",
-        districts: [
-            {
-              id: 'bhojpur',
-              name: 'Bhojpur',
-              value: 'bhojpur',
-            },
-            {
-              id: 'dhankuta',
-              name: 'Dhankuta',
-              value: 'dhankuta',
-            },
-            {
-              id: 'ilam',
-              name: 'Ilam',
-              value: 'ilam',
-            },
-            {
-              id: 'jhapa',
-              name: 'Jhapa',
-              value: 'jhapa',
-            },
-            {
-              id: 'khotang',
-              name: 'Khotang',
-              value: 'khotang',
-            },
-            {
-              id: 'morang',
-              name: 'Morang',
-              value: 'morang',
-            },
-            {
-              id: 'okhaldhunga',
-              name: 'Okhaldhunga',
-              value: 'okhaldhunga',
-            },
-            {
-              id: 'panchthar',
-              name: 'Panchthar',
-              value: 'panchthar',
-            },
-            {
-              id: 'sankhuwasabha',
-              name: 'Sankhuwasabha',
-              value: 'sankhuwasabha',
-            },
-            {
-              id: 'solukhumbu',
-              name: 'Solukhumbu',
-              value: 'solukhumbu',
-            },
-            {
-              id: 'sunsari',
-              name: 'Sunsari',
-              value: 'sunsari',
-            },
-            {
-              id: 'taplejung',
-              name: 'Taplejung',
-              value: 'taplejung',
-            },
-            {
-              id: 'terhathum',
-              name: 'Terhathum',
-              value: 'terhathum',
-            },
-            {
-              id: 'udayapur',
-              name: 'Udayapur',
-              value: 'udayapur',
-            },
-          ],
-    },
-    {
-        id: 2,
-        province: "province2",
-        districts: [
-          {
-            id: 'bara',
-            name: 'Bara',
-            value: 'bara',
-          },
-          {
-            id: 'dhanusa',
-            name: 'Dhanusa',
-            value: 'dhanusa',
-          },
-          {
-            id: 'mahottari',
-            name: 'Mahottari',
-            value: 'mahottari',
-          },
-          {
-            id: 'parsa',
-            name: 'Parsa',
-            value: 'parsa',
-          },
-          {
-            id: 'rautahat',
-            name: 'Rautahat',
-            value: 'rautahat',
-          },
-          {
-            id: 'saptari',
-            name: 'Saptari',
-            value: 'saptari',
-          },
-          {
-            id: 'sarlahi',
-            name: 'Sarlahi',
-            value: 'sarlahi',
-          },
-          {
-            id: 'siraha',
-            name: 'Siraha',
-            value: 'siraha',
-          },
-        ],
-      },
-      {
-        id: 3,
-        province: "bagmati",
-       districts: [
-          {
-            id: 'bhaktapur',
-            name: 'Bhaktapur',
-            value: 'bhaktapur',
-          },
-          {
-            id: 'chitwan',
-            name: 'Chitwan',
-            value: 'chitwan',
-          },
-          {
-            id: 'dhading',
-            name: 'Dhading',
-            value: 'dhading',
-          },
-          {
-            id: 'dolakha',
-            name: 'Dolakha',
-            value: 'dolakha',
-          },
-          {
-            id: 'kathmandu',
-            name: 'Kathmandu',
-            value: 'kathmandu',
-          },
-          {
-            id: 'kavrepalanchok',
-            name: 'Kavrepalanchok',
-            value: 'kavrepalanchok',
-          },
-          {
-            id: 'lalitpur',
-            name: 'Lalitpur',
-            value: 'lalitpur',
-          },
-          {
-            id: 'makwanpur',
-            name: 'Makwanpur',
-            value: 'makwanpur',
-          },
-          {
-            id: 'nuwakot',
-            name: 'Nuwakot',
-            value: 'nuwakot',
-          },
-          {
-            id: 'ramechhap',
-            name: 'Ramechhap',
-            value: 'ramechhap',
-          },
-          {
-            id: 'rasuwa',
-            name: 'Rasuwa',
-            value: 'rasuwa',
-          },
-          {
-            id: 'sindhuli',
-            name: 'Sindhuli',
-            value: 'sindhuli',
-          },
-          {
-            id: 'sindhupalchok',
-            name: 'Sindhupalchok',
-            value: 'sindhupalchok',
-          },
-        ],
-      },
-      {
-        id: 4,
-        province: "gandaki",
-       districts: [
-          {
-            id: 'baglung',
-            name: 'Baglung',
-            value: 'baglung',
-          },
-          {
-            id: 'gorkha',
-            name: 'Gorkha',
-            value: 'gorkha',
-          },
-          {
-            id: 'kaski',
-            name: 'Kaski',
-            value: 'kaski',
-          },
-          {
-            id: 'lamjung',
-            name: 'Lamjung',
-            value: 'lamjung',
-          },
-          {
-            id: 'manang',
-            name: 'Manang',
-            value: 'manang',
-          },
-          {
-            id: 'mustang',
-            name: 'Mustang',
-            value: 'mustang',
-          },
-          {
-            id: 'myagdi',
-            name: 'Myagdi',
-            value: 'myagdi',
-          },
-          {
-            id: 'nawalpur',
-            name: 'Nawalpur',
-            value: 'nawalpur',
-          },
-          {
-            id: 'parbat',
-            name: 'Parbat',
-            value: 'parbat',
-          },
-          {
-            id: 'syangja',
-            name: 'Syangja',
-            value: 'syangja',
-          },
-          {
-            id: 'tanahun',
-            name: 'Tanahun',
-            value: 'tanahun',
-          },
-        ],
-      },
-      {
-        id: 5,
-        province: "lumbini",
-       districts: [
-          {
-            id: 'arghakhanchi',
-            name: 'Arghakhanchi',
-            value: 'arghakhanchi',
-          },
-          {
-            id: 'gulmi',
-            name: 'Gulmi',
-            value: 'gulmi',
-          },
-          {
-            id: 'kapilvastu',
-            name: 'Kapilvastu',
-            value: 'kapilvastu',
-          },
-          {
-            id: 'nawalparasi_east',
-            name: 'Nawalparasi East',
-            value: 'nawalparasi_east',
-          },
-          {
-            id: 'nawalparasi_west',
-            name: 'Nawalparasi West',
-            value: 'nawalparasi_west',
-          },
-          {
-            id: 'palpa',
-            name: 'Palpa',
-            value: 'palpa',
-          },
-          {
-            id: 'parasi',
-            name: 'Parasi',
-            value: 'parasi',
-          },
-          {
-            id: 'rupandehi',
-            name: 'Rupandehi',
-            value: 'rupandehi',
-          },
-        ],
-      },
-      {
-        id: 6,
-        province: "karnali",
-       districts: [
-          {
-            id: 'dolpa',
-            name: 'Dolpa',
-            value: 'dolpa',
-          },
-          {
-            id: 'humla',
-            name: 'Humla',
-            value: 'humla',
-          },
-          {
-            id: 'jumla',
-            name: 'Jumla',
-            value: 'jumla',
-          },
-          {
-            id: 'kalikot',
-            name: 'Kalikot',
-            value: 'kalikot',
-          },
-          {
-            id: 'mugu',
-            name: 'Mugu',
-            value: 'mugu',
-          },
-          {
-            id: 'surkhet',
-            name: 'Surkhet',
-            value: 'surkhet',
-          },
-        ],
-      },
-      {
-        id: 7,
-        province: "sudurpashchim",
-       districts: [
-          {
-            id: 'achham',
-            name: 'Achham',
-            value: 'achham',
-          },
-          {
-            id: 'baitadi',
-            name: 'Baitadi',
-            value: 'baitadi',
-          },
-          {
-            id: 'bajhang',
-            name: 'Bajhang',
-            value: 'bajhang',
-          },
-          {
-            id: 'bajura',
-            name: 'Bajura',
-            value: 'bajura',
-          },
-          {
-            id: 'dadeldhura',
-            name: 'Dadeldhura',
-            value: 'dadeldhura',
-          },
-          {
-            id: 'darchula',
-            name: 'Darchula',
-            value: 'darchula',
-          },
-          {
-            id: 'kailali',
-            name: 'Kailali',
-            value: 'kailali',
-          },
-          {
-            id: 'kanchanpur',
-            name: 'Kanchanpur',
-            value: 'kanchanpur',
-          },
-        ],
-      }
-];
+export const districtList =[
+  {
+     "id":1,
+     "name":"Taplejung",
+     "n_code":1,
+     "label":"Taplejung",
+     "province_code":1,
+     "code":1,
+     "value":1
+  },
+  {
+     "id":2,
+     "name":"Panchthar",
+     "n_code":2,
+     "label":"Panchthar",
+     "province_code":1,
+     "code":2,
+     "value":2
+  },
+  {
+     "id":3,
+     "name":"Ilam",
+     "n_code":3,
+     "label":"Ilam",
+     "province_code":1,
+     "code":3,
+     "value":3
+  },
+  {
+     "id":4,
+     "name":"Jhapa",
+     "n_code":4,
+     "label":"Jhapa",
+     "province_code":1,
+     "code":4,
+     "value":4
+  },
+  {
+     "id":5,
+     "name":"Morang",
+     "n_code":5,
+     "label":"Morang",
+     "province_code":1,
+     "code":5,
+     "value":5
+  },
+  {
+     "id":6,
+     "name":"Sunsari",
+     "n_code":6,
+     "label":"Sunsari",
+     "province_code":1,
+     "code":6,
+     "value":6
+  },
+  {
+     "id":7,
+     "name":"Dhankuta",
+     "n_code":7,
+     "label":"Dhankuta",
+     "province_code":1,
+     "code":7,
+     "value":7
+  },
+  {
+     "id":8,
+     "name":"Terhathum",
+     "n_code":8,
+     "label":"Terhathum",
+     "province_code":1,
+     "code":8,
+     "value":8
+  },
+  {
+     "id":9,
+     "name":"Sankhuwasabha",
+     "n_code":9,
+     "label":"Sankhuwasabha",
+     "province_code":1,
+     "code":9,
+     "value":9
+  },
+  {
+     "id":10,
+     "name":"Bhojpur",
+     "n_code":10,
+     "label":"Bhojpur",
+     "province_code":1,
+     "code":10,
+     "value":10
+  },
+  {
+     "id":11,
+     "name":"Solukhumbu",
+     "n_code":11,
+     "label":"Solukhumbu",
+     "province_code":1,
+     "code":11,
+     "value":11
+  },
+  {
+     "id":13,
+     "name":"Okhaldhunga",
+     "n_code":13,
+     "label":"Okhaldhunga",
+     "province_code":1,
+     "code":13,
+     "value":13
+  },
+  {
+     "id":12,
+     "name":"Khotang",
+     "n_code":12,
+     "label":"Khotang",
+     "province_code":1,
+     "code":12,
+     "value":12
+  },
+  {
+     "id":14,
+     "name":"Udayapur",
+     "n_code":14,
+     "label":"Udayapur",
+     "province_code":1,
+     "code":14,
+     "value":14
+  },
+  {
+     "id":15,
+     "name":"Saptari",
+     "n_code":15,
+     "label":"Saptari",
+     "province_code":2,
+     "code":15,
+     "value":15
+  },
+  {
+     "id":16,
+     "name":"Siraha",
+     "n_code":16,
+     "label":"Siraha",
+     "province_code":2,
+     "code":16,
+     "value":16
+  },
+  {
+     "id":17,
+     "name":"Dhanusha",
+     "n_code":17,
+     "label":"Dhanusha",
+     "province_code":2,
+     "code":17,
+     "value":17
+  },
+  {
+     "id":18,
+     "name":"Mahottari",
+     "n_code":18,
+     "label":"Mahottari",
+     "province_code":2,
+     "code":18,
+     "value":18
+  },
+  {
+     "id":19,
+     "name":"Sarlahi",
+     "n_code":19,
+     "label":"Sarlahi",
+     "province_code":2,
+     "code":19,
+     "value":19
+  },
+  {
+     "id":20,
+     "name":"Sindhuli",
+     "n_code":20,
+     "label":"Sindhuli",
+     "province_code":3,
+     "code":20,
+     "value":20
+  },
+  {
+     "id":21,
+     "name":"Ramechhap",
+     "n_code":21,
+     "label":"Ramechhap",
+     "province_code":3,
+     "code":21,
+     "value":21
+  },
+  {
+     "id":22,
+     "name":"Dolakha",
+     "n_code":22,
+     "label":"Dolakha",
+     "province_code":3,
+     "code":22,
+     "value":22
+  },
+  {
+     "id":23,
+     "name":"Sindhupalchok",
+     "n_code":23,
+     "label":"Sindhupalchok",
+     "province_code":3,
+     "code":23,
+     "value":23
+  },
+  {
+     "id":24,
+     "name":"Kabhrepalanchok",
+     "n_code":24,
+     "label":"Kabhrepalanchok",
+     "province_code":3,
+     "code":24,
+     "value":24
+  },
+  {
+     "id":25,
+     "name":"Lalitpur",
+     "n_code":25,
+     "label":"Lalitpur",
+     "province_code":3,
+     "code":25,
+     "value":25
+  },
+  {
+     "id":26,
+     "name":"Bhaktapur",
+     "n_code":26,
+     "label":"Bhaktapur",
+     "province_code":3,
+     "code":26,
+     "value":26
+  },
+  {
+     "id":27,
+     "name":"Kathmandu",
+     "n_code":27,
+     "label":"Kathmandu",
+     "province_code":3,
+     "code":27,
+     "value":27
+  },
+  {
+     "id":28,
+     "name":"Nuwakot",
+     "n_code":28,
+     "label":"Nuwakot",
+     "province_code":3,
+     "code":28,
+     "value":28
+  },
+  {
+     "id":29,
+     "name":"Rasuwa",
+     "n_code":29,
+     "label":"Rasuwa",
+     "province_code":3,
+     "code":29,
+     "value":29
+  },
+  {
+     "id":30,
+     "name":"Dhading",
+     "n_code":30,
+     "label":"Dhading",
+     "province_code":3,
+     "code":30,
+     "value":30
+  },
+  {
+     "id":31,
+     "name":"Makawanpur",
+     "n_code":31,
+     "label":"Makawanpur",
+     "province_code":3,
+     "code":31,
+     "value":31
+  },
+  {
+     "id":32,
+     "name":"Rautahat",
+     "n_code":32,
+     "label":"Rautahat",
+     "province_code":2,
+     "code":32,
+     "value":32
+  },
+  {
+     "id":33,
+     "name":"Bara",
+     "n_code":33,
+     "label":"Bara",
+     "province_code":2,
+     "code":33,
+     "value":33
+  },
+  {
+     "id":34,
+     "name":"Parsa",
+     "n_code":34,
+     "label":"Parsa",
+     "province_code":2,
+     "code":34,
+     "value":34
+  },
+  {
+     "id":35,
+     "name":"Chitawan",
+     "n_code":35,
+     "label":"Chitawan",
+     "province_code":3,
+     "code":35,
+     "value":35
+  },
+  {
+     "id":36,
+     "name":"Gorkha",
+     "n_code":36,
+     "label":"Gorkha",
+     "province_code":4,
+     "code":36,
+     "value":36
+  },
+  {
+     "id":37,
+     "name":"Lamjung",
+     "n_code":37,
+     "label":"Lamjung",
+     "province_code":4,
+     "code":37,
+     "value":37
+  },
+  {
+     "id":40,
+     "name":"Tanahu",
+     "n_code":40,
+     "label":"Tanahu",
+     "province_code":4,
+     "code":40,
+     "value":40
+  },
+  {
+     "id":41,
+     "name":"Syangja",
+     "n_code":41,
+     "label":"Syangja",
+     "province_code":4,
+     "code":41,
+     "value":41
+  },
+  {
+     "id":39,
+     "name":"Kaski",
+     "n_code":39,
+     "label":"Kaski",
+     "province_code":4,
+     "code":39,
+     "value":39
+  },
+  {
+     "id":38,
+     "name":"Manang",
+     "n_code":38,
+     "label":"Manang",
+     "province_code":4,
+     "code":38,
+     "value":38
+  },
+  {
+     "id":45,
+     "name":"Mustang",
+     "n_code":45,
+     "label":"Mustang",
+     "province_code":4,
+     "code":45,
+     "value":45
+  },
+  {
+     "id":44,
+     "name":"Myagdi",
+     "n_code":44,
+     "label":"Myagdi",
+     "province_code":4,
+     "code":44,
+     "value":44
+  },
+  {
+     "id":42,
+     "name":"Parbat",
+     "n_code":42,
+     "label":"Parbat",
+     "province_code":4,
+     "code":42,
+     "value":42
+  },
+  {
+     "id":43,
+     "name":"Baglung",
+     "n_code":43,
+     "label":"Baglung",
+     "province_code":4,
+     "code":43,
+     "value":43
+  },
+  {
+     "id":51,
+     "name":"Gulmi",
+     "n_code":51,
+     "label":"Gulmi",
+     "province_code":5,
+     "code":51,
+     "value":51
+  },
+  {
+     "id":46,
+     "name":"Palpa",
+     "n_code":46,
+     "label":"Palpa",
+     "province_code":5,
+     "code":46,
+     "value":46
+  },
+  {
+     "id":76,
+     "name":"Nawalparasi_w",
+     "n_code":76,
+     "label":"Nawalparasi_w",
+     "province_code":5,
+     "code":76,
+     "value":76
+  },
+  {
+     "id":48,
+     "name":"Rupandehi",
+     "n_code":48,
+     "label":"Rupandehi",
+     "province_code":5,
+     "code":48,
+     "value":48
+  },
+  {
+     "id":49,
+     "name":"Kapilbastu",
+     "n_code":49,
+     "label":"Kapilbastu",
+     "province_code":5,
+     "code":49,
+     "value":49
+  },
+  {
+     "id":50,
+     "name":"Arghakhanchi",
+     "n_code":50,
+     "label":"Arghakhanchi",
+     "province_code":5,
+     "code":50,
+     "value":50
+  },
+  {
+     "id":55,
+     "name":"Pyuthan",
+     "n_code":55,
+     "label":"Pyuthan",
+     "province_code":5,
+     "code":55,
+     "value":55
+  },
+  {
+     "id":54,
+     "name":"Rolpa",
+     "n_code":54,
+     "label":"Rolpa",
+     "province_code":5,
+     "code":54,
+     "value":54
+  },
+  {
+     "id":77,
+     "name":"Rukum_w",
+     "n_code":77,
+     "label":"Rukum_w",
+     "province_code":6,
+     "code":77,
+     "value":77
+  },
+  {
+     "id":53,
+     "name":"Salyan",
+     "n_code":53,
+     "label":"Salyan",
+     "province_code":6,
+     "code":53,
+     "value":53
+  },
+  {
+     "id":56,
+     "name":"Dang",
+     "n_code":56,
+     "label":"Dang",
+     "province_code":5,
+     "code":56,
+     "value":56
+  },
+  {
+     "id":57,
+     "name":"Banke",
+     "n_code":57,
+     "label":"Banke",
+     "province_code":5,
+     "code":57,
+     "value":57
+  },
+  {
+     "id":58,
+     "name":"Bardiya",
+     "n_code":58,
+     "label":"Bardiya",
+     "province_code":5,
+     "code":58,
+     "value":58
+  },
+  {
+     "id":59,
+     "name":"Surkhet",
+     "n_code":59,
+     "label":"Surkhet",
+     "province_code":6,
+     "code":59,
+     "value":59
+  },
+  {
+     "id":61,
+     "name":"Dailekh",
+     "n_code":61,
+     "label":"Dailekh",
+     "province_code":6,
+     "code":61,
+     "value":61
+  },
+  {
+     "id":60,
+     "name":"Jajarkot",
+     "n_code":60,
+     "label":"Jajarkot",
+     "province_code":6,
+     "code":60,
+     "value":60
+  },
+  {
+     "id":62,
+     "name":"Dolpa",
+     "n_code":62,
+     "label":"Dolpa",
+     "province_code":6,
+     "code":62,
+     "value":62
+  },
+  {
+     "id":63,
+     "name":"Jumla",
+     "n_code":63,
+     "label":"Jumla",
+     "province_code":6,
+     "code":63,
+     "value":63
+  },
+  {
+     "id":64,
+     "name":"Kalikot",
+     "n_code":64,
+     "label":"Kalikot",
+     "province_code":6,
+     "code":64,
+     "value":64
+  },
+  {
+     "id":65,
+     "name":"Mugu",
+     "n_code":65,
+     "label":"Mugu",
+     "province_code":6,
+     "code":65,
+     "value":65
+  },
+  {
+     "id":66,
+     "name":"Humla",
+     "n_code":66,
+     "label":"Humla",
+     "province_code":6,
+     "code":66,
+     "value":66
+  },
+  {
+     "id":68,
+     "name":"Bajura",
+     "n_code":68,
+     "label":"Bajura",
+     "province_code":7,
+     "code":68,
+     "value":68
+  },
+  {
+     "id":67,
+     "name":"Bajhang",
+     "n_code":67,
+     "label":"Bajhang",
+     "province_code":7,
+     "code":67,
+     "value":67
+  },
+  {
+     "id":69,
+     "name":"Achham",
+     "n_code":69,
+     "label":"Achham",
+     "province_code":7,
+     "code":69,
+     "value":69
+  },
+  {
+     "id":70,
+     "name":"Doti",
+     "n_code":70,
+     "label":"Doti",
+     "province_code":7,
+     "code":70,
+     "value":70
+  },
+  {
+     "id":71,
+     "name":"Kailali",
+     "n_code":71,
+     "label":"Kailali",
+     "province_code":7,
+     "code":71,
+     "value":71
+  },
+  {
+     "id":72,
+     "name":"Kanchanpur",
+     "n_code":72,
+     "label":"Kanchanpur",
+     "province_code":7,
+     "code":72,
+     "value":72
+  },
+  {
+     "id":73,
+     "name":"Dadeldhura",
+     "n_code":73,
+     "label":"Dadeldhura",
+     "province_code":7,
+     "code":73,
+     "value":73
+  },
+  {
+     "id":74,
+     "name":"Baitadi",
+     "n_code":74,
+     "label":"Baitadi",
+     "province_code":7,
+     "code":74,
+     "value":74
+  },
+  {
+     "id":75,
+     "name":"Darchula",
+     "n_code":75,
+     "label":"Darchula",
+     "province_code":7,
+     "code":75,
+     "value":75
+  },
+  {
+     "id":47,
+     "name":"Nawalparasi_e",
+     "n_code":47,
+     "label":"Nawalparasi_e",
+     "province_code":4,
+     "code":47,
+     "value":47
+  },
+  {
+     "id":52,
+     "name":"Rukum_e",
+     "n_code":52,
+     "label":"Rukum_e",
+     "province_code":5,
+     "code":52,
+     "value":52
+  }
+]

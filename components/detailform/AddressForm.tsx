@@ -8,7 +8,7 @@ import { provinces } from "../data/ProvinceList";
 import { districtList } from "../data/DistrictList";
 import { municipalityList } from "../data/MunicipalityList";
 import { useToast } from "../ui/use-toast";
-import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
+import { useAppSelector } from "@/redux/TypedHooks";
 import { useRouter } from "next/navigation";
 import { apiinstance } from "@/services/Api";
 import { useSession } from "next-auth/react";
@@ -22,34 +22,30 @@ export default function AddressForm() {
   );
   const router = useRouter();
   const [temdistrict, setTemDistrict] = React.useState<any>(
-    districtList.filter((item) => item.province === "province1")[0]?.districts
+    districtList.filter((item) => item.province_code === 1)
   );
   const [temmunicipality, setTemMunicipality] = React.useState<any>(
-    municipalityList
-      .filter((item) => item.province === "province1")[0]
-      .data.filter((item: any) => item.district === "bhojpur")[0].municipalities
+    municipalityList.filter((item) => item.district_code === 1)
   );
 
   const [perdistrict, setPerDistrict] = React.useState<any>(
-    districtList.filter((item) => item.province === "province1")[0]?.districts
+    districtList.filter((item) => item.province_code === 1)
   );
   const [permunicipality, setPerMunicipality] = React.useState<any>(
-    municipalityList
-      .filter((item) => item.province === "province1")[0]
-      .data.filter((item: any) => item.district === "bhojpur")[0].municipalities
+    municipalityList.filter((item) => item.district_code === 1)
   );
 
   const [permanentAddress, setPermanentAddress] = React.useState<any>({
-    province: "province1",
-    district: "bhojpur",
+    province: 1,
+    district: 1,
     municipality: "",
     ward: "",
     tole: "",
     city: "",
   });
   const [temporaryaddress, setTemporaryAddress] = React.useState<any>({
-    province: "province1",
-    district: "bhojpur",
+    province: 1,
+    district: 1,
     municipality: "",
     ward: "",
     tole: "",
@@ -113,7 +109,6 @@ export default function AddressForm() {
         });
       }
     } catch (error: any) {
-      console.log("err", error);
       return toast({
         title: "Error",
         description: error.message,
@@ -124,32 +119,28 @@ export default function AddressForm() {
   useEffect(() => {
     setPerDistrict(
       districtList.filter(
-        (item) => item.province === permanentAddress.province
-      )[0]?.districts
+        (item) => item.province_code == permanentAddress.province
+      )
     );
 
     setPerMunicipality(
-      municipalityList
-        .filter((item) => item?.province === permanentAddress.province)[0]
-        ?.data.filter(
-          (item: any) => item.district === permanentAddress?.district
-        )[0]?.municipalities
+      municipalityList.filter(
+        (item) => item?.district_code == permanentAddress.district
+      )
     );
   }, [permanentAddress]);
 
   useEffect(() => {
     setTemDistrict(
       districtList.filter(
-        (item) => item.province === temporaryaddress.province
-      )[0]?.districts
+        (item) => item.province_code == temporaryaddress.province
+      )
     );
 
     setTemMunicipality(
-      municipalityList
-        .filter((item) => item?.province === temporaryaddress.province)[0]
-        ?.data.filter(
-          (item: any) => item.district === temporaryaddress?.district
-        )[0]?.municipalities
+      municipalityList.filter(
+        (item) => item.district_code == temporaryaddress.district
+      )
     );
   }, [temporaryaddress]);
   return (

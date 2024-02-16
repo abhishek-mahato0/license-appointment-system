@@ -18,12 +18,14 @@ type TOffice = {
   onSelect: any;
   placeholder: string;
   classNames?: string;
+  all?: boolean;
 };
 export default function SingleSelect({
   data,
   onSelect,
   placeholder,
   classNames,
+  all = false,
 }: TOffice) {
   return (
     <Select onValueChange={onSelect}>
@@ -31,6 +33,11 @@ export default function SingleSelect({
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
+        {all && (
+          <div className=" hover:bg-custom-100 hover:text-white">
+            <SelectItem value="all">All</SelectItem>
+          </div>
+        )}
         {data.map((ele) => {
           return (
             <div className=" hover:bg-custom-100 hover:text-white" key={ele.id}>

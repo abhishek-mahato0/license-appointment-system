@@ -1,7 +1,7 @@
 "use client";
 import React, { ChangeEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { licenseData } from "./FormData";
+import { licenseCategoryData, licenseData } from "./FormData";
 import Outline from "../common/FormDetail/Outline";
 import { ChevronRight, SwitchCamera, X } from "lucide-react";
 import { Button } from "../ui/button";
@@ -13,6 +13,9 @@ import { useRouter } from "next/navigation";
 import { apiinstance } from "@/services/Api";
 import { useSession } from "next-auth/react";
 import { Updatelocalstorage } from "@/utils/Updatelocalstorage";
+import { MultiSelect } from "react-multi-select-component";
+import Select from "react-select";
+import { customStyles } from "../common/MultiselectStyles";
 
 export default function LicenseForm() {
   const { toast } = useToast();
@@ -55,6 +58,7 @@ export default function LicenseForm() {
     }
     const payload = {
       ...data,
+      category: selectedCat?.map((item: any) => item.value),
       front: pictureFront,
       back: pictureBack,
     };
@@ -83,6 +87,7 @@ export default function LicenseForm() {
       });
     }
   };
+  const [selectedCat, setSelectedCat] = useState<any>([]);
   return (
     <div className=" flex flex-col w-full">
       <form
@@ -92,13 +97,25 @@ export default function LicenseForm() {
       >
         <Outline title="License Information">
           <div className="grid grid-cols-2 gap-3 items-center justify-between w-full px-3 py-2">
-            {licenseData.map((item: any) => {
+            {licenseData?.map((item: any) => {
               return (
                 <div className=" flex flex-col gap-1 items-start justify-start">
                   {handleFormData(item, register)}
                 </div>
               );
             })}
+            <div className="flex flex-col gap-1 items-start justify-start w-full">
+              <span>Select Category</span>
+              <Select
+                options={licenseCategoryData.options}
+                value={selectedCat}
+                onChange={setSelectedCat}
+                isMulti
+                className=" py-1 rounded-[6px] w-[90%] bg-custom-50 z-50"
+                classNamePrefix={"select"}
+                styles={customStyles}
+              />
+            </div>
           </div>
         </Outline>
         <Outline title="License Picture">

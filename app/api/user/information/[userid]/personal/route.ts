@@ -80,3 +80,37 @@ export async function GET(req:NextRequest,{params}:any) {
         return ShowError(500, error.message);
     }
 }
+
+export async function PUT(req:NextRequest,{params}:any) {
+    try {
+        await dbconnect();
+       const userId = params.userid;
+       const information  = await req.json();
+       if(!information){
+            return ShowError(400, "Please provide all the required information");
+       }
+       if(!userId){
+        return ShowError(400, "Not valid url.");
+       }
+       const user = await User.findById(userId.toString());
+       if(!user){
+        return ShowError(400, "No user found");
+       }
+    //    const informationData = {
+    //        first_name: information?.firstName,
+    //        middle_name: information?.middlename,
+    //        last_name: information?.lastname,
+    //        guardian_name: {name: information?.guardiansname, relation: information?.guardiansrelation},
+    //        DOB: information?.dob,
+    //        gender: information?.gender,
+    //        blood_group: information?.bloodgroup,
+    //     };
+    const updated= await Information.findOneAndUpdate({user_id: userId}, {$set:information}, {new:true});
+    await updated.save();
+    return NextResponse.json({message:"Personal Information saved Successfully"}, {status:200})
+    } catch (error:any) {
+        console.log(error)
+        return ShowError(500, error.message);
+    }
+    
+}
