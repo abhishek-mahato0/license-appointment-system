@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { Checkbox } from "../ui/checkbox";
 import { apiinstance } from "@/services/Api";
 import { useSession } from "next-auth/react";
+import { Updatelocalstorage } from "@/utils/Updatelocalstorage";
 
 export default function CitizenshipForm() {
   const { toast } = useToast();
@@ -79,10 +80,7 @@ export default function CitizenshipForm() {
           description: res.data.message,
           variant: "success",
         });
-        if (res.data.id) {
-          update({ citizenship_id: res.data.id });
-        }
-
+        Updatelocalstorage({ citizenship_id: res.data._id });
         if (hasLicense) {
           return router.push("license/");
         } else {

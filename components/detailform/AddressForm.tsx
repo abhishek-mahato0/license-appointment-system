@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
 import { useRouter } from "next/navigation";
 import { apiinstance } from "@/services/Api";
 import { useSession } from "next-auth/react";
+import { Updatelocalstorage } from "@/utils/Updatelocalstorage";
 
 export default function AddressForm() {
   const { data: session } = useSession();
@@ -103,6 +104,7 @@ export default function AddressForm() {
           description: res.data.message,
           variant: "success",
         });
+        Updatelocalstorage({ information_id: res.data._id });
         return router.push("citizenship/");
       } else {
         return toast({
