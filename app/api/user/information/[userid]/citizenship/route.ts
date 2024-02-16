@@ -45,10 +45,10 @@ export async function POST(req:NextRequest,{params}:any) {
            }
         }
     const citizenshipDoc= new Citizenship(citizenshipData);
-    user.citizenship_id = citizenshipData.citizenship.citizenship_no;
     await citizenshipDoc.save();
+    user.citizenship_id = citizenshipDoc._id;
     await user.save();
-    return NextResponse.json({message:"Citizenship Inforamtion Saved Successfully.", id: citizenshipDoc.citizenship_no}, {status:200})
+    return NextResponse.json({_id: citizenshipDoc._id ,message:"Citizenship Inforamtion Saved Successfully."}, {status:200})
     } catch (error:any) {
         return ShowError(500, error.message);
     } 
