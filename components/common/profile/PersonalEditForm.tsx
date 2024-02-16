@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,17 +12,73 @@ import {
 } from "@/components/ui/dialog";
 import { Edit } from "lucide-react";
 import { personalData } from "@/components/detailform/FormData";
-import { useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { handleFormData } from "../FormDetail/HandleFormData";
+import { apiinstance } from "@/services/Api";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
-export default function PersonalEditForm() {
+type TPersonalInformation = {
+  personalInformation: any;
+};
+
+export default function PersonalEditForm({
+  personalInformation,
+}: TPersonalInformation) {
+  const closeref = useRef<any>(null);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const { toast } = useToast();
+  const router = useRouter();
   const {
-    personalInformation,
-    addressInformation,
-    citizenshipInformation,
-    licenseInformation,
-  } = useSelector((state: any) => state.profileInformation);
-  const [editedpersonalData, setEditedPersonalDate] =
-    useState(personalInformation);
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: personalInformation,
+  });
+  const onSubmit = async (data: any) => {
+    if (!userInfo?.id) {
+      toast({
+        title: "Error",
+        description: "PLease login to continue.",
+      });
+      return router.push("/login");
+    }
+    try {
+      const payload = {
+        first_name: data.firstName,
+        middle_name: data.middlename,
+        last_name: data.lastname,
+        guardian_name: {
+          name: data.guardiansname,
+          relation: data.guardiansrelation,
+        },
+        DOB: data.dob,
+        gender: data.gender,
+        blood_group: data.bloodgroup,
+        email: data.email,
+        phone: data.phone,
+      };
+      const res = await apiinstance.put(
+        `/user/information/${userInfo.id}/personal`,
+        payload
+      );
+      if (res.status === 200) {
+        closeref.current && closeref.current.click();
+        return toast({
+          title: "Success",
+          description: res.data.message,
+          variant: "success",
+        });
+      }
+      return toast({ title: "Error", description: res.data.message });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error?.response?.data.message || "Error Occured",
+      });
+    }
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -30,63 +86,37 @@ export default function PersonalEditForm() {
       </DialogTrigger>
       <DialogContent className=" min-w-fit">
         <DialogHeader>
-          <DialogTitle>Share link</DialogTitle>
+          <DialogTitle>Edit Personal Information</DialogTitle>
           <DialogDescription>
-            Anyone who has this link will be able to view this.
+            This is the personal information edit form.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex items-center space-x-2">
-          <div className="grid grid-cols-2 gap-3 items-center justify-between w-full px-3 py-2">
+        <div className="flex items-center flex-col space-x-2">
+          <form
+            className="grid grid-cols-2 gap-3 items-center justify-between w-full px-3 py-2"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             {personalData?.map((item: any) => {
               return (
                 <div
                   className=" flex flex-col gap-1 items-start justify-start"
                   key={item.value}
                 >
-                  {item.type === "select" ? (
-                    <>
-                      <label>{item.placeholder}</label>
-                      <select
-                        className=" py-1 px-2 rounded-[6px] w-[90%] bg-custom-50 border-[1px] border-custom-100"
-                        onSelect={(e) =>
-                          setEditedPersonalDate(...editedpersonalData)
-                        }
-                      >
-                        {item.options &&
-                          item?.options.map((option: any) => {
-                            return (
-                              <option value={option.value}>
-                                {option.name}
-                              </option>
-                            );
-                          })}
-                      </select>
-                    </>
-                  ) : (
-                    <>
-                      <label>{item.placeholder}</label>
-                      <input
-                        name={item.name}
-                        required
-                        placeholder={item.placeholder}
-                        className=" w-[90%] py-1 px-2 rounded-[6px] bg-custom-50 border-custom-150 border-[1px] outline-1 focus:outline-none outline-custom-100"
-                        type={item.type}
-                        value={personalInformation[item.name]}
-                      />
-                    </>
-                  )}
+                  {handleFormData(item, register)}
                 </div>
               );
             })}
-          </div>
+            <div className="flex items-center justify-end w-full absolute right-4 bottom-4">
+              <Button type="submit">Save</Button>
+            </div>
+          </form>
         </div>
         <DialogFooter className="sm:justify-end">
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
+            <Button type="button" variant="secondary" ref={closeref}>
               Close
             </Button>
           </DialogClose>
-          <Button type="submit">Save</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

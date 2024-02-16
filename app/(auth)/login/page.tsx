@@ -42,6 +42,10 @@ export default function page() {
           JSON.stringify({
             id: res?.data.user._id,
             token: res?.data.user.token,
+            citizenship_id: res?.data.user.citizenship_id,
+            license_id: res?.data.user.license_id,
+            information_id: res?.data.user.information_id,
+            email: res?.data.user.email,
           })
         );
         toast({
