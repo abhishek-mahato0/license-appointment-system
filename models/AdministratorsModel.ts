@@ -21,4 +21,4 @@ const schema = new mongoose.Schema<Administrator>({
     }
 })
 
-export const Administrator = mongoose.models.Administrator || mongoose.model<Administrator>("administrator", schema);
+export const Administrator = mongoose.models.administrator || mongoose.model<Administrator>("administrator", schema);
