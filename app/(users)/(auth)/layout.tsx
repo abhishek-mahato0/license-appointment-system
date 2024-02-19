@@ -2,9 +2,6 @@
 
 import { useAppDispatch } from "@/redux/TypedHooks";
 import { setBarstate } from "@/redux/slices/applynewSlice";
-import { authOptions } from "@/services/authOptions";
-import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
 import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -18,7 +15,6 @@ export default function RootLayout({
   const dispatch = useAppDispatch();
   const location = usePathname();
   useEffect(() => {
-    console.log(location);
     if (location.includes("/apply/1")) {
       dispatch(setBarstate({ active: 1, completed: [] }));
     } else if (location.includes("/apply/2")) {
@@ -31,8 +27,9 @@ export default function RootLayout({
       dispatch(setBarstate({ active: 5, completed: [1, 2, 3, 4] }));
     }
   }, [location]);
-  if (status === "loading") return <div>Loading...</div>;
-  else if (!userInfo?.token) {
+  if (!userInfo) {
+    return redirect("/login");
+  } else if (!userInfo?.token) {
     return redirect("/login");
   } else if (userInfo?.information_id === "none") {
     return redirect("/detailform/personal");

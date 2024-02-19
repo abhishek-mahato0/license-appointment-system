@@ -10,14 +10,35 @@ export async function POST(req: NextRequest, { params }: any) {
     await dbconnect();
     const userId = params.userid;
     const { citizenshipInformation } = await req.json();
-
+    const user = await User.findById(userId.toString());
+    if (!user) {
+        return ShowError(400, "No user found");
+    }
+    if (!citizenshipInformation) {
+        return ShowError(400, "Please provide all the required information");
+    }
+    if (!citizenshipInformation?.front || !citizenshipInformation?.back) {
+        return ShowError(400, "Please provide both front and back image of citizenship");
+    }
+    if (!citizenshipInformation?.citizenship_no || !citizenshipInformation?.type || !citizenshipInformation?.issue_date || !citizenshipInformation?.issue_district || !citizenshipInformation?.front || !citizenshipInformation?.back) {
+        return ShowError(400, "Please provide all the required informations.");
+    }
+    const exists = await Citizenship.findOne({ $or:[{user_id: userId },{citizenship_no: citizenshipInformation?.citizenship_no}]});
+    if(exists){
+        return ShowError(400, "Citizenship already exists");
+    }
+    const citizenshipPicFront = await uploadPicture(citizenshipInformation?.front, "citizenship", user._id.toString() + "citizenshipfront");
+    const citizenshipPicBack = await uploadPicture(citizenshipInformation?.back, "citizenship", user._id.toString() + "citizenshipback");
+    if(!citizenshipPicFront?.url || !citizenshipPicBack?.url){
+        return ShowError(400, "Error uploading license image. Please try again.");
+    }
        const citizenshipData = {
             user_id: user._id,
             citizenship:{
-                citizenship_no: citizenshipInformation.citizenshipno,
-                citizenship_type: citizenshipInformation.citizenshiptype,
-                issue_date: citizenshipInformation.citizenshipissuedate,
-                issue_district: citizenshipInformation.citizenshipissuedistrict,
+                citizenship_no: citizenshipInformation.citizenship_no,
+                citizenship_type: citizenshipInformation.type,
+                issue_date: citizenshipInformation.issue_date,
+                issue_district: citizenshipInformation.issue_district,
                 image:{
                     front: citizenshipPicFront.url,
                     back: citizenshipPicBack.url
@@ -77,10 +98,10 @@ export async function PUT(req: NextRequest, { params }: any) {
       { user_id: user._id },
       {
         citizenship: {
-          citizenship_no: citizenshipInformation.citizenshipno,
-          citizenship_type: citizenshipInformation.citizenshiptype,
-          issue_date: citizenshipInformation.citizenshipissuedate,
-          issue_district: citizenshipInformation.citizenshipissuedistrict,
+          citizenship_no: citizenshipInformation.citizenship_no,
+          citizenship_type: citizenshipInformation.type,
+          issue_date: citizenshipInformation.issue_date,
+          issue_district: citizenshipInformation.issue_district,
             image: {
                 front: citizenshipInformation.front,
                 back: citizenshipInformation.back,

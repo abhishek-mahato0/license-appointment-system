@@ -140,10 +140,13 @@ export async function POST(req:NextRequest){
         if(!userId) return ShowError(400, 'User not found');
         if(!selectedCat || !selectedProv || !selectedOffice || !medicalExamination.date || !writtenExamination.date || !trialExamination.date || !medicalExamination.shift || !writtenExamination.shift || ! trialExamination.shift) return ShowError(400, 'Please fill all the fields')
 
+        if( writtenExamination.date === medicalExamination.date || writtenExamination.date === trialExamination.date || medicalExamination.date === trialExamination.date) return ShowError(400, 'Please select different dates for each examination')
+        if( !writtenExamination.date > medicalExamination.date || !trialExamination.date > writtenExamination.date) return ShowError(400, 'Please select correct dates for each examination')
+
         const user = await User.findById(userId);
         if(!user) return ShowError(400, 'User not found');
         
-        if(user.appointment.some((item:UAppointment)=> item.status==="pending")) return ShowError(400, 'User already has an appointment');
+        // if(user.appointment.some((item:UAppointment)=> item.status==="pending")) return ShowError(400, 'User already has an appointment');
 
         if(await checkCitizenship(userId)===false) return ShowError(400, 'User has not uploaded citizenship');
 

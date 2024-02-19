@@ -28,13 +28,14 @@ export const checkLogin=async( req:NextRequest )=>{
 export const checkAdmins=async( req:NextRequest )=>{
     try {
         const token = req.cookies.get("token");
+       
         if(!token){
             return null;
         }
         if(token?.value){
-           const user:any = await jwt.verify(token.value, process.env.JWT_SECRET as string);
+           const user:any = jwt.verify(token.value, process.env.JWT_SECRET as string);
            if(JSON.parse(user)._id){
-             const exists = await Administrator.findById(JSON.parse(user)?._id);
+             const exists = await Administrator.findById(JSON.parse(user)?._id.toString());
              if(exists){
                 return exists;
              }

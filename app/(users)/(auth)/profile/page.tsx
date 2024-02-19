@@ -93,10 +93,10 @@ export default function page() {
       if (success) {
         dispatch(
           setCitizenshipInformation({
-            citizenshipno: data?.citizenship.citizenship_no,
-            citizenshipissuedate: convertDate(data?.citizenship.issue_date),
-            citizenshipissuedistrict: data?.citizenship.issue_district,
-            citizenshiptype: data?.citizenship.citizenship_type,
+            citizenship_no: data?.citizenship.citizenship_no,
+            issue_date: convertDate(data?.citizenship.issue_date),
+            issue_district: data?.citizenship.issue_district,
+            type: data?.citizenship.citizenship_type,
             front: data?.citizenship.image.front,
             back: data?.citizenship.image.back,
           })
@@ -256,7 +256,7 @@ export default function page() {
           </div>
         </Outline>
         <Outline title="License Information">
-          {Object.keys(licenseInformation).length > 0 ? (
+          {licenseInformation && Object.keys(licenseInformation).length > 0 ? (
             <>
               <div className=" w-full items-center flex justify-end gap-3">
                 {Object.keys(licenseInformation).length > 0 && (

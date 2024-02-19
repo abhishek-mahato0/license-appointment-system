@@ -100,18 +100,19 @@ export default function AddressForm() {
           description: res.data.message,
           variant: "success",
         });
+        console.log(res, "res");
         Updatelocalstorage({ information_id: res.data._id });
         return router.push("citizenship/");
       } else {
         return toast({
           title: "Error",
-          description: res.data.message,
+          description: res?.data?.message,
         });
       }
     } catch (error: any) {
       return toast({
         title: "Error",
-        description: error.message,
+        description: error?.response?.data?.message || "Some error occured.",
       });
     }
   };

@@ -181,19 +181,19 @@ export const peraddressData=[
 export const citizenshipData=[
     {
         id:1,
-        name:"citizenshipno",
+        name:"citizenship_no",
         placeholder:"Citizenship Number",
         type:"text",
     },
     {
         id:2,
-        name:"citizenshipissuedate",
+        name:"issue_date",
         placeholder:"Citizenship Issue Date",
         type:"date",
     },
     {
         id:3,
-        name:"citizenshiptype",
+        name:"type",
         placeholder:"Citizenship Type",
         type:"select",
         options:[
@@ -214,7 +214,7 @@ export const citizenshipData=[
     },
     {
         id:4,
-        name:"citizenshipissuedistrict",
+        name:"issue_district",
         placeholder:"Citizenship Issue District",
         type:"select",
         options:districtList
