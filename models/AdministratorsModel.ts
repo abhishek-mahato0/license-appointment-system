@@ -7,6 +7,7 @@ interface Administrator {
     role: string;
     province: number;
     office: Array< mongoose.Schema.Types.ObjectId>;
+    forgetPasswordToken?: string;
 }
 
 const schema = new mongoose.Schema<Administrator>({
@@ -18,7 +19,8 @@ const schema = new mongoose.Schema<Administrator>({
         type:[ mongoose.Schema.Types.ObjectId],
         ref:"office",
         required: true
-    }
+    },
+    forgetPasswordToken: { type: String, required: false }
 })
 
 export const Administrator = mongoose.models.administrator || mongoose.model<Administrator>("administrator", schema);

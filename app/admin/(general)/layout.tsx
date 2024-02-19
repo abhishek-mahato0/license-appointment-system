@@ -1,6 +1,6 @@
+import AdminNavbar from "@/components/admin/AdminNavbar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Navbar from "../../components/common/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <div className="w-full h-full flex flex-col relative">
       <div className="fixed z-40 top-0 left-0 bg-white bottom-0">
-        <Navbar />
+        <AdminNavbar />
       </div>
       <main className="w-full pl-[105px]">{children}</main>
     </div>

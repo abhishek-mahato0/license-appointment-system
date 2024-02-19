@@ -21,7 +21,6 @@ type TPopupModal = {
   triggerClick?: () => void;
   cancelFunction?: () => void;
   cancelText?: string;
-  ref?: any;
   description?: string;
 };
 
@@ -35,7 +34,6 @@ export function PopupModal({
   triggerClick,
   cancelFunction,
   cancelText,
-  ref,
   description,
 }: TPopupModal) {
   return (
