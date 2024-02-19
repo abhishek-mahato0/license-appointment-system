@@ -26,7 +26,7 @@ export async function POST(req:NextRequest,{params}:any) {
        }
        if(!licenseInformation?.front || !licenseInformation?.back)
        {
-        return ShowError(400, "Please provide both front and back image of citizenship");
+        return ShowError(400, "Please provide both front and back image of license.");
        }
        if(!licenseInformation?.licenseno || !licenseInformation?.category || !licenseInformation?.issuedate || !licenseInformation?.expirydate || !licenseInformation?.office || !licenseInformation?.front || !licenseInformation?.back){
         return ShowError(400, "Please provide all the required informations.");

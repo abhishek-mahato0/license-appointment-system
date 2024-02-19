@@ -30,10 +30,10 @@ export default function CitimageEditForm({ citizenshipImages }: any) {
   const { handleSubmit } = useForm();
   const handleImageData = async () => {
     const payload = {
-      citizenship_no: citizenshipImages.citizenshipno,
-      citizenship_type: citizenshipImages.citizenshiptype,
-      issue_date: citizenshipImages.citizenshipissuedate,
-      issue_district: citizenshipImages.citizenshipissuedistrict,
+      citizenship_no: citizenshipImages.citizenship_no,
+      citizenship_type: citizenshipImages.type,
+      issue_date: citizenshipImages.issue_date,
+      issue_district: citizenshipImages.issue_district,
       image: {
         front: newImage,
         back: newImageBack,

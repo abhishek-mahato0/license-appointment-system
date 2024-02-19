@@ -23,6 +23,7 @@ export default function PersonalForm() {
         description: "Fields are required.",
       });
     }
+    console.log(data);
     dispatch(setPersonalInformation(data));
     router.push("address/");
   };

@@ -16,6 +16,10 @@ export async function POST(req:NextRequest,{params}:any) {
         return ShowError(400, "Not valid url.");
        }
        const user = await User.findById(userId.toString());
+       const exists = await Information.findOne({user_id: userId});
+       if(exists){
+        return ShowError(400, "User information already exists");
+       }
        if(!user){
         return ShowError(400, "No user found");
        }
@@ -27,6 +31,8 @@ export async function POST(req:NextRequest,{params}:any) {
         guardian_name: {name: personalInformation.guardiansname, relation: personalInformation.guardiansrelation},
         DOB: personalInformation.dob,
         gender: personalInformation.gender,
+        email: personalInformation.email,
+        phone: personalInformation.phone,
         blood_group: personalInformation.bloodgroup,
         occupation: personalInformation.occupation,
         education: personalInformation.education,
