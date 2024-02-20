@@ -19,6 +19,7 @@ type TOffice = {
   placeholder: string;
   classNames?: string;
   all?: boolean;
+  value?: string;
 };
 export default function SingleSelect({
   data,
@@ -26,9 +27,10 @@ export default function SingleSelect({
   placeholder,
   classNames,
   all = false,
+  value,
 }: TOffice) {
   return (
-    <Select onValueChange={onSelect}>
+    <Select onValueChange={onSelect} value={value}>
       <SelectTrigger className={classNames}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
