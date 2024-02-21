@@ -20,16 +20,30 @@ export default function page() {
     formState: { errors, isLoading },
   } = useForm();
   const [showpassword, setShowpassword] = useState<boolean>(false);
+  const [profile, setProfile] = useState<any>(null);
+  const onPictureUpload = (e: any) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(e.target.files[0]);
+    fileReader.onload = () => {
+      setProfile(fileReader.result as string);
+    };
+  };
   const registerUser = async (datas: any) => {
     setLoading(true);
     try {
+      if (!profile)
+        return toast({
+          title: "Error",
+          description: "Please upload a profile picture.",
+        });
       if (datas?.password !== datas?.cpassword) {
         return toast({
           title: "Error",
           description: "Password and confirm password should match.",
         });
       }
-      const res = await apiinstance.post("user/register", datas);
+      const payload = { ...datas, avatar: profile };
+      const res = await apiinstance.post("user/register", payload);
       if (res.status === 201) {
         toast({
           title: "Success",
@@ -177,15 +191,13 @@ export default function page() {
             <div onClick={() => profileref.current?.click()}>
               <UserCircle size={40} className="cursor-pointer" />
             </div>
-            {/* <input
-              {...register("profile", {
-                required: true,
-              })}
+            <input
               type="file"
-              placeholder="*********"
+              name="front"
               className=" outline-none p-3 w-full bg-[#e3f2ff] hidden"
               ref={profileref}
-            /> */}
+              onChange={onPictureUpload}
+            />
           </FullFlex>
           <FullFlex className="w-full justify-end">
             <Links

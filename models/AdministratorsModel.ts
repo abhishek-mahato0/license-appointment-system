@@ -1,26 +1,28 @@
 import mongoose from "mongoose";
 
-interface Administrator {
+export interface IAdministrator {
     _id?: string;
+    name:string;
     username: string;
-    password: string;
+    password?: string;
     role: string;
     province: number;
     office: Array< mongoose.Schema.Types.ObjectId>;
     forgetPasswordToken?: string;
 }
 
-const schema = new mongoose.Schema<Administrator>({
+const schema = new mongoose.Schema<IAdministrator>({
+    name: { type: String, required: true },
     username: { type: String, required: true },
     password: { type: String, required: true },
     role: { type: String, required: true, enum: ['admin', 'superadmin',"editor"]},
     province: { type: Number, required: true },
     office:{
-        type:[ mongoose.Schema.Types.ObjectId],
+        type:[mongoose.Schema.Types.ObjectId],
         ref:"office",
         required: true
     },
     forgetPasswordToken: { type: String, required: false }
 })
 
-export const Administrator = mongoose.models.administrator || mongoose.model<Administrator>("administrator", schema);
+export const Administrator = mongoose.models.administrator || mongoose.model<IAdministrator>("administrator", schema);

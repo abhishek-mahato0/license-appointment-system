@@ -23,7 +23,7 @@ module.exports = {
           50:'#e3f2ff',
         },
         customtext:{
-          100:'#474860'
+          100: 'bg-gray-800'
         },
         custombg:{
           100:'#e3f2ff'
