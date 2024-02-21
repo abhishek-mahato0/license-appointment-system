@@ -32,10 +32,10 @@ export async function PUT(req:NextRequest){
     }
 }
 
-export async function DELETE(req:NextRequest){
+export async function DELETE(req:NextRequest, {params}:any){
     try {
         await dbconnect();
-        const {id} = await req.json();
+       const id = req.nextUrl.searchParams.get('id');
         const user = await Administrator.findByIdAndDelete(id);
         if(!user){
             return ShowError(400, "No user found");
@@ -49,12 +49,16 @@ export async function DELETE(req:NextRequest){
 export async function POST(req:NextRequest){
     try {
         await dbconnect();
-        const {username, password, role, province} = await req.json();
-        const user = await Administrator.create({username, password, role, province});
+        const {name, username, password, role, province, office} = await req.json();
+        const exists = await Administrator.findOne({username});
+        if(exists){
+            return ShowError(400, "User already exists");
+        }
+        const user = await Administrator.create({name,username, password, role, province, office});
         if(!user){
             return ShowError(400, "No user found");
         }
-        return NextResponse.json(user, {status: 200});
+        return NextResponse.json(user, {status: 201});
     }catch(error:any){
         return ShowError(500, error.message)
     }

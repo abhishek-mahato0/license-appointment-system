@@ -5,7 +5,7 @@ export interface UAppointment{
     status:string,
 }
 export interface IUser{
-    id?:string,
+    _id?:string,
     name:string,
     email:string,
     password:string,
@@ -47,7 +47,7 @@ const userSchema =new mongoose.Schema<IUser>({
         type:String,
     },
     forgotPasswordtoken:{},
-    citizenship_id:{ type: String, required:true, default:'none'},
+    citizenship_id:{ type: String , required:true, default:'none'},
     license_id: { type:String, required:true, default:'none'},
     information_id:{ type:String, required:true, default:'none'},
     appointment:

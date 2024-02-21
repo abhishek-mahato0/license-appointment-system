@@ -50,4 +50,39 @@ export const provinces =
        "value":7
     }
   ];
-  
+
+
+  export const officeList=[
+   {
+      id:1,
+      name:"Lalitpur",
+      value:"lalitpur",
+      label:"Lalitpur",
+      code:1, 
+      province:3
+   },
+   {
+      id:2,
+      name:"Kathmandu",
+      value:"kathmandu",
+      label:"Kathmandu",
+      code:2, 
+      province:3
+   },
+   {
+      id:3,
+      name:"Bhaktapur",
+      value:"bhaktapur",
+      label:"Bhaktapur",
+      code:3, 
+      province:3
+   }, 
+   {
+      id:4,
+      name:"Lahan",
+      value:"lahan",
+      label:"Lahan",
+      code:4,
+      province:2
+   }
+  ]

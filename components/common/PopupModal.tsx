@@ -16,7 +16,7 @@ type TPopupModal = {
   children: React.ReactNode;
   btnText: string;
   title: string;
-  triggerText: string;
+  triggerChildren: any;
   onClick: () => void;
   triggerClick?: () => void;
   cancelFunction?: () => void;
@@ -29,7 +29,7 @@ export function PopupModal({
   children,
   btnText,
   title,
-  triggerText,
+  triggerChildren,
   onClick,
   triggerClick,
   cancelFunction,
@@ -38,16 +38,7 @@ export function PopupModal({
 }: TPopupModal) {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button
-          variant="outline"
-          className={btnclassNames}
-          onClick={triggerClick}
-          id="popover"
-        >
-          {triggerText}
-        </Button>
-      </AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{triggerChildren}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
@@ -55,10 +46,16 @@ export function PopupModal({
         </AlertDialogHeader>
         {children}
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={cancelFunction}>
-            {cancelText}
+          <AlertDialogCancel
+            onClick={cancelFunction}
+            id="close"
+            className=" mr-5"
+          >
+            {cancelText || "close"}
           </AlertDialogCancel>
-          <AlertDialogAction onClick={onClick}>{btnText}</AlertDialogAction>
+          <AlertDialogAction onClick={onClick} className="">
+            {btnText}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
