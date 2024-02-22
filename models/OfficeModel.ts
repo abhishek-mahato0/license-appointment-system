@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-type IOffice={
+export type IOffice={
     _id?: string,
     name: string,
     address: string,

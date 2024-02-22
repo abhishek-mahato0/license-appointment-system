@@ -20,7 +20,7 @@ const paymentSchema = new mongoose.Schema<IPayment>({
     amount:{ type:Number, required:true },
     payment_date:{ type:Date, required:true },
     payment_method:{ type:String, required:true },
-    payment_status:{ type:String, required:true },
+    payment_status:{ type:String, required:true, default:"pending" },
     payment_gateway:{ type:String, required:true },
     verifiedBy:{ type:mongoose.Schema.Types.ObjectId,
         ref:'administrator'}

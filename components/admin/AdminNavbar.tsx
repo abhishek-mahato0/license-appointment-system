@@ -53,18 +53,19 @@ export default function AdminNavbar() {
     },
     {
       id: 6,
-      name: "All Appointments",
-      href: "/reschedule",
+      name: "All Appointmemnts",
+      href: "/admin/appointments",
       comp: <BookDown strokeWidth={2} size={17} width={17} />,
-      short: "Reschedule",
+      short: "Appointments",
       params: "",
     },
+
     {
       id: 4,
-      name: "Offices",
+      name: "Transport Offices",
       href: "/admin/offices",
       comp: <ListChecks strokeWidth={2} size={17} width={17} />,
-      short: "Renew",
+      short: "Office",
       params: "",
     },
     {
@@ -86,7 +87,7 @@ export default function AdminNavbar() {
     {
       id: 7,
       name: "Profile Information",
-      href: "/profile",
+      href: "/admin/profile",
       comp: <User strokeWidth={2} size={17} width={17} />,
       short: "Profile",
       params: "",

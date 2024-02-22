@@ -1,9 +1,11 @@
+import dbconnect from "@/lib/dbConnect";
 import { checkAdmins, checkLogin } from "@/lib/userAuth";
 import { MedicalModal } from "@/models/MedicalExamModel";
 import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
 import { Appointment } from "@/models/appointmentsModel";
 import ShowError from "@/utils/ShowError";
+import { convertDate } from "@/utils/convertDate";
 import { NextRequest, NextResponse } from "next/server";
 
 // function switchModel(type:string){
@@ -46,36 +48,53 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, res:NextResponse) {
     try {
-        const date = req.nextUrl.searchParams.get('date');
-        if(!date){
-            return ShowError(400, "No date found. Invalid request");
+        await dbconnect();
+        const status = req.nextUrl.searchParams.get('status');
+        const category = req.nextUrl.searchParams.get('category');
+        let query:any={
         }
-        const user = await checkAdmins(req);
-        if(!user){
-            return ShowError(401, "Unauthorized");
-        }
-        if(user?.role !== "superadmin"){
-            const ans = await Appointment.find({
-                office:{
-                    $in: "Lahan"
-                }
-            }).populate({
+        if(status) query['status'] = status;
+        if(category) query['category'] = category.toUpperCase();
+
+        // const from = req.nextUrl.searchParams.get('from');
+        // const to = req.nextUrl.searchParams.get('to');
+        // const user = await checkAdmins(req);
+        // if(!user){
+        //     return ShowError(401, "Unauthorized");
+        // }
+        // if(user?.role !== "superadmin"){
+            const ans = await Appointment.find(query).populate({
                 path:"medical",
-                model:"medical",
+                model:MedicalModal,
                
             }).populate({
                 path:"written",
-                model:"written",
+                model:WrittenModal,
             
             }).populate({
                 path:"trial",
-                model:"trail"
+                model:TrailModal
             });
             return NextResponse.json(ans, { status: 200 });
-       }
-        const ans = await Appointment.find();
-        return NextResponse.json(ans, { status: 401 });
+       //}
+        //const ans = await Appointment.find();
+        //return NextResponse.json(ans, { status: 401 });
     } catch (error:any) {
         return ShowError(500, error.message)
+    }
+}
+
+export async function PUT(req:NextRequest){
+    try {
+        await dbconnect();  
+        const id = req.nextUrl.searchParams.get('id');
+        if(!id) return ShowError(400, "Id is required");
+        const {status} = await req.json();
+        if(!status) return ShowError(400, "Status is required");
+        const exists = await Appointment.findByIdAndUpdate(id, {biometric: status});
+        return NextResponse.json({message:"Biometric updated successfully"}, {status:200});
+    } catch (error:any) {
+        return ShowError(500, error.message);
+        
     }
 }

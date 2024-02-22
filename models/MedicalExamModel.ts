@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface IMedicalSchema{
+export interface IMedicalSchema{
     _id: string,
     date:string,
     category:string,

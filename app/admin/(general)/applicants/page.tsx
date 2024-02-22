@@ -144,7 +144,6 @@ export const columns: ColumnDef<IUser>[] = [
     accessorKey: "",
     header: "Action",
     cell: ({ row }) => {
-      console.log(row);
       return (
         <div className=" w-full flex items-center gap-5 cursor-pointer text-gray-500">
           <Link href={`applicants/${row.original._id}`}>
