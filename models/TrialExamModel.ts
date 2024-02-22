@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface ITrailSchema{
+export interface ITrailSchema{
     _id: string,
     date:string,
     category:string,
