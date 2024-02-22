@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-
-interface IWrittenSchema{
+export interface IWrittenSchema{
     _id: string,
     date:string,
     category:string,
