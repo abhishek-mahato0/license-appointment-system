@@ -40,7 +40,8 @@ export async function PUT(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
     try {
-        const { id } = await req.json();
+        const id = req.nextUrl.searchParams.get("id");
+        if(!id) return ShowError(400, "Invalid request. Missing id");
         const office = await OfficeModel.findByIdAndDelete(id);
         if (!office) {
             return ShowError(400, "No office found");
