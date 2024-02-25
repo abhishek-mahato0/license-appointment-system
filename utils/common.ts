@@ -31,3 +31,7 @@ export const getmuniciplityName = (id:string | number) => {
         return "Unknown Municipality Code";
     }
 }
+
+export function generateOTP(): string {
+    return Math.floor(1000 + Math.random() * 9000).toString();
+  }
