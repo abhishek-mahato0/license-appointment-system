@@ -6,3 +6,9 @@ export const convertDate = (dateString: Date) => {
   export const capitalizeFirstLetter=(string:string)=> {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+
+  export const getCustomDate=(days:number)=>{
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+    return date;
+  }
