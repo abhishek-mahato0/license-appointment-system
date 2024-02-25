@@ -80,7 +80,7 @@ export async function GET(req:NextRequest,{params}:any) {
         if(!information){
             return ShowError(400, "No information found.");
         }
-        return NextResponse.json(information, {status:200});
+        return NextResponse.json({information, documentStatus:user?.documentVerified}, {status:200});
     }
     catch (error:any) {
         return ShowError(500, error.message);

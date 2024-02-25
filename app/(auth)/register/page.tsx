@@ -31,11 +31,12 @@ export default function page() {
   const registerUser = async (datas: any) => {
     setLoading(true);
     try {
-      if (!profile)
+      if (!profile) {
         return toast({
           title: "Error",
           description: "Please upload a profile picture.",
         });
+      }
       if (datas?.password !== datas?.cpassword) {
         return toast({
           title: "Error",
@@ -58,23 +59,26 @@ export default function page() {
         });
       }
       setLoading(false);
-      redirect("/login");
+      return redirect("/login");
     } catch (error: any) {
+      console.log(error);
       setLoading(false);
       toast({
         title: "Error",
         description: error?.response?.data?.message || "Some error occured",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex w-screen h-screen">
+    <div className="flex w-full h-full">
       <div className=" w-[40%]">
         <Banner />
       </div>
-      <FullFlex className="w-[60%] flex-col bg-[#e3f2ff]">
-        <h1 className=" text-2xl font-semibold pb-4">Register</h1>
+      <FullFlex className="w-[60%] flex-col bg-[#e3f2ff] h-full">
+        <h1 className=" text-2xl font-semibold pb-4 pt-4">Register</h1>
         <form
           onSubmit={handleSubmit((datas) => registerUser(datas))}
           className=" flex flex-col gap-5 w-[70%]"
@@ -91,11 +95,9 @@ export default function page() {
               placeholder="Full Name"
               className=" border-b-2 border-b-custom-100 outline-none w-full p-3 bg-[#e3f2ff]"
             />
-            {errors?.email && (
+            {errors?.name && (
               <p className=" text-xs text-red-600">
-                {errors.email?.type === "required"
-                  ? "Please provide email"
-                  : "Email pattern does not match"}
+                {errors.email?.type === "required" && "Please provide name"}
               </p>
             )}
           </FullFlex>
@@ -115,6 +117,24 @@ export default function page() {
                 {errors.email?.type === "required"
                   ? "Please provide email"
                   : "Email pattern does not match"}
+              </p>
+            )}
+          </FullFlex>
+          <FullFlex className="flex-col items-start">
+            <label>Phone</label>
+            <input
+              {...register("phone", {
+                required: true,
+              })}
+              type="tel"
+              placeholder="Phone Number"
+              className=" border-b-2 border-b-custom-100 outline-none w-full p-3 bg-[#e3f2ff]"
+            />
+            {errors?.phone && (
+              <p className=" text-xs text-red-600">
+                {errors.phone?.type === "required"
+                  ? "Please provide phone number"
+                  : "Phone number should be 10 digits"}
               </p>
             )}
           </FullFlex>

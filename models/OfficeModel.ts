@@ -6,6 +6,7 @@ export type IOffice={
     address: string,
     province: number,
     district: number,
+    createdBy: mongoose.Schema.Types.ObjectId;
 }
 
 const officeSchema = new mongoose.Schema<IOffice>({
@@ -13,6 +14,7 @@ const officeSchema = new mongoose.Schema<IOffice>({
     address:{ type:String, required:true},
     province:{ type:Number, required:true},
     district:{ type:Number, required:true},
+    createdBy:{ type:mongoose.Schema.Types.ObjectId, ref:"administrator", required:true}
 })
 
 export const OfficeModel = mongoose.models.office || mongoose.model<IOffice>("office", officeSchema)

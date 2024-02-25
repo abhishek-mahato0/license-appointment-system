@@ -11,6 +11,7 @@ type PersionalInformation={
     bloodGroup?:string,
     guardiansname?:string,
     guardiansrelation?:string,
+    documentStatus?:{}
 }
 type Addressess={
     province?:string,

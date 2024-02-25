@@ -1,8 +1,7 @@
 "use client";
 import { useAppSelector } from "@/redux/TypedHooks";
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
-import AlertComponent from "@/components/common/shadcn/Alert";
 import SelectDateAndTime from "../_components/SelectDateAndTime";
 
 export default function page() {

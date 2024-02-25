@@ -14,7 +14,7 @@ import { Button } from "../ui/button";
 type TPopupModal = {
   btnclassNames?: string;
   children: React.ReactNode;
-  btnText: string;
+  btnText?: string;
   title: string;
   triggerChildren: any;
   onClick: () => void;
@@ -49,7 +49,7 @@ export function PopupModal({
           <AlertDialogCancel
             onClick={cancelFunction}
             id="close"
-            className=" mr-5"
+            className={btnclassNames ? btnclassNames : " mr-5"}
           >
             {cancelText || "close"}
           </AlertDialogCancel>

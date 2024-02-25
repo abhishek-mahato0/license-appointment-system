@@ -3,20 +3,25 @@ import { User } from "@/models/userModel";
 import ShowError from "@/utils/ShowError";
 import { generateToken } from "@/utils/generateToken";
 import { sendMail } from "@/utils/sendTokenEmail";
+import { uploadPicture } from "@/utils/uploadPicture";
 import bcrypt from 'bcryptjs';
 import { NextRequest, NextResponse } from "next/server";
  
 export async function POST(req: NextRequest) {
     await dbconnect();
     try {
-      const {email,password,name}  = await req.json();
+      const {email,password,name, phone, avatar}  = await req.json();
      
-      if( !email || !password || ! name){
+      if( !email || !password || ! name || !phone || !avatar){
         return ShowError(400,"Missing Fields")
       }
-      const exists = await User.findOne({email});
-      if(exists){
+      const exists = await User.find({$or:[ {email:email}, {phone:phone}]});
+      if(exists.length > 0){
         return ShowError(400,"User already exists.")
+      }
+      const avatarUrl = await uploadPicture(avatar, "profile", email)
+      if(!avatarUrl?.url){
+        return ShowError(400,"Some error occured while uploading picture.")
       }
       let hashpassword = bcrypt.hashSync(password,10);
       if(!hashpassword){
@@ -28,13 +33,12 @@ export async function POST(req: NextRequest) {
       }
      
       const user = new User({
-        name,email, password:hashpassword, token, isverifiedByEmail: true,
+        name,email, password:hashpassword, token, isverifiedByEmail: true, phone, avatar:avatarUrl?.url
       })
       
       if(!user){
         return ShowError(400,"User not created.")
       }
-      
       await user.save();
      
       // await sendMail(user.email,token,user._id.toString())
@@ -42,11 +46,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({message:"User created successfully."}, {status:201})
         
     } catch (error:any) {
-        ShowError(400,error?.message)
+      return ShowError(400,error?.message)
     }
 }
-   
-   
 
 
 export const config = {

@@ -17,29 +17,6 @@ import {
 } from "@/components/ui/popover";
 import { CheckIcon, ChevronDown } from "lucide-react";
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
-
 type SearchSelectProps = {
   data: { value: string; label: string }[];
   placeholder?: string;
@@ -57,8 +34,7 @@ export function SearchSelect({
 }: SearchSelectProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
-  const [list, setList] = React.useState(data);
-
+  //const [list, setList] = React.useState(data);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -69,7 +45,7 @@ export function SearchSelect({
           className={cn("w-full", btnclassName)}
         >
           {value
-            ? list.find(
+            ? data.find(
                 (framework) =>
                   framework.value.toLowerCase().includes(value.toLowerCase()) ||
                   framework.label.toLowerCase().includes(value.toLowerCase())
@@ -83,7 +59,7 @@ export function SearchSelect({
           <CommandInput placeholder={placeholder} className="h-9" />
           <CommandEmpty>No items found.</CommandEmpty>
           <CommandGroup>
-            {list.map((framework) => (
+            {data.map((framework) => (
               <CommandItem
                 key={framework.value}
                 value={framework.value}
@@ -93,7 +69,6 @@ export function SearchSelect({
                   setOpen(false);
                 }}
               >
-                <span className=" pr-3">{framework.value}. </span>
                 {framework.label}
                 <CheckIcon
                   className={cn(

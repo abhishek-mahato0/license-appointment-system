@@ -7,27 +7,31 @@ import { useToast } from "@/components/ui/use-toast";
 import { adminLogin } from "@/utils/checkLogin";
 import { Eye, EyeOff } from "lucide-react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function page() {
   const { toast } = useToast();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const handleLogin = async (data: any) => {
+  const handleLogin = async (formdata: any) => {
     setLoading(true);
     try {
-      const { success, message, data } = await adminLogin();
+      const { success, message, data } = await adminLogin(formdata);
       if (success) {
         toast({
           title: "Success",
           description: message,
+          variant: "success",
         });
+        router.push("/admin/dashboard");
         await signIn("credentials", {
-          id: data.user._id,
+          id: data._id,
           email: data?.username,
           token: data?.token,
           role: data?.role,
@@ -36,19 +40,24 @@ export default function page() {
         localStorage.setItem(
           "userInfo",
           JSON.stringify({
-            id: data.user._id,
+            id: data._id,
             email: data?.username,
             token: data?.token,
             role: data?.role,
             redirect: false,
           })
         );
+        return;
       }
-      toast({
+      return toast({
         title: "Error",
-        description: data.message,
+        description: message,
       });
-    } catch (error) {
+    } catch (error: any) {
+      return toast({
+        title: "Error",
+        description: error?.response?.data.message,
+      });
     } finally {
       setLoading(false);
     }

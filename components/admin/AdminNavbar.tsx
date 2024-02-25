@@ -18,7 +18,6 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useCookies } from "next-client-cookies";
 
 type DropLinks = {
   id: number;
@@ -54,7 +53,7 @@ export default function AdminNavbar() {
     {
       id: 6,
       name: "All Appointmemnts",
-      href: "/admin/appointments",
+      href: "/admin/appointment",
       comp: <BookDown strokeWidth={2} size={17} width={17} />,
       short: "Appointments",
       params: "",
@@ -111,7 +110,6 @@ export default function AdminNavbar() {
       })
     );
   }, [location, params]);
-  const token = useCookies();
   return (
     <div
       className={`${
@@ -185,7 +183,6 @@ export default function AdminNavbar() {
               <LogOut
                 className=" cursor-pointer"
                 onClick={() => {
-                  token.remove("token");
                   signOut();
                   localStorage.removeItem("userInfo");
                 }}

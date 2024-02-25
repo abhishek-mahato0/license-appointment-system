@@ -55,7 +55,7 @@ export async function GET(req: NextRequest) {
         };
       });
       shifts.forEach(shift => {
-        const existingShift = newData.find(item => item.name === shift);
+        const existingShift = newData.find((item:any) => item.name === shift);
         if (!existingShift) {
           const missingShift = {
             name: shift,

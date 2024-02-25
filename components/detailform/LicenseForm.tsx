@@ -13,7 +13,6 @@ import { useRouter } from "next/navigation";
 import { apiinstance } from "@/services/Api";
 import { useSession } from "next-auth/react";
 import { Updatelocalstorage } from "@/utils/Updatelocalstorage";
-import { MultiSelect } from "react-multi-select-component";
 import Select from "react-select";
 import { customStyles } from "../common/MultiselectStyles";
 

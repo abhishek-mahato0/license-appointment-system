@@ -10,6 +10,11 @@ export interface IUser{
     email:string,
     password:string,
     isverifiedByEmail:boolean,
+    documentVerified?:{
+        status:boolean,
+        message:string
+    },
+    phone:string,
     role?:string,
     token?:string,
     forgotPasswordtoken:string
@@ -34,10 +39,15 @@ const userSchema =new mongoose.Schema<IUser>({
         type:String,
         required:true
     },
+    phone:{
+        type:String,
+        required:true
+    },
     isverifiedByEmail:{
         type:Boolean,
         default:false
     },
+    avatar:{ type:String, required:true},
     role:{
         type:String,
         required:true,
@@ -60,7 +70,17 @@ const userSchema =new mongoose.Schema<IUser>({
     hasApplied:{
         type:Boolean,
         default:false
-    } 
+    },
+    documentVerified:{
+        status:{
+            type:Boolean,
+            default:false
+        },
+        message:{
+            type:String,
+            default:''
+        }
+    },
 });
 
 export const User =mongoose.models.user || mongoose.model('user', userSchema)

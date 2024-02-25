@@ -12,6 +12,7 @@ import { increaseOccupancy } from "@/utils/updateDashLog";
 import { MedicalModal } from "@/models/MedicalExamModel";
 import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
+import { checkLogin } from "@/lib/userAuth";
 
 function checkIfFailedForThreeTimes(id:string){
 
@@ -136,6 +137,8 @@ async function updateDashLog( category:string, date:string,office:string, type:s
 }
 export async function POST(req:NextRequest){
     try {
+        const isLogged = await checkLogin(req)
+        if(!isLogged) return ShowError(400, 'Please login to continue');
         const {userId, selectedCat,selectedProv,selectedOffice,medicalExamination,writtenExamination,trialExamination} = await req.json();
         if(!userId) return ShowError(400, 'User not found');
         if(!selectedCat || !selectedProv || !selectedOffice || !medicalExamination.date || !writtenExamination.date || !trialExamination.date || !medicalExamination.shift || !writtenExamination.shift || ! trialExamination.shift) return ShowError(400, 'Please fill all the fields')
@@ -155,14 +158,18 @@ export async function POST(req:NextRequest){
         //check iof the person has failed for three times in any appointment
 
         const medical = await new MedicalModal({
+            tracking_id:isLogged.phone,
+            user_id:isLogged._id,
             category: selectedCat,
             office:selectedOffice,
             date:medicalExamination.date,
             status:"pending",
-            shift:medicalExamination.shift            
+            shift:medicalExamination.shift          
         })
         await medical.save();
         const trial = await new TrailModal({
+            tracking_id:isLogged?.phone,
+            user_id:isLogged._id,
             category: selectedCat,
             office:selectedOffice,
             date:trialExamination.date,
@@ -171,6 +178,8 @@ export async function POST(req:NextRequest){
         })
         await trial.save();
         const written = await new WrittenModal({
+            tracking_id:isLogged?.phone,
+            user_id:isLogged._id,
             category: selectedCat,
             office:selectedOffice,
             date:writtenExamination.date,
@@ -180,6 +189,8 @@ export async function POST(req:NextRequest){
         await written.save();
 
         const appointment = await new Appointment({
+            tracking_id:isLogged?.phone,
+            user_id:userId,
             category:selectedCat,
             type:await checkType(userId),
             bookDate: convertDate(new Date()),

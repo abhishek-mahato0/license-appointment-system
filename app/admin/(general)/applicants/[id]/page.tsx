@@ -57,18 +57,26 @@ export default function page() {
 
               <div className="w-[75%] flex items-start justify-between">
                 <div className="w-full flex flex-col items-start justify-between gap-2">
-                  {informationJsonData.map((ele, index) => (
-                    <div key={index} className="w-full flex items-start gap-4">
-                      <div className="w-[20%] text-gray-500">{ele.name}</div>
-                      <div className=" text-gray-700">
-                        {data?.information_id[ele?.value]
-                          ? ele?.value === "DOB"
-                            ? convertDate(data?.information_id[ele?.value])
-                            : data?.information_id[ele?.value]
-                          : "N/A"}
+                  {data?.information_id !== "none" &&
+                  data?.information_id.hasOwnProperty("_id") ? (
+                    informationJsonData.map((ele, index) => (
+                      <div
+                        key={index}
+                        className="w-full flex items-start gap-4"
+                      >
+                        <div className="w-[20%] text-gray-500">{ele.name}</div>
+                        <div className=" text-gray-700">
+                          {data?.information_id[ele?.value]
+                            ? ele?.value === "DOB"
+                              ? convertDate(data?.information_id[ele?.value])
+                              : data?.information_id[ele?.value]
+                            : "N/A"}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    <p>No information uploaded yet</p>
+                  )}
                 </div>
                 <Button>Verify Profile</Button>
               </div>
@@ -77,42 +85,62 @@ export default function page() {
           <div className="w-full flex flex-col gap-4 bg-custom-50 px-6 py-5">
             <Outline title="Temporary Address">
               <div className=" grid grid-cols-3 gap-y-3">
-                {temporaryaddressData.map((ele, index) => (
-                  <div className="flex flex-col" key={ele.id}>
-                    <p>{capitalizeFirstLetter(ele.name)}</p>
-                    <p>{data?.information_id?.permanent_address[ele.name]}</p>
-                  </div>
-                ))}
+                {data?.information_id !== "none" &&
+                data?.information_id.hasOwnProperty("permanent_address") ? (
+                  temporaryaddressData.map((ele, index) => (
+                    <div className="flex flex-col" key={ele.id}>
+                      <p>{capitalizeFirstLetter(ele.name)}</p>
+                      <p>{data?.information_id?.permanent_address[ele.name]}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No address information yet.</p>
+                )}
               </div>
             </Outline>
             <Outline title="Permanent Address">
               <div className=" grid grid-cols-3">
-                {temporaryaddressData.map((ele, index) => (
-                  <div className="flex flex-col gap-3" key={ele.id}>
-                    <p>{capitalizeFirstLetter(ele.name)}</p>
-                    <p>{data?.information_id?.temporary_address[ele.name]}</p>
-                  </div>
-                ))}
+                {data?.information_id !== "none" &&
+                data?.information_id.hasOwnProperty("temporary_address") ? (
+                  temporaryaddressData.map((ele, index) => (
+                    <div className="flex flex-col gap-3" key={ele.id}>
+                      <p>{capitalizeFirstLetter(ele.name)}</p>
+                      <p>{data?.information_id?.temporary_address[ele.name]}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p> No temporary address uploaded yet.</p>
+                )}
               </div>
             </Outline>
             <Outline title="Citizenship Information">
               <div className=" grid grid-cols-3">
-                {citizenshipJsonData.map((ele, index) => (
-                  <div className="flex flex-col gap-3" key={ele.id}>
-                    <p>{capitalizeFirstLetter(ele.name)}</p>
-                    <p>{data?.citizenship_id.citizenship[ele.value]}</p>
-                  </div>
-                ))}
+                {data?.citizenship_id !== "none" &&
+                data?.citizenship_id.hasOwnProperty("user_id") ? (
+                  citizenshipJsonData?.map((ele, index) => (
+                    <div className="flex flex-col gap-3" key={ele.id}>
+                      <p>{capitalizeFirstLetter(ele.name)}</p>
+                      <p>{data?.citizenship_id.citizenship[ele.value]}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No citizenship uploaded yet</p>
+                )}
               </div>
             </Outline>
             <Outline title="License Information">
               <div className=" grid grid-cols-3">
-                {licenseJsonData.map((ele, index) => (
-                  <div className="flex flex-col gap-3" key={ele.id}>
-                    <p>{capitalizeFirstLetter(ele.name)}</p>
-                    <p>{data?.license_id?.license[ele.value]}</p>
-                  </div>
-                ))}
+                {data?.license_id !== "none" &&
+                data?.license_id.hasOwnProperty("user_id") ? (
+                  licenseJsonData?.map((ele, index) => (
+                    <div className="flex flex-col gap-3" key={ele.id}>
+                      <p>{capitalizeFirstLetter(ele.name)}</p>
+                      <p>{data?.license_id?.license[ele.value]}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No license uploaded yet.</p>
+                )}
               </div>
             </Outline>
           </div>

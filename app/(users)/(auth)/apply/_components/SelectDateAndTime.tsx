@@ -2,7 +2,6 @@
 
 import Outline from "@/components/common/FormDetail/Outline";
 import Loader from "@/components/common/Loader";
-import { Searchselect } from "@/components/common/Searchselect";
 import { DatePicker } from "@/components/common/SelectDate";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 import { Button } from "@/components/ui/button";
@@ -14,7 +13,7 @@ import {
   setWrittenInfo,
 } from "@/redux/slices/applynewSlice";
 import { apiinstance } from "@/services/Api";
-import { convertDate } from "@/utils/convertDate";
+import { convertDate, getCustomDate } from "@/utils/convertDate";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -40,15 +39,15 @@ export default function SelectDateAndTime() {
     (state: any) => state.applynew
   );
   const [medical, setMedical] = useState<Tdata>({
-    date: new Date(),
+    date: getCustomDate(7),
     shift: "morning",
   });
   const [written, setWritten] = useState<Tdata>({
-    date: new Date(),
+    date: getCustomDate(8),
     shift: "morning",
   });
   const [trial, setTrial] = useState<Tdata>({
-    date: new Date(),
+    date: getCustomDate(9),
     shift: "morning",
   });
 
