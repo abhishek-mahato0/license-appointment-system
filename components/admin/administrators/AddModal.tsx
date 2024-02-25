@@ -1,9 +1,14 @@
 "use client";
-import React from "react";
+import React, { use, useState } from "react";
 import { PopupModal } from "@/components/common/PopupModal";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { officeList, provinces } from "@/components/data/ProvinceList";
+import { provinces } from "@/components/data/ProvinceList";
+import { MultiSelect } from "react-multi-select-component";
+import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
+import { Toffice } from "@/redux/slices/officeListSlice";
+import Select from "react-select";
+import { customStyles } from "@/components/common/MultiselectStyles";
 export default function AddModal({
   defaultValues,
   onSubmit,
@@ -13,7 +18,10 @@ export default function AddModal({
   const { register, handleSubmit, getValues, watch } = useForm({
     defaultValues,
   });
-
+  const { officeList, loading, error } = useAppSelector(
+    (state) => state.officeList
+  );
+  const [selectedOffice, setSelectedOffice] = useState<any>([]);
   return (
     <PopupModal
       title="Add Administrator"
@@ -23,8 +31,14 @@ export default function AddModal({
       onClick={() => {}}
     >
       <form
-        className="w-full flex flex-col gap-4"
-        onSubmit={handleSubmit((data) => onSubmit(data))}
+        className="w-full flex flex-col gap-3"
+        onSubmit={handleSubmit((data) => {
+          const payload = {
+            ...data,
+            office: selectedOffice?.map((item: any) => item.value),
+          };
+          onSubmit(payload);
+        })}
       >
         <div className="flex flex-col gap-2">
           <label htmlFor="name">Name</label>
@@ -86,9 +100,26 @@ export default function AddModal({
             ))}
           </select>
         </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="province">Office</label>
-          <select
+        {!loading && officeList.length > 0 && (
+          <div className="flex flex-col gap-2">
+            <label htmlFor="province">Office</label>
+            <Select
+              options={officeList
+                ?.filter(
+                  (ele: Toffice) => ele.province == getValues("province")
+                )
+                .map((ele: Toffice) => ({
+                  label: ele.name,
+                  value: ele?._id || "value",
+                }))}
+              value={selectedOffice}
+              onChange={setSelectedOffice}
+              isMulti
+              className=" py-1 rounded-[6px] w-[90%] bg-custom-50 z-50"
+              classNamePrefix={"select"}
+              styles={customStyles}
+            />
+            {/* <select
             id="office"
             required
             {...register("office")}
@@ -103,7 +134,19 @@ export default function AddModal({
                   </option>
                 );
               })}
-          </select>
+          </select> */}
+          </div>
+        )}
+        <div className="flex gap-2 items-center justify-start">
+          <input
+            type="checkbox"
+            id="send"
+            {...register("send")}
+            className=" p-3 h-5 w-9"
+          />
+          <label htmlFor="send">
+            Send Credentials to user with above email.
+          </label>
         </div>
         <Button type="submit" className=" absolute bottom-6 right-4">
           Add

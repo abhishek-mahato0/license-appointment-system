@@ -9,13 +9,13 @@ import { IWrittenSchema } from "@/models/WrittenExamModel";
 import { IPayment } from "@/models/paymentModel";
 import { apiinstance } from "@/services/Api";
 import { convertDate } from "@/utils/convertDate";
-import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import EditModal from "./EditModal";
 import FilterModal from "./FilterModal";
 import { ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
 import SearchInput from "@/components/common/SearchInput";
+import { ColumnDef } from "@tanstack/react-table";
 
 type AppointmentColumn = {
   _id?: string;

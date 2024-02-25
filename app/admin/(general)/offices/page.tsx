@@ -10,9 +10,11 @@ import { apiinstance } from "@/services/Api";
 import { getDistrictName, getProvinceName } from "@/utils/common";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp, Pencil, Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 export default function page() {
+  const router = useRouter();
   const [data, setData] = React.useState<IOffice[]>([]);
   const { toast } = useToast();
   const [searchText, setSearchText] = React.useState("");
@@ -20,7 +22,7 @@ export default function page() {
 
   async function editOffice(id: string, data: IOffice) {
     try {
-      const res = await apiinstance.put("/admin/office", {
+      const res = await apiinstance.put("/admin/offices", {
         id,
         content: data,
       });
@@ -35,19 +37,26 @@ export default function page() {
       }
       return toast({
         title: "Error",
-        description: res.data.message || "Something went wrong",
+        description: res?.data?.message || "Something went wrong",
       });
     } catch (error: any) {
+      // if (error?.response?.status === 401) {
+      //   router.push("/admin/login");
+      //   return toast({
+      //     title: "Error",
+      //     description: error?.response?.data?.message,
+      //   });
+      // }
       return toast({
         title: "Error",
-        description: error.message,
+        description: "Error",
       });
     }
   }
 
   async function deleteOffice(id: string) {
     try {
-      const res = await apiinstance.delete(`/admin/office/?id=${id}`);
+      const res = await apiinstance.delete(`/admin/offices/?id=${id}`);
       if (res.status === 200) {
         toast({
           title: "Success",
@@ -177,8 +186,8 @@ export default function page() {
 
   async function addOffice(data: IOffice) {
     try {
-      const res = await apiinstance.post("/admin/office", data);
-      if (res.status === 200) {
+      const res = await apiinstance.post("/admin/offices", data);
+      if (res.status === 201) {
         toast({
           title: "Success",
           description: "Office added successfully",
@@ -193,14 +202,14 @@ export default function page() {
     } catch (error: any) {
       return toast({
         title: "Error",
-        description: error.message,
+        description: error?.response?.data.message || "Something went wrong",
       });
     }
   }
-
   async function fetchOffices() {
     try {
-      const res = await apiinstance.get("/admin/office");
+      const res = await apiinstance.get("/admin/offices");
+
       if (res.status === 200) {
         return setData(res.data);
       }
@@ -211,16 +220,17 @@ export default function page() {
     } catch (error: any) {
       return toast({
         title: "Error",
-        description: error.message,
+        description: error?.response?.data.message,
       });
     }
   }
   useEffect(() => {
     fetchOffices();
   }, []);
+
   useEffect(() => {
     if (!data) return;
-    if (searchText) {
+    if (searchText.length > 2) {
       const filtered = data?.filter((office) => {
         return (
           office.name.toLowerCase().includes(searchText.toLowerCase()) ||

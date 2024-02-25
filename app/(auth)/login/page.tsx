@@ -10,6 +10,7 @@ import { apiinstance } from "@/services/Api";
 import Loader from "@/components/common/Loader";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import ForgetPassword from "@/components/common/ForgetPassword";
 
 export default function page() {
   const router = useRouter();
@@ -66,6 +67,24 @@ export default function page() {
       });
     }
   };
+
+  async function handleForgetPassword(data: any) {
+    try {
+      const res = await apiinstance.post("user/verify/forget", data);
+      if (res.status == 200) {
+        return toast({
+          title: "Success",
+          description: res.data.message,
+          variant: "success",
+        });
+      }
+    } catch (error: any) {
+      return toast({
+        title: "Error",
+        description: error?.response?.data?.message || "Some error occured",
+      });
+    }
+  }
   return (
     <div className="flex w-screen h-screen">
       <div className=" w-[40%]">
@@ -131,11 +150,16 @@ export default function page() {
             )}
           </FullFlex>
           <FullFlex className="w-full justify-end">
-            <Links
-              href="/forgot"
-              name="Forgot Password?"
-              className=" text-custom-100 text-[13px] hover:underline"
-            ></Links>
+            <ForgetPassword
+              triggerChildren={
+                <Links
+                  href="?type=forget"
+                  name="Forgot Password?"
+                  className=" text-custom-100 text-[13px] hover:underline"
+                ></Links>
+              }
+              onSubmit={(data) => handleForgetPassword(data)}
+            />
           </FullFlex>
           <FullFlex className="w-full">
             {loading ? (

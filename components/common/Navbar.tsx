@@ -16,12 +16,7 @@ import {
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import {
-  usePathname,
-  useRouter,
-  useParams,
-  useSearchParams,
-} from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 type DropLinks = {
@@ -74,7 +69,7 @@ export default function Navbar() {
     {
       id: 5,
       name: "Prepare For Examinations",
-      href: "/prepare",
+      href: "/prepare?page=1",
       comp: <BookOpen strokeWidth={2} size={17} width={17} />,
       short: "Exam",
       params: "",
@@ -118,7 +113,7 @@ export default function Navbar() {
     <div
       className={`${
         showfull ? "w-[280px]" : "w-[90px]"
-      } flex flex-col bg-white text-customtext-100 items-start justify-between border-r-[1px] shadow-md h-full duration-150 ease-in-out`}
+      } flex flex-col bg-white text-customtext-100 items-start justify-between border-r-[1px] shadow-md h-full duration-150 ease-in-out `}
       onMouseEnter={() => setShowfull(true)}
       onMouseLeave={() => setShowfull(false)}
     >
@@ -186,9 +181,9 @@ export default function Navbar() {
             {showfull && (
               <LogOut
                 className=" cursor-pointer"
-                onClick={() => {
-                  signOut();
+                onClick={async () => {
                   localStorage.removeItem("userInfo");
+                  signOut();
                 }}
               />
             )}

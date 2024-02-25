@@ -46,7 +46,7 @@ export default function FilterModal({ onsubmit }: FilterModalProps) {
   const [status, setStatus] = React.useState("pending");
 
   return (
-    <div className=" w-full items-end justify-end px-4 py-2 flex flex-col z-50 relative">
+    <div className=" w-[50%] items-end justify-end px-4 py-2 flex flex-col z-50 relative">
       <Button onClick={() => setOpen(!open)}>Filter</Button>
       <div
         className={`${

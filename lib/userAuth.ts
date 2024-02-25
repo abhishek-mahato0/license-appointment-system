@@ -10,9 +10,9 @@ export const checkLogin=async( req:NextRequest )=>{
             return null;
         }
         if(token?.value){
-           const user:any = await jwt.verify(token.value, process.env.JWT_SECRET as string);
-           if(JSON.parse(user)._id){
-             const exists = await User.findById(JSON.parse(user)?._id);
+           const user:any = jwt.verify(token?.value, process.env.JWT_SECRET as string);
+           if(user._id){
+             const exists = await User.findById(user?._id);
              if(exists){
                 return exists;
              }
@@ -34,8 +34,9 @@ export const checkAdmins=async( req:NextRequest )=>{
         }
         if(token?.value){
            const user:any = jwt.verify(token.value, process.env.JWT_SECRET as string);
-           if(JSON.parse(user)._id){
-             const exists = await Administrator.findById(JSON.parse(user)?._id.toString());
+           if(user?._id){
+             const exists = await Administrator.findById(user._id);
+            
              if(exists){
                 return exists;
              }

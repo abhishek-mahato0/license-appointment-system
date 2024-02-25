@@ -1,11 +1,8 @@
 "use client";
-import FullFlex from "@/components/common/Fullflex";
 import { PopupModal } from "@/components/common/PopupModal";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 import { Button } from "@/components/ui/button";
-import { Select } from "@/components/ui/select";
 import React from "react";
-import { useForm } from "react-hook-form";
 
 type EditModalProps = {
   title: string;

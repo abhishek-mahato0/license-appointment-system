@@ -9,6 +9,7 @@ export interface IAdministrator {
     province: number;
     office: Array< mongoose.Schema.Types.ObjectId>;
     forgetPasswordToken?: string;
+    createdBy:mongoose.Schema.Types.ObjectId
 }
 
 const schema = new mongoose.Schema<IAdministrator>({
@@ -17,12 +18,15 @@ const schema = new mongoose.Schema<IAdministrator>({
     password: { type: String, required: true },
     role: { type: String, required: true, enum: ['admin', 'superadmin',"editor"]},
     province: { type: Number, required: true },
-    office:{
-        type:[mongoose.Schema.Types.ObjectId],
+    office:[
+        {
+        type: mongoose.Schema.Types.ObjectId,
         ref:"office",
         required: true
-    },
-    forgetPasswordToken: { type: String, required: false }
+        }
+    ],
+    forgetPasswordToken: { type: String, required: false },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "administrator" }
 })
 
 export const Administrator = mongoose.models.administrator || mongoose.model<IAdministrator>("administrator", schema);

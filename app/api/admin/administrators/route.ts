@@ -1,4 +1,5 @@
 import dbconnect from "@/lib/dbConnect";
+import { checkAdmins } from "@/lib/userAuth";
 import { Administrator } from "@/models/AdministratorsModel";
 import ShowError from "@/utils/ShowError"
 import { NextRequest, NextResponse } from "next/server";
@@ -6,7 +7,13 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req:NextRequest){
     try {
         await dbconnect();
-        const users = await Administrator.find().select('-password');
+        const users = await Administrator.find().select('-password').populate(
+            {
+                path: 'createdBy',
+                model :Administrator,
+                select: 'name'
+            }
+        ).populate('office');
         if(!users){
             return ShowError(400, "No users found");
         }
@@ -18,7 +25,7 @@ export async function GET(req:NextRequest){
     }
 }
 
-export async function PUT(req:NextRequest){
+export async function PATCH(req:NextRequest){
     try {
         await dbconnect();
         const {id, content} = await req.json();
@@ -49,12 +56,17 @@ export async function DELETE(req:NextRequest, {params}:any){
 export async function POST(req:NextRequest){
     try {
         await dbconnect();
+        const loggedUser = await checkAdmins(req);
+        
+        if(!loggedUser || loggedUser.role !== "superadmin"){
+            return ShowError(401, "Unauthorized. Login Again.");
+        }
         const {name, username, password, role, province, office} = await req.json();
         const exists = await Administrator.findOne({username});
         if(exists){
             return ShowError(400, "User already exists");
         }
-        const user = await Administrator.create({name,username, password, role, province, office});
+        const user = await Administrator.create({name,username, password, role, province, office, createdBy: loggedUser._id});
         if(!user){
             return ShowError(400, "No user found");
         }

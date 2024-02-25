@@ -14,7 +14,7 @@ export default function RootLayout({
       <h1 className=" w-full text-xl text-custom-150 font-bold">
         Apply For New License
       </h1>
-      <div className=" w-[80%] h-[90%] gap-5 flex flex-col bg-custom-50 p-5 rounded-sm shadow-sm">
+      <div className="w-[95%] h-[90%] gap-5 flex flex-col bg-custom-50 p-5 rounded-sm shadow-sm">
         <ProgressBar data={applyProgressData} barstate={barState} />
         {children}
       </div>

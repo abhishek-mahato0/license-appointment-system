@@ -1,4 +1,5 @@
 import dbconnect from "@/lib/dbConnect";
+import { checkAdmins} from "@/lib/userAuth";
 import { Citizenship } from "@/models/citizenshipModel";
 import { Information } from "@/models/informationModel";
 import { License } from "@/models/licenseModel";
@@ -9,22 +10,61 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest,{params}:any) {
     try {
         await dbconnect();
-        const users = await User.findById(params.id).select("-password").populate({
-        path: 'citizenship_id',
-        model: Citizenship
-        }).populate({
-        path: 'license_id',
-        model: License
-        }).populate({
-        path: 'information_id',
-        model: Information
-        });
-        if (!users) {
-        return ShowError(400, "No users found");
+        const loggedUser = await checkAdmins(req);
+        if (!loggedUser) {
+            return ShowError(401, "Login Again.");
         }
-        return NextResponse.json(users, {
-        status: 200
-        });
+        if(loggedUser.role !== "superadmin"){
+            return ShowError(401, "Unauthorized page.");
+        }
+        const exists = await User.findById(params.id);
+        if(!exists){
+            return ShowError(400, "User does not exist");
+        }
+        if(exists.license_id !="none" && exists.citizenship_id !="none" && exists.information_id !="none"){
+            const users = await User.findById(params.id).select("-password").populate({
+                path: 'citizenship_id',
+                model: Citizenship
+                }).populate({
+                path: 'license_id',
+                model: License
+                }).populate({
+                path: 'information_id',
+                model: Information
+                });
+                if (!users) {
+                    return ShowError(400, "No users found");
+                }
+                return NextResponse.json(users, {
+                status: 200
+                });
+        }else if(exists.license_id ==="none" && exists.citizenship_id ==="none" && exists.information_id !=="none"){
+            const users = await User.findById(params.id).select("-password").populate({
+                path: 'information_id',
+                model: Information
+                });
+                if (!users) {
+                    return ShowError(400, "No users found");
+                }
+                return NextResponse.json(users, {
+                status: 200
+                });
+        }else if( exists.license_id ==="none" && exists.citizenship_id !=="none" && exists.information_id !== "none"){
+            const users = await User.findById(params.id).select("-password").populate({
+                path: 'citizenship_id',
+                model: Citizenship
+                }).populate({
+                path: 'information_id',
+                model: Information
+                });
+                if (!users) {
+                    return ShowError(400, "No users found");
+                }
+                return NextResponse.json(users, {
+                status: 200
+                });
+        }
+       return NextResponse.json(exists, {status:200});
     } catch (error: any) {
         return ShowError(500, error.message);
     }

@@ -13,9 +13,13 @@ export interface IAppointment{
     medical: Array< mongoose.Schema.Types.ObjectId>,
     trial: Array<mongoose.Schema.Types.ObjectId>,
     written: Array<mongoose.Schema.Types.ObjectId>,
+    tracking_id:string;
+    user_id:mongoose.Schema.Types.ObjectId;
 }
 
 const appointmentSchema = new mongoose.Schema<IAppointment>({
+    user_id:{ type:mongoose.Schema.Types.ObjectId, ref:"user", required:true },
+    tracking_id:{ type:String, required:true },
     category:{ type:String, required:true },
     bookDate:{ type:Date, required:true },
     type:{ type:String, required:true },

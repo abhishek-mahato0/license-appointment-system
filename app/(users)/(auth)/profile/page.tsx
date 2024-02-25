@@ -13,6 +13,7 @@ import {
   personalData,
   temporaryaddressData,
 } from "@/components/detailform/FormData";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch } from "@/redux/TypedHooks";
 import {
@@ -57,7 +58,7 @@ export default function page() {
           permanent_address,
           temporary_address,
           ...others
-        } = data;
+        } = data?.information;
         dispatch(
           setAddressInformation({
             permanentAddress: permanent_address,
@@ -76,6 +77,7 @@ export default function page() {
             bloodgroup: others.blood_group,
             guardiansname: guardian_name.name,
             guardiansrelation: guardian_name.relation,
+            documentStatus: data?.documentStatus,
           })
         );
       } else {
@@ -144,7 +146,23 @@ export default function page() {
       </h1>
       <div className=" w-[95%] flex flex-col gap-5 bg-custom-50 px-8 py-5">
         <Outline title="Personal Information">
-          <div className=" w-full items-center flex justify-end">
+          <div className=" w-full items-center flex justify-between">
+            <div className="flex gap-2">
+              {personalInformation?.documentStatus?.status !== true ? (
+                <div className=" flex gap-2">
+                  <Badge variant="secondary">Pending</Badge>
+                  {personalInformation?.documentStatus?.message && (
+                    <p className=" text-red-500">
+                      Message: {personalInformation?.documentStatus?.message}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className=" flex gap-2">
+                  <Badge variant="success">Verified</Badge>
+                </div>
+              )}
+            </div>
             {Object.keys(personalInformation).length > 0 && (
               <PersonalEditForm personalInformation={personalInformation} />
             )}
