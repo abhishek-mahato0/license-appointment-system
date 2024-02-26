@@ -14,6 +14,7 @@ export default function page() {
   );
   const [question2, setQuestion2] = useState<any>(signQues.slice(s, s + 5));
   const questions = question1.concat(question2);
+  console.log(questions);
 
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
   const [showYellow, setShowYellow] = useState<string>("");
@@ -41,7 +42,11 @@ export default function page() {
       <h1 className=" text-2xl font-bold text-custom-150">Play Quiz</h1>
       <PopupModal
         btnclassNames=" hidden"
-        triggerText="rtr"
+        triggerChildren={
+          <p id="popover" className=" hidden">
+            Popover
+          </p>
+        }
         btnText="Play Again"
         cancelFunction={() =>
           router.push(`prepare?category=A&type=sign&page=1`)

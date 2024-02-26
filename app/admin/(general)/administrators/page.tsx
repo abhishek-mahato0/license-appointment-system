@@ -10,7 +10,7 @@ import { fetchOffices } from "@/redux/slices/officeListSlice";
 import { apiinstance } from "@/services/Api";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp, Eye, Pencil, Trash } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 interface IAdministrator {
   _id?: string;
   name: string;
@@ -24,9 +24,10 @@ interface IAdministrator {
 }
 
 export default function page() {
-  const [data, setData] = React.useState([]);
-  const [searchText, setSearchText] = React.useState("");
-  const [filteredData, setFilteredData] = React.useState([]);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const handleEdit = async (data: any) => {
@@ -78,6 +79,7 @@ export default function page() {
   };
   async function fetchAdmins() {
     try {
+      setLoading(true);
       const res = await apiinstance.get("/admin/administrators");
       if (res.status === 200) {
         return setData(res.data);
@@ -88,6 +90,8 @@ export default function page() {
         title: "Error",
         description: error?.response?.data?.message || "An error occured",
       });
+    } finally {
+      setLoading(false);
     }
   }
   useEffect(() => {
@@ -210,7 +214,7 @@ export default function page() {
       },
       cell({ row }) {
         return (
-          <div className="w-full flex flex-col items-center gap-2">
+          <div className="w-full flex flex-col gap-2">
             {row?.original?.office?.map((item: any) => (
               <p>{item?.name || item}</p>
             ))}
@@ -238,8 +242,8 @@ export default function page() {
       },
       cell({ row }) {
         return (
-          <div className="w-full flex flex-col items-center gap-2">
-            <p>{row?.original?.createdBy.name || "NA"}</p>
+          <div className="w-full flex flex-col gap-2">
+            <p>{row?.original?.createdBy?.name || "NA"}</p>
           </div>
         );
       },
@@ -326,6 +330,7 @@ export default function page() {
           <TanTable
             data={searchText.length > 2 ? filteredData : data}
             columns={columns}
+            loading={loading}
           />
         )}
       </div>

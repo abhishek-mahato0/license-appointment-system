@@ -11,14 +11,15 @@ import { getDistrictName, getProvinceName } from "@/utils/common";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp, Pencil, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function page() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [data, setData] = React.useState<IOffice[]>([]);
+  const [data, setData] = useState<IOffice[]>([]);
   const { toast } = useToast();
-  const [searchText, setSearchText] = React.useState("");
-  const [filteredData, setFilteredData] = React.useState<IOffice[]>([]);
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState<IOffice[]>([]);
 
   async function editOffice(id: string, data: IOffice) {
     try {
@@ -208,6 +209,7 @@ export default function page() {
   }
   async function fetchOffices() {
     try {
+      setLoading(true);
       const res = await apiinstance.get("/admin/offices");
 
       if (res.status === 200) {
@@ -222,6 +224,8 @@ export default function page() {
         title: "Error",
         description: error?.response?.data.message,
       });
+    } finally {
+      setLoading(false);
     }
   }
   useEffect(() => {
@@ -272,7 +276,11 @@ export default function page() {
       </div>
       <div className=" w-full mt-3">
         {data && (
-          <TanTable columns={columns} data={searchText ? filteredData : data} />
+          <TanTable
+            columns={columns}
+            data={searchText ? filteredData : data}
+            loading={loading}
+          />
         )}
       </div>
     </div>

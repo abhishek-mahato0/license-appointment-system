@@ -14,7 +14,6 @@ import {
   Users,
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
-import { cookies } from "next/headers";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -52,8 +51,8 @@ export default function AdminNavbar() {
     },
     {
       id: 6,
-      name: "All Appointmemnts",
-      href: "/admin/appointment",
+      name: "All Appointments",
+      href: "/admin/appointments",
       comp: <BookDown strokeWidth={2} size={17} width={17} />,
       short: "Appointments",
       params: "",

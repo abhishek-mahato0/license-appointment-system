@@ -6,22 +6,23 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'
 import { Administrator } from "@/models/AdministratorsModel";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     try {
         await dbconnect();
         const { email, pass } = await req.json();
         if (!email || !pass) {
             return ShowError(400, "Missing fields")
         }
-        const exists = await Administrator.findOne({ username: email, password: pass})
+        console.log(email, pass)
+        const exists = await Administrator.findOne({ username: email})
         if (!exists) {
             return ShowError(400, "Invalid email or password")
         }
        
-        // const matched = await bcrypt.compare(pass, exists.password)
-        // if (!matched) {
-        //     return ShowError(400, "Invalid email for password.")
-        // }
+        const matched = await bcrypt.compare(pass, exists.password)
+        if (!matched) {
+            return ShowError(400, "Invalid email for password.")
+        }
         const { password, ...others } = exists._doc;
 
         const token = await jwt.sign({ ...others }, process.env.JWT_SECRET as string)
