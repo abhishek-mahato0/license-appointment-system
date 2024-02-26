@@ -1,12 +1,12 @@
 "use client";
-import React, { useState } from "react";
-import { PopupModal } from "./PopupModal";
-import { useForm } from "react-hook-form";
-import { Button } from "../ui/button";
-import OTPModal from "./OTPModal";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useToast } from "../ui/use-toast";
+import OTPModal from "@/components/common/OTPModal";
+import { PopupModal } from "@/components/common/PopupModal";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function ForgetPassword({
   triggerChildren,
@@ -31,7 +31,7 @@ export default function ForgetPassword({
       });
     }
     try {
-      const res = await apiinstance.post("user/verify/forget", {
+      const res = await apiinstance.patch("admin/login/verify/forget", {
         email: email,
       });
       if (res.status == 200) {
@@ -59,7 +59,7 @@ export default function ForgetPassword({
         });
       }
       const res = await apiinstance.get(
-        `user/verify/otp?email=${pemail}&otp=${otp}`
+        `admin/login/verify/otp?email=${pemail}&otp=${otp}`
       );
       if (res.status == 200) {
         router.push(`?type=new&email=${pemail}&otp=${otp}`);
@@ -86,12 +86,12 @@ export default function ForgetPassword({
         });
       }
       const res = await apiinstance.patch(
-        `user/verify/new?email=${pemail}&otp=${potp}`,
+        `admin/login/verify/new?email=${pemail}&otp=${potp}`,
         { password: data.password }
       );
       if (res.status == 200) {
         document.getElementById("close")?.click();
-        router.push("/login");
+        router.push("/admin/login");
         return toast({
           title: "Success",
           description: res.data.message,

@@ -32,6 +32,7 @@ type AppointmentColumn = {
   written: Array<IWrittenSchema>;
 };
 export default function Medical() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
   const [data, setData] = useState([]);
@@ -329,6 +330,7 @@ export default function Medical() {
     to: string,
     status: string
   ) {
+    setLoading(true);
     try {
       const res = await apiinstance.get(
         `/admin/appointments?category=${selectedCategory}&status=${status}`
@@ -342,6 +344,8 @@ export default function Medical() {
         title: "Error",
         description: error?.response.data.message,
       });
+    } finally {
+      setLoading(false);
     }
   }
   useEffect(() => {
@@ -366,7 +370,7 @@ export default function Medical() {
         </div>
       </div>
       <div className="w-full">
-        {data && <TanTable columns={columns} data={data} />}
+        {data && <TanTable columns={columns} data={data} loading={loading} />}
       </div>
     </div>
   );

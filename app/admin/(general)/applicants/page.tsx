@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -156,10 +156,11 @@ export const columns: ColumnDef<IUser>[] = [
 ];
 
 export default function page() {
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const [data, setData] = React.useState<IUser[]>([]);
-  const [filteredData, setFilteredData] = React.useState<IUser[]>([]);
-  const [searchText, setSearchText] = React.useState("");
+  const [filteredData, setFilteredData] = useState<IUser[]>([]);
+  const [searchText, setSearchText] = useState("");
   const handleSearch = (e: any) => {
     setSearchText(e.target.value);
   };
@@ -168,6 +169,7 @@ export default function page() {
   };
   async function getApplicants() {
     try {
+      setLoading(true);
       const res = await apiinstance.get("/admin/users");
       if (res.status === 200) {
         return setData(res.data);
@@ -181,6 +183,8 @@ export default function page() {
         title: "Error",
         description: error?.response?.data?.message || "An error occured",
       });
+    } finally {
+      setLoading(false);
     }
   }
   useMemo(() => {
@@ -208,7 +212,11 @@ export default function page() {
       </div>
       <div className="w-full flex justify-end items-center pr-6 py-2">
         {(searchText ? filteredData : data) && (
-          <TanTable columns={columns} data={searchText ? filteredData : data} />
+          <TanTable
+            columns={columns}
+            data={searchText ? filteredData : data}
+            loading={loading}
+          />
         )}
       </div>
     </div>

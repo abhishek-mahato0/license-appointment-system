@@ -17,7 +17,7 @@ export default function OTPModal({
       renderInput={(props) => (
         <input
           {...props}
-          className=" p-1 h-12 flex items-center justify-center content-center text-xl text-custom-150 font-bold outline-custom-150"
+          className=" p-1 h-12 flex items-center justify-center content-center text-xl text-custom-150 font-[550] outline-custom-150"
           style={{
             width: "3.5rem",
             justifyContent: "center",

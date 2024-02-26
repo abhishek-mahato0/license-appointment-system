@@ -1,5 +1,6 @@
 "use client";
 import Banner from "@/app/(auth)/_components/Banner";
+import ForgetPassword from "@/components/admin/login/ForgetPassword";
 import FullFlex from "@/components/common/Fullflex";
 import Links from "@/components/common/Links";
 import Loader from "@/components/common/Loader";
@@ -129,11 +130,15 @@ export default function page() {
             )}
           </FullFlex>
           <FullFlex className="w-full justify-end">
-            <Links
-              href="/forgot"
-              name="Forgot Password?"
-              className=" text-custom-100 text-[13px] hover:underline"
-            ></Links>
+            <ForgetPassword
+              triggerChildren={
+                <Links
+                  href="?type=forget"
+                  name="Forgot Password?"
+                  className=" text-custom-100 text-[13px] hover:underline"
+                ></Links>
+              }
+            />
           </FullFlex>
           <FullFlex className="w-full">
             {loading ? (

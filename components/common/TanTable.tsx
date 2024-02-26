@@ -23,13 +23,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Skeleton } from "../ui/skeleton";
 
 export function TanTable({
   data,
   columns,
+  loading = false,
 }: {
   data: any;
   columns: ColumnDef<any>[];
+  loading?: boolean;
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -85,7 +88,26 @@ export function TanTable({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {loading ? (
+              Array.from({ length: 7 }).map((_, idx) => (
+                <TableRow key={idx}>
+                  {columns.map((cell) => {
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        className={
+                          cell.header === ""
+                            ? "w-[130px] h-[70px]"
+                            : " h-[70px]"
+                        }
+                      >
+                        <Skeleton className="my-1.5 h-6 w-8/12 bg-gray-400" />
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -106,7 +128,7 @@ export function TanTable({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-[90px] text-center"
                 >
                   No results.
                 </TableCell>

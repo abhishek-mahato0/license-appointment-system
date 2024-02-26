@@ -1,4 +1,4 @@
-import { User } from "@/models/userModel";
+import { Administrator } from "@/models/AdministratorsModel";
 import ShowError from "@/utils/ShowError";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
         if(!email || !otp){
             return ShowError(400,"Email and otp is required");
         }
-        const user = await User.findOne({ email, forgotPasswordtoken: otp });
+        const user = await Administrator.findOne({username:email, forgetPasswordToken: otp });
         if (!user) {
             return ShowError(400, "Incorrect token. Please enter the correct token.");
         }
