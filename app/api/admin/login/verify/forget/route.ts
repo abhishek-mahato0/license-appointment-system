@@ -1,11 +1,11 @@
 import dbconnect from "@/lib/dbConnect";
-import { User } from "@/models/userModel";
+import { Administrator } from "@/models/AdministratorsModel";
 import ShowError from "@/utils/ShowError";
 import { generateOTP } from "@/utils/common";
 import { sendCustomMail } from "@/utils/sendTokenEmail";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function PATCH(req: NextRequest) {
   try {
     await dbconnect();
     const { email } = await req.json();
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
         return ShowError(400,"Email is required");
     }
     const otp = generateOTP();
-    const user = await User.findOneAndUpdate({ email }, { forgotPasswordtoken: otp });
+    const user = await Administrator.findOneAndUpdate({ username:email }, { forgetPasswordToken: otp });
     if (!user) {
       return ShowError(400, "User not found");
     }
