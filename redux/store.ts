@@ -3,6 +3,7 @@ import applySliceReducer  from './slices/applynewSlice'
 import personalInformationSliceReducer from './slices/profileInformationSlice'
 import publicDashboardSliceReducer from './slices/dashboardSlice'
 import officeListSliceReducer from './slices/officeListSlice'
+import userSliceReducer from './slices/userSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     profileInformation: personalInformationSliceReducer,
     dashboard: publicDashboardSliceReducer,
     officeList: officeListSliceReducer,
+    user: userSliceReducer
   },
 })
 

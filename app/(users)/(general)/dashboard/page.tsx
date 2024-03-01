@@ -1,10 +1,7 @@
 "use client";
 import { customStyles } from "@/components/common/MultiselectStyles";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
-import Select from "react-select";
 import { categoryData } from "@/components/data/CategoryData";
-
-import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import {
   fetchDashboardCounts,

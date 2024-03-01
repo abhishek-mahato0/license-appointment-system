@@ -48,20 +48,17 @@ export default function page() {
       if (res.status === 201) {
         toast({
           title: "Success",
-          description: res.data.message,
+          description: res?.data?.message,
           variant: "success",
         });
-      } else {
-        toast({
-          title: "Error",
-          description: res.data.message,
-          variant: "destructive",
-        });
+        return redirect("/login");
       }
-      setLoading(false);
-      return redirect("/login");
+      return toast({
+        title: "Error",
+        description: res?.data?.message,
+        variant: "destructive",
+      });
     } catch (error: any) {
-      console.log(error);
       setLoading(false);
       toast({
         title: "Error",

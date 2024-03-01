@@ -8,13 +8,15 @@ import bcrypt from 'bcryptjs';
 import { NextRequest, NextResponse } from "next/server";
  
 export async function POST(req: NextRequest) {
-    await dbconnect();
+    
     try {
+      await dbconnect();
       const {email,password,name, phone, avatar}  = await req.json();
      
       if( !email || !password || ! name || !phone || !avatar){
         return ShowError(400,"Missing Fields")
       }
+     
       const exists = await User.find({$or:[ {email:email}, {phone:phone}]});
       if(exists.length > 0){
         return ShowError(400,"User already exists.")
@@ -25,9 +27,9 @@ export async function POST(req: NextRequest) {
       }
       let hashpassword = bcrypt.hashSync(password,10);
       if(!hashpassword){
-        return ShowError(400,"Some error occured.")
+        return ShowError(400,"Some error occured. Please try again.")
       }
-      const token = await generateToken({name,email})
+      const token = generateToken({name,email})
       if(!token){
         return ShowError(400,"Some error occured while token generation")
       }

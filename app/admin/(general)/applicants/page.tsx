@@ -97,7 +97,7 @@ export const columns: ColumnDef<IUser>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className=" gap-2"
         >
-          Verified
+          Verified By Email
           {column.getIsSorted() === "asc" ? (
             <ChevronDown size={20} />
           ) : (

@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
         if (!email || !pass) {
             return ShowError(400, "Missing fields")
         }
-        console.log(email, pass)
         const exists = await Administrator.findOne({ username: email})
         if (!exists) {
             return ShowError(400, "Invalid email or password")
@@ -31,7 +30,7 @@ export async function POST(req: NextRequest) {
         }
         //NextResponse.next().cookies.set('jwttoken', token)
         const res = NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
-        res.cookies.set("token", token, { httpOnly: true, expires: new Date(Date.now() + 900000) });
+        res.cookies.set("token", token, { httpOnly: true, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) });
         return res;
         //return NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
     } catch (error: any) {

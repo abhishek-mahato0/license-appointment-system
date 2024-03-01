@@ -14,8 +14,20 @@ import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
 import { checkLogin } from "@/lib/userAuth";
 
-function checkIfFailedForThreeTimes(id:string){
-
+async function checkIfFailedForThreeTimes(id:string, category:string){
+    try {
+        const user = await User.findById(id).populate({
+            path:"appointment",
+            model:Appointment,
+           match:{category:category, status:"failed"}
+        });
+        if(user?.appointment.length>=3){
+            return true;
+        }
+        return false;
+    } catch (error:any) {
+        return false;
+    }
 }
 
 async function checkType(userId:string){
@@ -149,14 +161,14 @@ export async function POST(req:NextRequest){
         const user = await User.findById(userId);
         if(!user) return ShowError(400, 'User not found');
         
-        // if(user.appointment.some((item:UAppointment)=> item.status==="pending")) return ShowError(400, 'User already has an appointment');
+        if(user.appointment.some((item:UAppointment)=> item.status==="pending")) return ShowError(400, 'User already has an appointment');
 
         if(await checkCitizenship(userId)===false) return ShowError(400, 'User has not uploaded citizenship');
 
         // if(await checkLicense(userId)===false) return ShowError(400, 'User has not uploaded license');
         if(await checkInformation(userId)===false) return ShowError(400, 'User has not filled information form');
         //check iof the person has failed for three times in any appointment
-
+        if(await checkIfFailedForThreeTimes(userId, selectedCat)) return ShowError(400, 'User has already failed for three times');
         const medical = await new MedicalModal({
             tracking_id:isLogged.phone,
             user_id:isLogged._id,

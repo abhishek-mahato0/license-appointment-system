@@ -11,7 +11,7 @@ export interface IUser{
     password:string,
     isverifiedByEmail:boolean,
     documentVerified?:{
-        status:boolean,
+        status:string,
         message:string
     },
     phone:string,
@@ -73,8 +73,8 @@ const userSchema =new mongoose.Schema<IUser>({
     },
     documentVerified:{
         status:{
-            type:Boolean,
-            default:false
+            type:String,
+            default:"pending"
         },
         message:{
             type:String,
@@ -83,4 +83,4 @@ const userSchema =new mongoose.Schema<IUser>({
     },
 });
 
-export const User =mongoose.models.user || mongoose.model('user', userSchema)
+export const User = mongoose.models.user || mongoose.model('user', userSchema)

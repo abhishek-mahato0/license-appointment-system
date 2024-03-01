@@ -5,6 +5,8 @@ import FullFlex from "@/components/common/Fullflex";
 import Links from "@/components/common/Links";
 import Loader from "@/components/common/Loader";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/redux/TypedHooks";
+import { setUser } from "@/redux/slices/userSlice";
 import { adminLogin } from "@/utils/checkLogin";
 import { Eye, EyeOff } from "lucide-react";
 import { signIn } from "next-auth/react";
@@ -15,6 +17,7 @@ import { useForm } from "react-hook-form";
 export default function page() {
   const { toast } = useToast();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -38,16 +41,7 @@ export default function page() {
           role: data?.role,
           redirect: false,
         });
-        localStorage.setItem(
-          "userInfo",
-          JSON.stringify({
-            id: data._id,
-            email: data?.username,
-            token: data?.token,
-            role: data?.role,
-            redirect: false,
-          })
-        );
+        dispatch(setUser(data));
         return;
       }
       return toast({
