@@ -1,4 +1,5 @@
 "use client";
+import VerifyModal from "@/components/admin/applicants/VerifyModal";
 import Outline from "@/components/common/FormDetail/Outline";
 import {
   citizenshipJsonData,
@@ -6,6 +7,7 @@ import {
   licenseJsonData,
 } from "@/components/data/applicantData";
 import { temporaryaddressData } from "@/components/detailform/FormData";
+import ProfileLoader from "@/components/loaders/ProfileLoader";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
@@ -40,16 +42,48 @@ export default function page() {
   useEffect(() => {
     getProfile();
   }, [params.id]);
+
+  async function updateStatus(status: string, remarks: string) {
+    try {
+      const payload = {
+        documentVerified: {
+          status,
+          message: remarks,
+        },
+      };
+      const res = await apiinstance.patch(
+        `/admin/users/${params?.id}`,
+        payload
+      );
+      if (res.status === 200) {
+        return toast({
+          title: "Success",
+          description: "Profile updated successfully",
+        });
+      }
+      return toast({
+        title: "Error",
+        description: res?.data?.message,
+      });
+    } catch (error: any) {
+      return toast({
+        title: "Error",
+        description: error?.response?.data?.message || "An error occured",
+      });
+    }
+  }
   return (
     <div className=" w-full flex flex-col items-start justify-start gap-4 mt-5">
       <h1>Profile of Applicant</h1>
-      {!loading && (
-        <div className=" w-full flex-col bg-custom-50 gap-5">
+      {loading ? (
+        <ProfileLoader />
+      ) : (
+        <div className=" w-[99%] flex-col bg-custom-50 gap-5">
           <div className="w-full flex items-center justify-start bg-custom-50 text-gray-700">
             <div className="w-full flex items-start justify-start gap-5 px-6 py-4">
               <div className="w-[25%] bg-white rounded-lg">
                 <img
-                  src="/images/placeholder.png"
+                  src={data?.avatar || "/images/avatar.png"}
                   alt="profile"
                   className=" w-full h-[230px]"
                 />
@@ -78,7 +112,21 @@ export default function page() {
                     <p>No information uploaded yet</p>
                   )}
                 </div>
-                <Button>Verify Profile</Button>
+                {data?.documentVerified?.status === "verified" ? (
+                  <p>Verified</p>
+                ) : (
+                  <div className=" flex items-center gap-3">
+                    <p>{data?.documentVerified?.status}</p>
+                    <VerifyModal
+                      triggerChildren={<Button>Verify Profile</Button>}
+                      onSubmit={(data: any, remarks: any) => {
+                        updateStatus(data, remarks);
+                      }}
+                      title="Verify Profile"
+                      initialValue="pending"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

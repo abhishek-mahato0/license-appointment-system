@@ -69,3 +69,23 @@ export async function GET(req: NextRequest,{params}:any) {
         return ShowError(500, error.message);
     }
 }
+
+export async function PATCH(req:NextRequest, {params}: {params: {id: string}}){
+    try {
+        await dbconnect();
+        const loggedUser = await checkAdmins(req);
+        if (!loggedUser) {
+            return ShowError(401, "Login Again.");
+        }
+        if(loggedUser.role !== "superadmin"){
+            return ShowError(401, "Unauthorized access.");
+        }
+        const content = await req.json()
+        const exists = await User.findByIdAndUpdate(params.id, content);
+        return NextResponse.json({user:exists, message:"User updated successfully"}, {status:200});
+        
+    } catch (error: any) {
+        return ShowError(500, error.message);
+            
+    }
+}

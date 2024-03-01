@@ -11,11 +11,14 @@ import Loader from "@/components/common/Loader";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import ForgetPassword from "@/components/common/ForgetPassword";
+import { useAppDispatch } from "@/redux/TypedHooks";
+import { setUser } from "@/redux/slices/userSlice";
 
 export default function page() {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -38,19 +41,7 @@ export default function page() {
           information_id: res?.data.user.information_id,
           redirect: false,
         });
-        localStorage.setItem(
-          "userInfo",
-          JSON.stringify({
-            id: res?.data.user._id,
-            email: res?.data.user.email,
-            token: res?.data.user.token,
-            role: res?.data.user.role,
-            name: res?.data.user.name,
-            citizenship_id: res?.data.user.citizenship_id,
-            license_id: res?.data.user.license_id,
-            information_id: res?.data.user.information_id,
-          })
-        );
+        dispatch(setUser(res?.data.user));
         toast({
           title: "Login Success",
           description: res.data.message,

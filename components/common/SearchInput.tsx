@@ -18,9 +18,9 @@ export default function SearchInput({
   const [value, setValue] = useState("");
   return (
     <div
-      className={`${className} w-[330px] flex justify-between p-2 items-center border-b-[2px] border-gray-400 hover:border-custom-150`}
+      className={`${className} w-[300px] flex justify-between p-2 items-center border-b-[2px] border-gray-400 hover:border-custom-150`}
     >
-      <div className="flex items-center w-[80%] gap-3 hover:text-custom-150 text-gray-400">
+      <div className="flex items-center w-[89%] gap-3 hover:text-custom-150 text-gray-400">
         <SearchIcon size={26} />
         <input
           value={value}

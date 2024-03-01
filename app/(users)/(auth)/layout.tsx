@@ -1,7 +1,7 @@
 "use client";
-
 import { useAppDispatch } from "@/redux/TypedHooks";
 import { setBarstate } from "@/redux/slices/applynewSlice";
+import { useSession } from "next-auth/react";
 import { redirect, usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -10,7 +10,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const { data: session, status } = useSession();
   const params = useSearchParams().get("type");
   const dispatch = useAppDispatch();
   const location = usePathname();
@@ -27,16 +27,19 @@ export default function RootLayout({
       dispatch(setBarstate({ active: 5, completed: [1, 2, 3, 4] }));
     }
   }, [location]);
-  if (!userInfo) {
+
+  if (!session) return redirect("/login");
+  if (!session?.user) {
     return redirect("/login");
-  } else if (!userInfo?.token) {
+  } else if (!session?.user?.token) {
     return redirect("/login");
-  } else if (userInfo?.information_id === "none") {
+  } else if (session?.user?.information_id === "none") {
     return redirect("/detailform/personal");
-  } else if (userInfo?.citizenship_id === "none") {
+  } else if (session?.user?.citizenship_id === "none") {
     return redirect("/detailform/citizenship");
-  } else if (userInfo.license_id === "none" && params === "add") {
+  } else if (session?.user.license_id === "none" && params === "add") {
     return redirect("/detailform/license");
   }
+
   return <>{children}</>;
 }

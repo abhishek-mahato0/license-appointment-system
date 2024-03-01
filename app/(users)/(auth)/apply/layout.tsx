@@ -2,6 +2,7 @@
 import ProgressBar from "@/components/common/ProgressBar";
 import { applyProgressData } from "@/components/data/ApplyProgressBarData";
 import { useAppSelector } from "@/redux/TypedHooks";
+import { useSession } from "next-auth/react";
 
 export default function RootLayout({
   children,

@@ -2,6 +2,7 @@ import dbconnect from "@/lib/dbConnect";
 import { MedicalModal } from "@/models/MedicalExamModel";
 import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
+import { Appointment } from "@/models/appointmentsModel";
 
 import { User } from "@/models/userModel";
 import ShowError from "@/utils/ShowError";
@@ -35,11 +36,18 @@ export async function PUT(req:NextRequest){
         await dbconnect();
         const type= req.nextUrl.searchParams.get('type');
         if(!type) return ShowError(400, "Type is required");
-        const {id, status} = await req.json();
-        if(!id || !status) return ShowError(400, "Id and status is required");
+        const {id, status, app_id} = await req.json();
+        if(!id || !status || app_id) return ShowError(400, "Id and status is required");
+        if(status==="failed"){
+            const appointment= await Appointment.findByIdAndUpdate(app_id, {status:"failed", hasApplied:false});
+            const exists = await MedicalModal.findByIdAndUpdate(id, {status});
+            const exists2 = await TrailModal.findByIdAndUpdate(id, {status});
+            const exists3 = await WrittenModal.findByIdAndUpdate(id, {status});
+            return NextResponse.json({message:"Exam updated successfully"}, {status:200});
+        }
         if(type==="medical"){
-        const exists = await MedicalModal.findByIdAndUpdate(id, {status});
-        return NextResponse.json({message:"Medical exam updated successfully"}, {status:200});
+         const exists = await MedicalModal.findByIdAndUpdate(id, {status});
+         return NextResponse.json({message:"Medical exam updated successfully"}, {status:200});
         }
         else if(type==="trial"){
             const exists = await TrailModal.findByIdAndUpdate(id, {status});

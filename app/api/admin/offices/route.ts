@@ -12,8 +12,16 @@ export async function GET(req: NextRequest) {
         // if(!loggedUser || loggedUser.role !== "superadmin"){
         //     return ShowError(401, "Unauthorized. Login Again.");
         // }
-        
-        const officeList = await OfficeModel.find();
+        const params = req.nextUrl.searchParams;
+        const query:any ={}
+        if(params.get("province")){
+            query["province"] = params.get("province");
+        }
+        if(params.get("district")){
+            query["district"] = params.get("district");
+        }
+
+        const officeList = await OfficeModel.find(query);
         return NextResponse.json(officeList,{ status: 200 });
     } catch (error: any) {
         return ShowError(500, error.message);

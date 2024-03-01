@@ -1,4 +1,5 @@
 import AdminNavbar from "@/components/admin/AdminNavbar";
+import AdminProtectedRoute from "@/components/common/AdminProtectedRoute";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -20,7 +21,9 @@ export default function RootLayout({
       <div className="fixed z-40 top-0 left-0 bg-white bottom-0">
         <AdminNavbar />
       </div>
-      <main className="w-full pl-[105px]">{children}</main>
+      <main className="w-full pl-[105px]">
+        <AdminProtectedRoute>{children}</AdminProtectedRoute>
+      </main>
     </div>
   );
 }
