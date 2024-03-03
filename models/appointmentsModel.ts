@@ -30,20 +30,15 @@ const appointmentSchema = new mongoose.Schema<IAppointment>({
     biometric:{type:String, required:true, default:"pending"},
     medical:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"medical",
-        default:''
-    
+        ref:"medical",    
     },
     trial:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"trial",
-        default:''
-    
+        ref:"trail",
     },
     written:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:"written",
-        default:''
+        ref:"written"
     }
 })
 
