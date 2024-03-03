@@ -1,11 +1,6 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 
 import {
   Table,
@@ -31,6 +26,8 @@ import { apiinstance } from "@/services/Api";
 import { IUser } from "@/models/userModel";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
+import { original } from "@reduxjs/toolkit";
+import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<IUser>[] = [
   {
@@ -89,6 +86,11 @@ export const columns: ColumnDef<IUser>[] = [
     },
   },
   {
+    accessorKey: "phone",
+    header: "Phone",
+  },
+
+  {
     accessorKey: "isverifiedByEmail",
     header: ({ column }) => {
       return (
@@ -136,6 +138,25 @@ export const columns: ColumnDef<IUser>[] = [
       return (
         <div className="w-full flex items-center gap-2">
           {row.getValue() ? "Yes" : "No"}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "documentVerified",
+    header: "Document Status",
+    cell: ({ row }: any) => {
+      return (
+        <div className="w-full flex items-center gap-2">
+          <Badge
+            variant={`${
+              row?.original?.documentVerified?.status === "verified"
+                ? "success"
+                : "destructive"
+            }`}
+          >
+            {row?.original.documentVerified?.status}
+          </Badge>
         </div>
       );
     },

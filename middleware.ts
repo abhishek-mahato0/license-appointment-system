@@ -12,10 +12,10 @@ export async function middleware(request: NextRequest) {
     if(!currentUser && path.startsWith('/profile')){
         return Response.redirect(new URL('/login', request.url))
     }
-    if(!currentUser && path.startsWith('/admin')){
-        return Response.redirect(new URL('admin/login', request.url))
+    if(!currentUser && path.startsWith('/admin/')){
+        return Response.redirect(new URL('/admin/login', request.url))
     }
-    if(currentUser && path.startsWith('/login')){
-        return Response.redirect(new URL('/', request.url))
-    }
+    // if(currentUser && path.startsWith('/login')){
+    //     return Response.redirect(new URL('/', request.url))
+    // }
 }

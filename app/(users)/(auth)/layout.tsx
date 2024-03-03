@@ -28,18 +28,18 @@ export default function RootLayout({
     }
   }, [location]);
 
-  if (!session) return redirect("/login");
-  if (!session?.user) {
-    return redirect("/login");
-  } else if (!session?.user?.token) {
-    return redirect("/login");
-  } else if (session?.user?.information_id === "none") {
-    return redirect("/detailform/personal");
-  } else if (session?.user?.citizenship_id === "none") {
-    return redirect("/detailform/citizenship");
-  } else if (session?.user.license_id === "none" && params === "add") {
-    return redirect("/detailform/license");
-  }
+  // if (!session) return redirect("/login");
+  // if (!session?.user) {
+  //   return redirect("/login");
+  // } else if (!session?.user?.token) {
+  //   return redirect("/login");
+  // } else if (session?.user?.information_id === "none") {
+  //   return redirect("/detailform/personal");
+  // } else if (session?.user?.citizenship_id === "none") {
+  //   return redirect("/detailform/citizenship");
+  // } else if (session?.user.license_id === "none" && params === "add") {
+  //   return redirect("/detailform/license");
+  // }
 
   return <>{children}</>;
 }

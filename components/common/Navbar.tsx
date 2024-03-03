@@ -3,6 +3,7 @@ import FullFlex from "@/components/common/Fullflex";
 import Links from "@/components/common/Links";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
+  Bike,
   Book,
   BookOpen,
   ChevronDown,
@@ -80,6 +81,14 @@ export default function Navbar() {
       href: "/reschedule",
       comp: <FolderSync strokeWidth={2} size={17} width={17} />,
       short: "Reschedule",
+      params: "",
+    },
+    {
+      id: 8,
+      name: "Appointments",
+      href: "/appointments",
+      comp: <Bike strokeWidth={2} size={17} width={17} />,
+      short: "Appointments",
       params: "",
     },
     {

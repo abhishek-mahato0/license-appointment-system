@@ -33,7 +33,6 @@ export default function page() {
           description: message,
           variant: "success",
         });
-        router.push("/admin/dashboard");
         await signIn("credentials", {
           id: data._id,
           email: data?.username,
@@ -42,6 +41,7 @@ export default function page() {
           redirect: false,
         });
         dispatch(setUser(data));
+        router.push("/admin/dashboard");
         return;
       }
       return toast({

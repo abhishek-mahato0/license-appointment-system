@@ -9,18 +9,21 @@ import SingleSelect from "../ShadComp/SingleSelect";
 import Select from "react-select";
 import { customStyles } from "../MultiselectStyles";
 import { licenseCategoryData } from "@/components/detailform/FormData";
+import LoaderButton from "../LoaderButton";
 
 type AddOfficeModalProps = {
   defaultValues?: any;
   onSubmit: (data: any) => void;
   triggerChildren: any;
   type?: string;
+  loading?: boolean;
 };
 export default function AddQuestionModal({
   defaultValues,
   onSubmit,
   triggerChildren,
   type = "add",
+  loading = false,
 }: AddOfficeModalProps) {
   const { register, handleSubmit, getValues, setValue, watch } = useForm({
     defaultValues: {
@@ -102,7 +105,6 @@ export default function AddQuestionModal({
             />
           </div>
         </div>
-
         <div className="grid grid-cols-2 gap-2">
           <div className="flex flex-col gap-2">
             <label htmlFor="address">Option A</label>
@@ -241,9 +243,23 @@ export default function AddQuestionModal({
           </div>
         )}
 
-        <Button type="submit" className=" absolute bottom-6 right-4">
+        {/* <Button type="submit" className=" absolute bottom-6 right-4">
+          {true ? (
+            <Loader width="15" height="15" color="white" type="spinner" />
+          ) : type === "edit" ? (
+            "Save"
+          ) : (
+            "Add"
+          )}
+        </Button> */}
+
+        <LoaderButton
+          type="submit"
+          className=" absolute bottom-6 right-4"
+          loading={loading}
+        >
           {type === "edit" ? "Save" : "Add"}
-        </Button>
+        </LoaderButton>
       </form>
     </PopupModal>
   );

@@ -1,4 +1,5 @@
 "use client";
+import LoaderButton from "@/components/common/LoaderButton";
 import { PopupModal } from "@/components/common/PopupModal";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ type EditModalProps = {
   triggerChildren: JSX.Element;
   label: string;
   initialValue: string;
+  loading?: boolean;
 };
 
 let data = [
@@ -38,6 +40,7 @@ export default function EditModal({
   triggerChildren,
   label,
   initialValue,
+  loading = false,
 }: EditModalProps) {
   const [value, setValue] = React.useState(initialValue || "");
   return (
@@ -58,12 +61,13 @@ export default function EditModal({
           classNames=" w-[70%]"
         />
       </div>
-      <Button
+      <LoaderButton
         onClick={() => onSubmit(value)}
         className=" absolute bottom-6 right-3"
+        loading={loading}
       >
         Save
-      </Button>
+      </LoaderButton>
     </PopupModal>
   );
 }

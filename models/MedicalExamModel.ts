@@ -16,9 +16,8 @@ const medicalSchema = new mongoose.Schema<IMedicalSchema>({
     date:{ type:String, required:true},
     category:{ type:String, required:true},
     office:{ type:String, required:true},
-    status:{ type:String, required:true, enum:['pending','failed','passed']},
+    status:{ type:String, required:true, enum:['pending','failed','passed','completed']},
     shift:{ type:String, required:true},
-
 })
 
 export const MedicalModal = mongoose.models.medical || mongoose.model<IMedicalSchema>(
