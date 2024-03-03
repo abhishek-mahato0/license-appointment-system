@@ -37,12 +37,27 @@ export async function PUT(req:NextRequest){
         const type= req.nextUrl.searchParams.get('type');
         if(!type) return ShowError(400, "Type is required");
         const {id, status, app_id} = await req.json();
-        if(!id || !status || app_id) return ShowError(400, "Id and status is required");
+       
+        if(!id || !status || !app_id) return ShowError(400, "Id and status is required");
         if(status==="failed"){
             const appointment= await Appointment.findByIdAndUpdate(app_id, {status:"failed", hasApplied:false});
-            const exists = await MedicalModal.findByIdAndUpdate(id, {status});
-            const exists2 = await TrailModal.findByIdAndUpdate(id, {status});
-            const exists3 = await WrittenModal.findByIdAndUpdate(id, {status});
+            const user = await User.findById(appointment?.user_id);
+            if(!user) return ShowError(400, "User not found");
+            if(type==="medical"){
+                const exists = await MedicalModal.findByIdAndUpdate(appointment?.medical, {status});
+                user.hasFailed = "medical";
+                const exists2 = await TrailModal.findByIdAndUpdate(appointment?.trial , {status});
+                const exists3 = await WrittenModal.findByIdAndUpdate(appointment?.written, {status});
+            }else if( type==="trial"){
+                const exists = await TrailModal.findByIdAndUpdate(appointment?.trial , {status});
+                user.hasFailed = "trial";
+            }else if(type==="written"){
+                const exists = await WrittenModal.findByIdAndUpdate(appointment?.written, {status});
+                const exists2 = await TrailModal.findByIdAndUpdate(appointment?.trial , {status});
+                user.hasFailed = "written";
+            }
+            user.hasApplied=false;
+            await user.save();
             return NextResponse.json({message:"Exam updated successfully"}, {status:200});
         }
         if(type==="medical"){
