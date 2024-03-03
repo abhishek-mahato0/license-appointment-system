@@ -36,9 +36,11 @@ export default function Medical() {
   const router = useRouter();
   const { toast } = useToast();
   const [data, setData] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
 
   async function updateBiometricStatus(id: string, status: string) {
     try {
+      setLoading(true);
       const res = await apiinstance.put(`/admin/appointments?id=${id}`, {
         status,
       });
@@ -58,15 +60,24 @@ export default function Medical() {
         title: "Error",
         description: error?.response?.data?.message || "An error occured",
       });
+    } finally {
+      setLoading(false);
     }
   }
-  async function updateMedicalStatus(id: string, status: string, type: string) {
+  async function updateMedicalStatus(
+    id: string,
+    status: string,
+    type: string,
+    app_id: string
+  ) {
+    setLoading(true);
     try {
       const res = await apiinstance.put(
         `/admin/appointments/update?type=${type}`,
         {
           id,
           status,
+          app_id,
         }
       );
       if (res.status === 200) {
@@ -86,6 +97,8 @@ export default function Medical() {
         title: "Error",
         description: error?.response?.data?.message || "An error occured",
       });
+    } finally {
+      setLoading(false);
     }
   }
   const columns: ColumnDef<AppointmentColumn>[] = [
@@ -114,6 +127,10 @@ export default function Medical() {
       },
     },
     {
+      accessorKey: "tracking_id",
+      header: "Tracking ID",
+    },
+    {
       header: "Book Date",
       accessorKey: "bookDate",
       cell: ({ row }: any) => <p> {convertDate(row.original.bookDate)}</p>,
@@ -140,6 +157,7 @@ export default function Medical() {
           </Button>
         );
       },
+      cell: ({ row }: any) => <p> {row.original.office?.name}</p>,
     },
     {
       header: "Province",
@@ -159,6 +177,7 @@ export default function Medical() {
       accessorKey: "biometric",
       cell: ({ row }: any) => (
         <EditModal
+          loading={loading}
           triggerChildren={
             <Badge
               variant={`${
@@ -187,47 +206,54 @@ export default function Medical() {
       accessorKey: "medical",
       cell: ({ row }: any) => (
         <div className=" w-full flex flex-col gap-3">
-          {row.original.medical.map((item: IMedicalSchema) => (
+          {row.original.medical?.hasOwnProperty("status") && (
             <EditModal
+              loading={loading}
               triggerChildren={
                 <div className=" w-full flex flex-col gap-[2px] cursor-pointer hover:scale-105">
                   <p>
                     Status:
                     <Badge
                       variant={`${
-                        item.status === "completed"
+                        row.original.medical?.status === "completed"
                           ? "success"
-                          : item.status === "pending"
+                          : row.original.medical?.status === "pending"
                           ? "secondary"
                           : "destructive"
                       }`}
                     >
-                      {item.status}
+                      {row.original.medical?.status}
                     </Badge>
                   </p>
-                  <p>Date: {item.date}</p>
-                  <p>Shift: {item.shift}</p>
+                  <p>Date: {row.original.medical?.date}</p>
+                  <p>Shift: {row.original.medical?.shift}</p>
                 </div>
               }
               title="Update Medical Status"
               label="Select Status"
-              initialValue={item.status}
+              initialValue={row.original.medical?.status}
               onSubmit={(value) => {
                 const futureDate = new Date();
                 futureDate.setDate(futureDate.getDate() + 3);
                 if (
-                  item.date < convertDate(new Date()) &&
-                  item.date > convertDate(futureDate)
+                  row.original.medical?.date < convertDate(new Date()) &&
+                  row.original.medical?.date > convertDate(futureDate)
                 ) {
                   return toast({
                     title: "Error",
                     description: "You can't update a past date",
                   });
                 }
-                updateMedicalStatus(item._id, value, "medical");
+                updateMedicalStatus(
+                  row.original.medical?._id,
+                  value,
+                  "medical",
+                  row.original._id
+                );
+                fetchAppointments("", "", "", "");
               }}
             />
-          ))}
+          )}
         </div>
       ),
     },
@@ -235,93 +261,107 @@ export default function Medical() {
       header: "Trial",
       accessorKey: "trial",
       cell: ({ row }: any) =>
-        row.original.trial.map((item: IMedicalSchema) => (
+        row.original?.trial?.hasOwnProperty("status") && (
           <EditModal
+            loading={loading}
             triggerChildren={
               <div className=" w-full flex flex-col gap-[2px] cursor-pointer hover:scale-105">
                 <p>
                   Status:
                   <Badge
                     variant={`${
-                      item.status === "completed"
+                      row.original?.trial?.status === "completed"
                         ? "success"
-                        : item.status === "pending"
+                        : row.original?.trial?.status === "pending"
                         ? "secondary"
                         : "destructive"
                     }`}
                   >
-                    {item.status}
+                    {row.original?.trial?.status}
                   </Badge>
                 </p>
-                <p>Date: {item.date}</p>
-                <p>Shift: {item.shift}</p>
+                <p>Date: {row.original?.trial?.date}</p>
+                <p>Shift: {row.original?.trial?.shift}</p>
               </div>
             }
             title="Update Trial Status"
             label="Select Status"
-            initialValue={item.status}
+            initialValue={row.original?.trial?.status}
             onSubmit={(value) => {
               const futureDate = new Date();
               futureDate.setDate(futureDate.getDate() + 3);
               if (
-                item.date < convertDate(new Date()) &&
-                item.date > convertDate(futureDate)
+                row.original?.trial?.date < convertDate(new Date()) &&
+                row.original?.trial?.date > convertDate(futureDate)
               ) {
                 return toast({
                   title: "Error",
                   description: "You can't update a past date",
                 });
               }
-              updateMedicalStatus(item._id, value, "trial");
+              updateMedicalStatus(
+                row.original?.trial?._id,
+                value,
+                "trial",
+                row?.original?._id
+              );
+              fetchAppointments("", "", "", "");
             }}
           />
-        )),
+        ),
     },
     {
       header: "Written",
       accessorKey: "written",
       cell: ({ row }: any) =>
-        row.original.written.map((item: IMedicalSchema) => (
+        row?.original?.written?.hasOwnProperty("status") && (
           <EditModal
+            loading={loading}
             triggerChildren={
               <div className=" w-full flex flex-col gap-[2px] cursor-pointer hover:scale-105">
                 <p>
                   Status:
                   <Badge
                     variant={`${
-                      item.status === "completed"
+                      row?.original?.written?.status === "completed"
                         ? "success"
-                        : item.status === "pending"
+                        : row?.original?.written?.status === "pending"
                         ? "secondary"
                         : "destructive"
                     }`}
                   >
-                    {item.status}
+                    {row?.original?.written?.status}
                   </Badge>
                 </p>
-                <p>Date: {item.date}</p>
-                <p>Shift: {item.shift}</p>
+                <p>Date: {row?.original?.written?.date}</p>
+                <p>Shift: {row?.original?.written?.shift}</p>
               </div>
             }
             title="Update Written Status"
             label="Select Status"
-            initialValue={item.status}
+            initialValue={row?.original?.written?.status}
             onSubmit={(value) => {
               const futureDate = new Date();
               futureDate.setDate(futureDate.getDate() + 3);
               if (
-                item.date < convertDate(new Date()) &&
-                item.date > convertDate(futureDate)
+                row?.original?.written?.date < convertDate(new Date()) &&
+                row?.original?.written?.date > convertDate(futureDate)
               ) {
                 return toast({
                   title: "Error",
                   description: "You can't update a past date",
                 });
               }
-              updateMedicalStatus(item._id, value, "written");
+              updateMedicalStatus(
+                row?.original?.written?._id,
+                value,
+                "written",
+                row?.original?._id
+              );
+              fetchAppointments("", "", "", "");
             }}
           />
-        )),
+        ),
     },
   ];
   async function fetchAppointments(
@@ -330,7 +370,7 @@ export default function Medical() {
     to: string,
     status: string
   ) {
-    setLoading(true);
+    setIsFetching(true);
     try {
       const res = await apiinstance.get(
         `/admin/appointments?category=${selectedCategory}&status=${status}`
@@ -345,7 +385,7 @@ export default function Medical() {
         description: error?.response.data.message,
       });
     } finally {
-      setLoading(false);
+      setIsFetching(false);
     }
   }
   useEffect(() => {
@@ -370,7 +410,9 @@ export default function Medical() {
         </div>
       </div>
       <div className="w-full">
-        {data && <TanTable columns={columns} data={data} loading={loading} />}
+        {data && (
+          <TanTable columns={columns} data={data} loading={isFetching} />
+        )}
       </div>
     </div>
   );

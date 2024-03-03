@@ -1,5 +1,4 @@
 import dbconnect from "@/lib/dbConnect";
-import { User } from "@/models/userModel";
 import ShowError from "@/utils/ShowError";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcryptjs';
@@ -28,12 +27,12 @@ export async function POST(req: NextRequest) {
         if (!token) {
             return ShowError(400, "Some error occured")
         }
-        //NextResponse.next().cookies.set('jwttoken', token)
         const res = NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
         res.cookies.set("token", token, { httpOnly: true, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) });
         return res;
-        //return NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
+        // return NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
     } catch (error: any) {
+        console.log(error)
         return ShowError(400, error?.message)
     }
 }

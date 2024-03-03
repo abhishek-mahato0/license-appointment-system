@@ -24,6 +24,7 @@ export interface IUser{
     appointment?: Array<UAppointment>,
     hasApplied:boolean, 
     avatar?:string
+    hasFailed?:string,
 }
 const userSchema =new mongoose.Schema<IUser>({
     name:{
@@ -67,6 +68,11 @@ const userSchema =new mongoose.Schema<IUser>({
         status:{ type:String, required:true, default:'pending'}
     }
     ],
+    hasFailed:{
+        type:String,
+        default:"none",
+        required:true
+    },
     hasApplied:{
         type:Boolean,
         default:false

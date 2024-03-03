@@ -21,9 +21,7 @@ export default function RootLayout({
       <div className="fixed z-40 top-0 left-0 bg-white bottom-0">
         <AdminNavbar />
       </div>
-      <main className="w-full pl-[105px]">
-        <AdminProtectedRoute>{children}</AdminProtectedRoute>
-      </main>
+      <main className="w-full pl-[105px]">{children}</main>
     </div>
   );
 }

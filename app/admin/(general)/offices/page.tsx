@@ -10,11 +10,13 @@ import { apiinstance } from "@/services/Api";
 import { getDistrictName, getProvinceName } from "@/utils/common";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp, Pencil, Trash } from "lucide-react";
+import { set } from "mongoose";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [loading, setLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
   const router = useRouter();
   const [data, setData] = useState<IOffice[]>([]);
   const { toast } = useToast();
@@ -22,6 +24,7 @@ export default function page() {
   const [filteredData, setFilteredData] = useState<IOffice[]>([]);
 
   async function editOffice(id: string, data: IOffice) {
+    setLoading(true);
     try {
       const res = await apiinstance.put("/admin/offices", {
         id,
@@ -52,10 +55,13 @@ export default function page() {
         title: "Error",
         description: "Error",
       });
+    } finally {
+      setLoading(false);
     }
   }
 
   async function deleteOffice(id: string) {
+    setLoading(true);
     try {
       const res = await apiinstance.delete(`/admin/offices/?id=${id}`);
       if (res.status === 200) {
@@ -76,6 +82,8 @@ export default function page() {
         title: "Error",
         description: error.message,
       });
+    } finally {
+      setLoading(false);
     }
   }
   const columns: ColumnDef<IOffice>[] = [
@@ -186,12 +194,14 @@ export default function page() {
   ];
 
   async function addOffice(data: IOffice) {
+    setLoading(true);
     try {
       const res = await apiinstance.post("/admin/offices", data);
       if (res.status === 201) {
         toast({
           title: "Success",
           description: "Office added successfully",
+          variant: "success",
         });
         document.getElementById("close")?.click();
         return fetchOffices();
@@ -205,11 +215,13 @@ export default function page() {
         title: "Error",
         description: error?.response?.data.message || "Something went wrong",
       });
+    } finally {
+      setLoading(false);
     }
   }
   async function fetchOffices() {
+    setIsFetching(true);
     try {
-      setLoading(true);
       const res = await apiinstance.get("/admin/offices");
 
       if (res.status === 200) {
@@ -225,7 +237,7 @@ export default function page() {
         description: error?.response?.data.message,
       });
     } finally {
-      setLoading(false);
+      setIsFetching(false);
     }
   }
   useEffect(() => {
@@ -279,7 +291,7 @@ export default function page() {
           <TanTable
             columns={columns}
             data={searchText ? filteredData : data}
-            loading={loading}
+            loading={isFetching}
           />
         )}
       </div>

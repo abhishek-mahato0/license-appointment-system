@@ -155,11 +155,13 @@ export default function page() {
           <Outline title="Personal Information">
             <div className=" w-full items-center flex justify-between">
               <div className="flex gap-2">
-                {personalInformation?.documentStatus?.status !== true ? (
+                {personalInformation?.documentStatus?.status !== "verified" ? (
                   <div className=" flex gap-2">
-                    <Badge variant="secondary">Pending</Badge>
+                    <Badge variant="secondary">
+                      {personalInformation?.documentStatus?.status}
+                    </Badge>
                     {personalInformation?.documentStatus?.message && (
-                      <p className=" text-red-500">
+                      <p className=" text-red-500 text-xs">
                         Message: {personalInformation?.documentStatus?.message}
                       </p>
                     )}

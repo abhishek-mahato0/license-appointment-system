@@ -19,6 +19,7 @@ export default function page() {
   const [searchText, setSearchText] = React.useState("");
   const [questions, setQuestions] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [isFetching, setIsFetching] = React.useState(false);
 
   async function deleteQuestion(id: string) {
     try {
@@ -216,7 +217,7 @@ export default function page() {
 
   async function fetchQuestions() {
     try {
-      setLoading(true);
+      setIsFetching(true);
       const res = await apiinstance.get("/admin/examination");
       if (res.status === 200) {
         return setQuestions(res.data);
@@ -228,7 +229,7 @@ export default function page() {
         title: "error",
       });
     } finally {
-      setLoading(false);
+      setIsFetching(false);
     }
   }
   async function addQuestion(data: any) {
@@ -319,6 +320,7 @@ export default function page() {
               addQuestion(data);
             }}
             triggerChildren={<Button>Add Questions</Button>}
+            loading={loading}
           />
         </div>
       </div>
@@ -327,7 +329,7 @@ export default function page() {
           <TanTable
             columns={columns}
             data={searchText.length > 2 ? filteredData : questions}
-            loading={loading}
+            loading={isFetching}
           />
         )}
       </div>

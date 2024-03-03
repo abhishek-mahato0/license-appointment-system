@@ -5,18 +5,21 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { provinces } from "@/components/data/ProvinceList";
 import { districtList } from "@/components/data/DistrictList";
+import LoaderButton from "@/components/common/LoaderButton";
 
 type AddOfficeModalProps = {
   defaultValues?: any;
   onSubmit: (data: any) => void;
   triggerChildren: any;
   type?: string;
+  loading?: boolean;
 };
 export default function AddOfficeModal({
   defaultValues,
   onSubmit,
   triggerChildren,
   type = "add",
+  loading = false,
 }: AddOfficeModalProps) {
   const { register, handleSubmit, getValues, watch } = useForm({
     defaultValues,
@@ -87,9 +90,13 @@ export default function AddOfficeModal({
               })}
           </select>
         </div>
-        <Button type="submit" className=" absolute bottom-6 right-4">
-          Add
-        </Button>
+        <LoaderButton
+          type="submit"
+          className=" absolute bottom-6 right-4"
+          loading={loading}
+        >
+          {type === "edit" ? "Save" : "Add"}
+        </LoaderButton>
       </form>
     </PopupModal>
   );

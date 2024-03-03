@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       }
      
       const user = new User({
-        name,email, password:hashpassword, token, isverifiedByEmail: true, phone, avatar:avatarUrl?.url
+        name,email, password:hashpassword, token, isverifiedByEmail: true, phone, hasFailed:'none', avatar:avatarUrl?.url
       })
       
       if(!user){

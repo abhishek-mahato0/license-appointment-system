@@ -1,6 +1,7 @@
 import dbconnect from "@/lib/dbConnect";
 import { checkAdmins, checkLogin } from "@/lib/userAuth";
 import { MedicalModal } from "@/models/MedicalExamModel";
+import { OfficeModel } from "@/models/OfficeModel";
 import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
 import { Appointment } from "@/models/appointmentsModel";
@@ -74,6 +75,11 @@ export async function GET(req: NextRequest, res:NextResponse) {
             }).populate({
                 path:"trial",
                 model:TrailModal
+            }).populate({
+                path:'office',
+                model:OfficeModel,
+                select:'name'
+            }).sort({bookDate:-1
             });
             return NextResponse.json(ans, { status: 200 });
        //}

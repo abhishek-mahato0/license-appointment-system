@@ -22,6 +22,7 @@ type TPopupModal = {
   cancelFunction?: () => void;
   cancelText?: string;
   description?: string;
+  isHidden?: boolean;
 };
 
 export function PopupModal({
@@ -35,6 +36,7 @@ export function PopupModal({
   cancelFunction,
   cancelText,
   description,
+  isHidden = true,
 }: TPopupModal) {
   return (
     <AlertDialog>
@@ -49,11 +51,14 @@ export function PopupModal({
           <AlertDialogCancel
             onClick={cancelFunction}
             id="close"
-            className={btnclassNames ? btnclassNames : " mr-5"}
+            className={btnclassNames ? btnclassNames : " mr-[70px]"}
           >
             {cancelText || "close"}
           </AlertDialogCancel>
-          <AlertDialogAction onClick={onClick} className="">
+          <AlertDialogAction
+            onClick={onClick}
+            className={`${isHidden ? "hidden" : ""}`}
+          >
             {btnText}
           </AlertDialogAction>
         </AlertDialogFooter>
