@@ -11,9 +11,16 @@ import { apiinstance } from "@/services/Api";
 import { convertDate } from "@/utils/convertDate";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
+import { ChevronDown, ChevronUp, Pencil, RotateCcw } from "lucide-react";
 import SearchInput from "@/components/common/SearchInput";
 import { ColumnDef } from "@tanstack/react-table";
+import RescheduleModal from "@/components/reschedule/RescheduleModal";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/TypedHooks";
+import {
+  setAppointment,
+  setPendingAppointment,
+} from "@/redux/slices/appointmentSlice";
 
 type AppointmentColumn = {
   _id?: string;
@@ -34,6 +41,8 @@ export default function page() {
   const router = useRouter();
   const { toast } = useToast();
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const { appointments } = useAppSelector((state) => state.appointments);
 
   async function updateBiometricStatus(id: string, status: string) {
     try {
@@ -251,6 +260,39 @@ export default function page() {
           </div>
         ),
     },
+    {
+      header: "Reschedule",
+      accessorKey: "",
+      cell: ({ row }: any) =>
+        row.original.hasOwnProperty("status") &&
+        row.original.status === "pending" && (
+          <Pencil
+            size={10}
+            onClick={() => {
+              router.push(`/reschedule/${row.original._id}`);
+            }}
+          >
+            Reschedule
+          </Pencil>
+          // <RescheduleModal
+          //   title="Reschedule Appointment"
+          //   label="Reschedule"
+          //   initialValue=""
+          //   data={{
+          //     add_id: row.original._id,
+          //     medical: row.original.medical,
+          //     written: row.original.written,
+          //     trial: row.original.trial,
+          //     selectedCat: row.original.category,
+          //     selectedOffice: row.original.office,
+          //   }}
+          //   onSubmit={(value) => {
+          //     console.log(value);
+          //   }}
+          //   triggerChildren={<Button variant="secondary">Reschedule</Button>}
+          // />
+        ),
+    },
   ];
   async function fetchAppointments(
     selectedCategory: string,
@@ -278,6 +320,10 @@ export default function page() {
     fetchAppointments("", "", "", "");
   }, []);
 
+  useEffect(() => {
+    dispatch(setAppointment(data));
+  }, [data]);
+
   return (
     <div className="w-full flex flex-col gap-3 mt-4 pr-5">
       <h1 className=" text-2xl text-custom-150 font-bold">
@@ -287,7 +333,7 @@ export default function page() {
         <SearchInput onClear={() => {}} onChange={() => {}} />
         <div className="w-full flex items-center gap-2">
           <div className="w-full flex justify-end items-center gap-2">
-            hyujhjkh
+            Filter
           </div>
           <RotateCcw
             className=" text-gray-600"

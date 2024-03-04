@@ -22,7 +22,15 @@ type Tdata = {
   date: Date | undefined;
   shift: string;
 };
-export default function SelectDateAndTime() {
+type IInfo = {
+  add_id: string;
+  medical: any;
+  written: any;
+  trial: any;
+  selectedCat: string;
+  selectedOffice: string;
+};
+export default function SelectDateAndTime({ info }: { info: IInfo }) {
   const [loading, setLoading] = useState({
     medical: false,
     written: false,
@@ -35,20 +43,17 @@ export default function SelectDateAndTime() {
     useAppSelector((state) => state.applynew);
   const { toast } = useToast();
   const dispatch = useAppDispatch();
-  const { selectedCat, selectedProv, selectedOffice } = useSelector(
-    (state: any) => state.applynew
-  );
   const [medical, setMedical] = useState<Tdata>({
-    date: getCustomDate(7),
-    shift: "morning",
+    date: info?.medical?.date || getCustomDate(7),
+    shift: info?.medical?.shift || "morning",
   });
   const [written, setWritten] = useState<Tdata>({
-    date: getCustomDate(8),
-    shift: "morning",
+    date: info?.written?.date || getCustomDate(8),
+    shift: info?.written?.shift || "morning",
   });
   const [trial, setTrial] = useState<Tdata>({
-    date: getCustomDate(9),
-    shift: "morning",
+    date: info?.trial?.date || getCustomDate(9),
+    shift: info?.trial?.shift || "morning",
   });
 
   let options = [
@@ -73,8 +78,8 @@ export default function SelectDateAndTime() {
       setLoading({ ...loading, medical: true });
       const res = await apiinstance.post("/apply/countoccupancy", {
         sdate: medical.date && convertDate(medical.date),
-        category: selectedCat,
-        office: selectedOffice,
+        category: info?.selectedCat,
+        office: info?.selectedOffice,
         examtype: "medical",
         status: "pending",
       });
@@ -99,8 +104,8 @@ export default function SelectDateAndTime() {
       setLoading({ ...loading, written: true });
       const res = await apiinstance.post("/apply/countoccupancy", {
         sdate: written.date && convertDate(written.date),
-        category: selectedCat,
-        office: selectedOffice,
+        category: info?.selectedCat,
+        office: info?.selectedOffice,
         examtype: "written",
         status: "pending",
       });
@@ -125,8 +130,8 @@ export default function SelectDateAndTime() {
       setLoading({ ...loading, trial: true });
       const res = await apiinstance.post("/apply/countoccupancy", {
         sdate: trial.date && convertDate(trial.date),
-        category: selectedCat,
-        office: selectedOffice,
+        category: info?.selectedCat,
+        office: info?.selectedOffice,
         examtype: "trial",
         status: "pending",
       });
@@ -147,52 +152,52 @@ export default function SelectDateAndTime() {
     }
   };
 
-  async function applyForLicense() {
-    try {
-      const res = await apiinstance.post("/apply/new", {
-        userId: userInfo?.id || "",
-        selectedProv,
-        selectedCat,
-        selectedOffice,
-        medicalExamination: {
-          date: medical.date && convertDate(medical.date),
-          shift: medical.shift,
-          status: "pending",
-        },
-        writtenExamination: {
-          date: written.date && convertDate(written.date),
-          shift: written.shift,
-          status: "pending",
-        },
-        trialExamination: {
-          date: trial.date && convertDate(trial.date),
-          shift: trial.shift,
-          status: "pending",
-        },
-      });
-      if (res.status === 201) {
-        toast({
-          title: "Success",
-          description: "Applied for license successfully",
-          variant: "success",
-        });
-        return router.push("/apply/payment");
-      } else {
-        toast({
-          title: "Error",
-          description: res.data.message,
-          variant: "destructive",
-        });
-      }
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error?.response?.data?.message || "Some error occured",
-      });
-    } finally {
-      setLoading({ ...loading, submission: false });
-    }
-  }
+  //   async function applyForLicense() {
+  //     try {
+  //       const res = await apiinstance.post("/apply/new", {
+  //         userId: userInfo?.id || "",
+  //         selectedProv,
+  //         selectedCat,
+  //         selectedOffice,
+  //         medicalExamination: {
+  //           date: medical.date && convertDate(medical.date),
+  //           shift: medical.shift,
+  //           status: "pending",
+  //         },
+  //         writtenExamination: {
+  //           date: written.date && convertDate(written.date),
+  //           shift: written.shift,
+  //           status: "pending",
+  //         },
+  //         trialExamination: {
+  //           date: trial.date && convertDate(trial.date),
+  //           shift: trial.shift,
+  //           status: "pending",
+  //         },
+  //       });
+  //       if (res.status === 201) {
+  //         toast({
+  //           title: "Success",
+  //           description: "Applied for license successfully",
+  //           variant: "success",
+  //         });
+  //         return router.push("/apply/payment");
+  //       } else {
+  //         toast({
+  //           title: "Error",
+  //           description: res.data.message,
+  //           variant: "destructive",
+  //         });
+  //       }
+  //     } catch (error: any) {
+  //       toast({
+  //         title: "Error",
+  //         description: error?.response?.data?.message || "Some error occured",
+  //       });
+  //     } finally {
+  //       setLoading({ ...loading, submission: false });
+  //     }
+  //   }
   function checkOccupancy() {
     if (!medicalExamination || !writtenExamination || !trialExamination) {
       toast({
@@ -228,7 +233,7 @@ export default function SelectDateAndTime() {
           variant: "destructive",
         });
       } else {
-        applyForLicense();
+        //applyForLicense();
       }
     }
   }
@@ -242,7 +247,7 @@ export default function SelectDateAndTime() {
                 Selected Date:{" "}
                 {medical?.date && (
                   <span className=" text-xs font-normal pl-1">
-                    {medical.date.toDateString()}
+                    {medical?.date.toString()}
                   </span>
                 )}
               </p>
@@ -312,7 +317,7 @@ export default function SelectDateAndTime() {
                 Selected Date:{" "}
                 {written?.date && (
                   <span className=" text-xs font-normal pl-1">
-                    {written.date.toDateString()}
+                    {written.date.toString()}
                   </span>
                 )}
               </p>
@@ -378,7 +383,7 @@ export default function SelectDateAndTime() {
                 Selected Date:{" "}
                 {trial?.date && (
                   <span className=" text-xs font-normal pl-1">
-                    {trial.date.toDateString()}
+                    {trial.date.toString()}
                   </span>
                 )}
               </p>
@@ -437,7 +442,7 @@ export default function SelectDateAndTime() {
       <div className=" flex w-full justify-end">
         <Button
           onClick={checkOccupancy}
-          className=" w-16 float-right"
+          className="absolute bottom-6 right-3"
           disabled={loading.submission}
         >
           {loading.submission ? (
