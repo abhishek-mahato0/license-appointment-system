@@ -34,7 +34,6 @@ export async function sendCustomMail(email:string,subject:string,text:string,htm
            text: text ,// plain text body
            html:`${html}`
          })
-      
          return NextResponse.json({message:message}, {status:201})
    } catch (error:any) {
       ShowError(400,error?.message)
