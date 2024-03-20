@@ -36,7 +36,7 @@ export function PopupModal({
   cancelFunction,
   cancelText,
   description,
-  isHidden = true,
+  isHidden = false,
 }: TPopupModal) {
   return (
     <AlertDialog>
@@ -51,7 +51,7 @@ export function PopupModal({
           <AlertDialogCancel
             onClick={cancelFunction}
             id="close"
-            className={btnclassNames ? btnclassNames : " mr-[70px]"}
+            className={btnclassNames ? btnclassNames : " mr-[80px]"}
           >
             {cancelText || "close"}
           </AlertDialogCancel>

@@ -194,23 +194,6 @@ export default function SelectDateAndTime() {
     }
   }
   function checkOccupancy() {
-    let data = [
-      {
-        date: new Date(),
-        shift: "morning",
-        count: 12,
-      },
-      {
-        date: new Date(),
-        shift: "afternoon",
-        count: 14,
-      },
-      {
-        date: new Date(),
-        shift: "evening",
-        count: 9,
-      },
-    ];
     if (!medicalExamination || !writtenExamination || !trialExamination) {
       toast({
         title: "Error",
@@ -249,7 +232,6 @@ export default function SelectDateAndTime() {
       }
     }
   }
-  console.log(medicalExamination, writtenExamination, trialExamination);
   return (
     <div className="flex w-[100%] flex-col mt-10 gap-10">
       <Outline title="Select Date and Time for Medical Examination">

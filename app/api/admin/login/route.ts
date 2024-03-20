@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
         }
         const res = NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
         res.cookies.set("token", token, { httpOnly: true, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) });
+        res.cookies.set("role", exists?.role, { httpOnly: true, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) });
         return res;
         // return NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
     } catch (error: any) {

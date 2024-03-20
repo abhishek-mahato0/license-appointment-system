@@ -32,8 +32,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
         }
         //NextResponse.next().cookies.set('jwttoken', token)
         const res = NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
-        res.cookies.set("token", token, { httpOnly: true, expires: new Date(Date.now() + 900000) });
-        res.cookies.set("role", exists?.role, { httpOnly: true, expires: new Date(Date.now() + 900000) });
+        res.cookies.set("token", token, { httpOnly: true, expires: new Date(Date.now() + (2*24*60*60*1000)) });
+        res.cookies.set("role", exists?.role, { httpOnly: true, expires: new Date(Date.now() + (2*24*60*60*1000)) });
         return res;
         // return NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
     } catch (error: any) {

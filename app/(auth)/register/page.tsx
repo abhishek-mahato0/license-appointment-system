@@ -44,23 +44,23 @@ export default function page() {
         });
       }
       const payload = { ...datas, avatar: profile };
-      const res = await apiinstance.post("user/register", payload);
-      if (res.status === 201) {
+      const { data } = await apiinstance.post("user/register", payload);
+      if (data) {
         toast({
           title: "Success",
-          description: res?.data?.message,
+          description: data?.message,
           variant: "success",
         });
         return redirect("/login");
       }
       return toast({
         title: "Error",
-        description: res?.data?.message,
+        description: data?.message,
         variant: "destructive",
       });
     } catch (error: any) {
       setLoading(false);
-      toast({
+      return toast({
         title: "Error",
         description: error?.response?.data?.message || "Some error occured",
       });
@@ -216,13 +216,13 @@ export default function page() {
               onChange={onPictureUpload}
             />
           </FullFlex>
-          <FullFlex className="w-full justify-end">
+          {/* <FullFlex className="w-full justify-end">
             <Links
               href="/forgot"
               name="Forgot Password?"
               className=" text-custom-100 text-[13px] hover:underline"
             ></Links>
-          </FullFlex>
+          </FullFlex> */}
 
           <FullFlex
             className="w-full

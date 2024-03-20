@@ -19,6 +19,8 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useToast } from "../ui/use-toast";
+import { apiinstance } from "@/services/Api";
 
 type DropLinks = {
   id: number;
@@ -33,6 +35,23 @@ export default function Navbar() {
   const params = useSearchParams().get("type");
   const { data: session } = useSession();
   const [showfull, setShowfull] = useState(false);
+  const { toast } = useToast();
+
+  const Logout = async () => {
+    try {
+      const res = await apiinstance.get("user/logout");
+      return toast({
+        title: "Success",
+        description: "Logout Successfull.",
+        variant: "success",
+      });
+    } catch (error: any) {
+      return toast({
+        title: "Error",
+        description: error?.response?.data?.message || "Some error Occured",
+      });
+    }
+  };
 
   const dropLinks = [
     {
@@ -193,6 +212,7 @@ export default function Navbar() {
                 onClick={async () => {
                   localStorage.removeItem("userInfo");
                   signOut();
+                  Logout();
                 }}
               />
             )}

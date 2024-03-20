@@ -14,9 +14,12 @@ export async function sendMail(email:string,token:string, userId:string) {
             <p>Please click the link below to verify your email </p>
             <p>${process.env.VERIFY_URL}/${userId}?token=${token}`
           })
-          return NextResponse.json({message:"An email is sent to you. Click the link given to verify your account."}, {status:201})
+          console.log(info);
+         //  return NextResponse.json({message:"An email is sent to you. Click the link given to verify your account."}, {status:201})
+         return true;
     } catch (error:any) {
-       ShowError(400,error?.message)
+      return false;
+       //ShowError(400,error?.message)
     }
     // send mail with defined transport object
    

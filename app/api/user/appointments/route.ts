@@ -49,3 +49,25 @@ export async function GET(req: NextRequest, res:NextResponse) {
         return ShowError(500, error.message)
     }
 }
+
+export async function PUT(req:NextRequest, res:NextResponse){
+    try {
+        await dbconnect();
+        const logged = await checkLogin(req)
+        const id = req.nextUrl.searchParams.get('id')
+        if(!id){
+            return ShowError(400, " Id is required feild.")
+        }
+        if(!logged){
+            return ShowError(401, "Unauthorized");
+        }
+        const app = await Appointment.findOneAndUpdate({_id:id, user_id:logged?._id},{status:"cancel"});
+        if(!app){
+            return ShowError(400, "Some error occured. Try again")
+        }
+        return NextResponse.json({ message:'Canceled Successfully'}, {status:200})
+        
+    } catch (error: any) {
+        return ShowError(500, error.message)
+    }
+}

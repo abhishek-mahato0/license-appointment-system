@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req:NextRequest){
     try {
         const token = req.cookies.delete('token');
+        const role = req.cookies.delete('role');
         return NextResponse.json({message:'Logged out successfully'}, {status:200})
 
     } catch (error: any) {
