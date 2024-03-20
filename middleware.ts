@@ -1,15 +1,18 @@
 import { NextRequest } from 'next/server'
-import { getInfo } from './components/common/getUserInfo';
-import { checkLogged } from './lib/userAuth';
-import jwt from 'jsonwebtoken'
   
 export async function middleware(request: NextRequest) {
     const currentUser= request.cookies.get('token')
+    const role = request.cookies.get('role') || {name:"role", value:"public"}
     const path = request.nextUrl.pathname;
-    const user= jwt.verify(String(currentUser) , process.env.JWT_SECRET as string)
-    console.log(user)
-   
-    if(!currentUser && path.startsWith('/apply')){
+   if(!currentUser || !role){
+         if(path.startsWith('/admin')){
+            return Response.redirect(new URL('/admin/login', request.url))
+         }
+        if(path.startsWith('/profile')){
+            return Response.redirect(new URL('/login', request.url))
+        }
+   }
+    if(!currentUser && (path.startsWith('/apply') || path.startsWith("/reschedule") || path.startsWith('/appointments'))){
         return Response.redirect(new URL('/login', request.url))
     }
     if(!currentUser && path.startsWith('/profile')){
@@ -18,7 +21,10 @@ export async function middleware(request: NextRequest) {
     if(!currentUser && path.startsWith('/admin/')){
         return Response.redirect(new URL('/admin/login', request.url))
     }
-    // if(currentUser && path.startsWith('/login')){
-    //     return Response.redirect(new URL('/', request.url))
-    // }
+    if(currentUser && path.startsWith('/admin') && role?.value === "public"){
+        return Response.redirect(new URL('/admin/login', request.url))
+    }
+    if(currentUser && path.startsWith('/login')){
+        return Response.redirect(new URL('/', request.url))
+    }
 }
