@@ -14,7 +14,6 @@ import React, { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Pencil, RotateCcw } from "lucide-react";
 import SearchInput from "@/components/common/SearchInput";
 import { ColumnDef } from "@tanstack/react-table";
-import RescheduleModal from "@/components/reschedule/RescheduleModal";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/TypedHooks";
 import {
@@ -44,54 +43,24 @@ export default function page() {
   const dispatch = useDispatch();
   const { appointments } = useAppSelector((state) => state.appointments);
 
-  async function updateBiometricStatus(id: string, status: string) {
+  async function cancelAppointment(id: string) {
     try {
-      const res = await apiinstance.put(`/admin/appointments?id=${id}`, {
-        status,
-      });
-      if (res.status === 200) {
-        document.getElementById("close")?.click();
+      if (!id) {
         return toast({
-          title: "Success",
-          description: "Biometric status updated successfully.",
+          title: "Id is required",
+          variant: "destructive",
         });
       }
-      return toast({
-        title: "Error",
-        description: res?.data?.message || "An error occured",
-      });
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error?.response?.data?.message || "An error occured",
-      });
-    }
-  }
-  async function updateMedicalStatus(id: string, status: string, type: string) {
-    try {
-      const res = await apiinstance.put(
-        `/admin/appointments/update?type=${type}`,
-        {
-          id,
-          status,
-        }
-      );
+      const res = await apiinstance.put(`user/appointments?id=${id}`);
       if (res.status === 200) {
-        document.getElementById("close")?.click();
         return toast({
-          title: "Success",
-          description: "Medical status updated successfully.",
+          description: res?.data?.message || "Appointment Cancelled",
           variant: "success",
         });
       }
-      return toast({
-        title: "Error",
-        description: res?.data?.message || "An error occured",
-      });
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error?.response?.data?.message || "An error occured",
+      return toast({
+        title: error?.response?.data?.message,
       });
     }
   }
@@ -160,6 +129,20 @@ export default function page() {
     {
       header: "Status",
       accessorKey: "status",
+      cell: ({ row }: any) => (
+        <Badge
+          variant={`${
+            row.original.status === "pending"
+              ? "secondary"
+              : row.original.status === "passed"
+              ? "success"
+              : "destructive"
+          }`}
+          className=" cursor-pointer"
+        >
+          {row.original.status}
+        </Badge>
+      ),
     },
     {
       header: "Payment",
@@ -194,7 +177,7 @@ export default function page() {
               Status:
               <Badge
                 variant={`${
-                  row.original?.medical.status === "completed"
+                  row.original?.medical.status === "passed"
                     ? "success"
                     : row.original?.medical.status === "pending"
                     ? "secondary"
@@ -220,7 +203,7 @@ export default function page() {
               Status:
               <Badge
                 variant={`${
-                  row.original?.written?.status === "completed"
+                  row.original?.written?.status === "passed"
                     ? "success"
                     : row.original?.written?.status === "pending"
                     ? "secondary"
@@ -245,7 +228,7 @@ export default function page() {
               Status:
               <Badge
                 variant={`${
-                  row.original.trial.status === "completed"
+                  row.original.trial.status === "passed"
                     ? "success"
                     : row.original?.trial?.status === "pending"
                     ? "secondary"
@@ -266,14 +249,21 @@ export default function page() {
       cell: ({ row }: any) =>
         row.original.hasOwnProperty("status") &&
         row.original.status === "pending" && (
-          <Pencil
-            size={10}
-            onClick={() => {
-              router.push(`/reschedule/${row.original._id}`);
-            }}
-          >
-            Reschedule
-          </Pencil>
+          <div className=" flex gap-2 justify-between items-center">
+            <Pencil
+              size={20}
+              className=" cursor-pointer hover:scale-105 hover:text-custom-100"
+              onClick={() => {
+                router.push(`/reschedule/${row.original._id}`);
+              }}
+            />
+            <Button
+              variant="destructive"
+              onClick={() => cancelAppointment(row.original._id)}
+            >
+              Cancel
+            </Button>
+          </div>
           // <RescheduleModal
           //   title="Reschedule Appointment"
           //   label="Reschedule"
@@ -329,7 +319,7 @@ export default function page() {
       <h1 className=" text-2xl text-custom-150 font-bold">
         Medical Appointments
       </h1>
-      <div className="w-full flex items-center justify-between">
+      {/* <div className="w-full flex items-center justify-between">
         <SearchInput onClear={() => {}} onChange={() => {}} />
         <div className="w-full flex items-center gap-2">
           <div className="w-full flex justify-end items-center gap-2">
@@ -340,7 +330,7 @@ export default function page() {
             onClick={() => fetchAppointments("", "", "", "")}
           />
         </div>
-      </div>
+      </div> */}
       <div className="w-full">
         {data && <TanTable columns={columns} data={data} loading={loading} />}
       </div>
