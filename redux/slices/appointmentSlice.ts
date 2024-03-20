@@ -20,9 +20,10 @@ export const appointmentSlice = createSlice({
     setAppointment:(state,action)=>{
       state.appointments=action.payload
     },
-    setPendingAppointment:(state)=>{
-        const app = state.appointments.filter((app:any)=>app?.status==="pending")[0]
-        state.pendingAppointment=app
+    setPendingAppointment:(state, action)=>{
+      console.log(action.payload,"action.payload")
+        //const app = state.appointments.filter((app:any)=>app?.status==="pending")[0]
+      state.pendingAppointment=action.payload
     }
   },
 })
