@@ -2,7 +2,7 @@ import { apiinstance } from "@/services/Api"
 
 export const fetchUserPersonalInformation = async (userId:string) => {
     try{
-        const res = await apiinstance.get(`/user/information/${userId}/personal`);
+        const res = await apiinstance.get(`/me`);
         if(res.status === 200){
             return {
                 success:true,
