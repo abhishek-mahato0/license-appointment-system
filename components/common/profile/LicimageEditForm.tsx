@@ -16,8 +16,9 @@ import FullFlex from "../Fullflex";
 import { ChevronRight, SwitchCamera, X } from "lucide-react";
 import { apiinstance } from "@/services/Api";
 import { useToast } from "@/components/ui/use-toast";
+import { useSession } from "next-auth/react";
 export default function LicimageEditForm({ licenseInformation }: any) {
-  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const { data: session } = useSession();
   const closeref = useRef<any>(null);
   const [prevImage, setPrevImage] = useState<string>(licenseInformation.front);
   const [prevImageBack, setPrevImageBack] = useState<string>(
@@ -34,10 +35,9 @@ export default function LicimageEditForm({ licenseInformation }: any) {
       front: newImage,
       back: newImageBack,
     };
-    console.log(payload);
     try {
       const res = await apiinstance.put(
-        `/user/information/${userInfo?.id}/license/image`,
+        `/user/information/${session?.user?.id}/license/image`,
         payload
       );
       if (res.status != 200) {
