@@ -38,6 +38,7 @@ export const authOptions:AuthOptions = {
             token.citizenship_id=user.citizenship_id;
             token.license_id=user.license_id;
             token.information_id=user.information_id;
+            token.hasApplied=user.hasApplied;
           }
             return token;
           },
@@ -53,6 +54,7 @@ export const authOptions:AuthOptions = {
             session.user.citizenship_id=token.citizenship_id;
             session.user.license_id=token.license_id;
             session.user.information_id=token.information_id;
+            session.user.hasApplied=token.hasApplied;
            }
             return session;
           },

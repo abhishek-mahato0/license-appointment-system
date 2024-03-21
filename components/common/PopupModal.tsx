@@ -51,7 +51,13 @@ export function PopupModal({
           <AlertDialogCancel
             onClick={cancelFunction}
             id="close"
-            className={btnclassNames ? btnclassNames : " mr-[80px]"}
+            className={
+              btnclassNames
+                ? btnclassNames
+                : isHidden
+                ? " mr-[80px]"
+                : " mr-[40px]"
+            }
           >
             {cancelText || "close"}
           </AlertDialogCancel>

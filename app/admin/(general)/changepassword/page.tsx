@@ -25,7 +25,7 @@ export default function page() {
           description: res?.data?.message,
           variant: "success",
         });
-        return router.push("/admin/login");
+        return router.push("/signin");
       }
     } catch (error: any) {
       return toast({

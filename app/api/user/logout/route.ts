@@ -1,13 +1,13 @@
-import { checkLogged } from "@/lib/userAuth";
 import ShowError from "@/utils/ShowError";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req:NextRequest){
+export async function GET(req:NextRequest, res:NextResponse){
     try {
-        const token = req.cookies.delete('token');
-        const role = req.cookies.delete('role');
-        return NextResponse.json({message:'Logged out successfully'}, {status:200})
-
+        const res = NextResponse.json({ message: "Logout Successfull."},{status: 200 })
+        res.cookies.delete("token");
+        res.cookies.delete("role");
+        return res;
+        
     } catch (error: any) {
         return ShowError(500, error?.message)
     }

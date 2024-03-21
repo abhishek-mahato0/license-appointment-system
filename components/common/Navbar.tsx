@@ -36,7 +36,6 @@ export default function Navbar() {
   const { data: session } = useSession();
   const [showfull, setShowfull] = useState(false);
   const { toast } = useToast();
-  console.log(session);
 
   const Logout = async () => {
     try {
