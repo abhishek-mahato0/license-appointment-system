@@ -30,6 +30,7 @@ import {
   fetchUserPersonalInformation,
 } from "@/utils/fetchUserInformation";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -37,6 +38,7 @@ export default function page() {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const router = useRouter();
 
   const dispatch = useAppDispatch();
   const {
@@ -51,22 +53,48 @@ export default function page() {
       const { data, success, message } = await fetchUserPersonalInformation(
         session?.user?.id as string
       );
+      if (data?.information_id === "none") {
+        return router.push("/detailform/personal");
+      }
       if (success) {
         const {
           guardian_name,
           permanent_address,
           temporary_address,
           ...others
-        } = data?.information;
+        } = data?.information_id;
+        const { citizenship_id, license_id } = data;
+
         dispatch(
           setAddressInformation({
             permanentAddress: permanent_address,
             temporaryaddress: temporary_address,
           })
         );
+        dispatch(
+          setCitizenshipInformation({
+            citizenship_no: citizenship_id?.citizenship?.citizenship_no,
+            issue_date: convertDate(citizenship_id?.citizenship?.issue_date),
+            issue_district: citizenship_id?.citizenship?.issue_district,
+            type: citizenship_id?.citizenship?.citizenship_type,
+            front: citizenship_id?.citizenship?.image.front,
+            back: citizenship_id?.citizenship?.image.back,
+          })
+        );
+        dispatch(
+          setLicenseInformation({
+            licenseno: license_id?.license?.license_no,
+            category: license_id?.license?.category,
+            issuedate: convertDate(license_id?.license?.license_date),
+            expirydate: convertDate(license_id?.license?.expire_date),
+            office: license_id?.license?.office,
+            front: license_id?.license?.image.front,
+            back: license_id?.license?.image.back,
+          })
+        );
         return dispatch(
           setPersonalInformation({
-            firstName: others.first_name,
+            firstName: others?.first_name,
             middlename: others.middle_name,
             lastname: others.last_name,
             email: others.email,
@@ -74,8 +102,8 @@ export default function page() {
             dob: convertDate(others.DOB),
             gender: others.gender,
             bloodgroup: others.blood_group,
-            guardiansname: guardian_name.name,
-            guardiansrelation: guardian_name.relation,
+            guardiansname: guardian_name?.name,
+            guardiansrelation: guardian_name?.relation,
             documentStatus: data?.documentStatus,
           })
         );
@@ -87,57 +115,57 @@ export default function page() {
       }
     }
 
-    async function getDocumentInformation() {
-      const { data, success, message } = await fetchUserCitizenshipInformation(
-        session?.user?.id as string
-      );
-      if (success) {
-        dispatch(
-          setCitizenshipInformation({
-            citizenship_no: data?.citizenship.citizenship_no,
-            issue_date: convertDate(data?.citizenship.issue_date),
-            issue_district: data?.citizenship.issue_district,
-            type: data?.citizenship.citizenship_type,
-            front: data?.citizenship.image.front,
-            back: data?.citizenship.image.back,
-          })
-        );
-      } else {
-        return toast({
-          title: "Error",
-          description: message,
-        });
-      }
-    }
-    async function getLicenseInformation() {
-      const { data, success, message } = await fetchUserLicenseInformation(
-        session?.user?.id as string
-      );
-      if (success) {
-        dispatch(
-          setLicenseInformation({
-            licenseno: data?.license.license_no,
-            category: data?.license.category,
-            issuedate: convertDate(data?.license.license_date),
-            expirydate: convertDate(data?.license.expire_date),
-            office: data?.license.office,
-            front: data?.license.image.front,
-            back: data?.license.image.back,
-          })
-        );
-      } else {
-        return toast({
-          title: "Error",
-          description: message,
-        });
-      }
-    }
+    // async function getDocumentInformation() {
+    //   const { data, success, message } = await fetchUserCitizenshipInformation(
+    //     session?.user?.id as string
+    //   );
+    //   if (success) {
+    //     dispatch(
+    //       setCitizenshipInformation({
+    //         citizenship_no: data?.citizenship.citizenship_no,
+    //         issue_date: convertDate(data?.citizenship.issue_date),
+    //         issue_district: data?.citizenship.issue_district,
+    //         type: data?.citizenship.citizenship_type,
+    //         front: data?.citizenship.image.front,
+    //         back: data?.citizenship.image.back,
+    //       })
+    //     );
+    //   } else {
+    //     return toast({
+    //       title: "Error",
+    //       description: message,
+    //     });
+    //   }
+    // }
+    // async function getLicenseInformation() {
+    //   const { data, success, message } = await fetchUserLicenseInformation(
+    //     session?.user?.id as string
+    //   );
+    //   if (success) {
+    //     dispatch(
+    //       setLicenseInformation({
+    //         licenseno: data?.license.license_no,
+    //         category: data?.license.category,
+    //         issuedate: convertDate(data?.license.license_date),
+    //         expirydate: convertDate(data?.license.expire_date),
+    //         office: data?.license.office,
+    //         front: data?.license.image.front,
+    //         back: data?.license.image.back,
+    //       })
+    //     );
+    //   } else {
+    //     return toast({
+    //       title: "Error",
+    //       description: message,
+    //     });
+    //   }
+    // }
     if (session?.user?.id) {
       try {
         setLoading(true);
         getPersonalInformation();
-        session?.user?.citizenship_id !== "none" && getDocumentInformation();
-        session?.user?.license_id !== "none" && getLicenseInformation();
+        // session?.user?.citizenship_id !== "none" && getDocumentInformation();
+        // session?.user?.license_id !== "none" && getLicenseInformation();
       } finally {
         setLoading(false);
       }

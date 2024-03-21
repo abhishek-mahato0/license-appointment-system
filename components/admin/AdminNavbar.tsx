@@ -29,6 +29,7 @@ type DropLinks = {
   params: string;
 };
 export default function AdminNavbar() {
+  let authenticatedUser = ["superadmin", "admin"];
   const location = usePathname();
   const params = useSearchParams().get("type");
   const { data: session } = useSession();
@@ -43,6 +44,7 @@ export default function AdminNavbar() {
       comp: <LayoutDashboardIcon strokeWidth={2} size={17} width={17} />,
       short: "Dashboard",
       params: "",
+      show: true,
     },
     {
       id: 5,
@@ -51,6 +53,7 @@ export default function AdminNavbar() {
       comp: <BookOpen strokeWidth={2} size={17} width={17} />,
       short: "Exam",
       params: "",
+      show: true,
     },
     {
       id: 6,
@@ -59,6 +62,7 @@ export default function AdminNavbar() {
       comp: <BookDown strokeWidth={2} size={17} width={17} />,
       short: "Appointments",
       params: "",
+      show: true,
     },
 
     {
@@ -68,6 +72,7 @@ export default function AdminNavbar() {
       comp: <ListChecks strokeWidth={2} size={17} width={17} />,
       short: "Office",
       params: "",
+      show: authenticatedUser.includes(session?.user?.role || "editor"),
     },
     {
       id: 2,
@@ -76,6 +81,7 @@ export default function AdminNavbar() {
       comp: <Contact strokeWidth={2} size={17} width={17} />,
       short: "Applicants",
       params: "",
+      show: true,
     },
     {
       id: 3,
@@ -84,6 +90,7 @@ export default function AdminNavbar() {
       comp: <Users strokeWidth={2} size={17} width={17} />,
       short: "Administators",
       params: "",
+      show: authenticatedUser.includes(session?.user?.role || "editor"),
     },
     {
       id: 7,
@@ -92,6 +99,7 @@ export default function AdminNavbar() {
       comp: <User strokeWidth={2} size={17} width={17} />,
       short: "Change",
       params: "",
+      show: true,
     },
   ];
   const [active, setAvtive] = useState(
@@ -150,25 +158,27 @@ export default function AdminNavbar() {
           )}
         </FullFlex>
         <FullFlex className=" w-full flex-col items-start mt-4">
-          {dropLinks.map((ele) => {
-            return (
-              <Links
-                href={ele.href}
-                name={`${showfull ? ele.name : ele.short}`}
-                className={`${
-                  active?.id === ele.id
-                    ? "bg-custom-50 border-l-custom-100 text-custom-150 border-l-[4px]"
-                    : ""
-                } hover:text-custom-150 hover:bg-custom-50 w-full h-full font-[500]
+          {dropLinks
+            .filter((ele) => ele.show)
+            .map((ele) => {
+              return (
+                <Links
+                  href={ele.href}
+                  name={`${showfull ? ele.name : ele.short}`}
+                  className={`${
+                    active?.id === ele.id
+                      ? "bg-custom-50 border-l-custom-100 text-custom-150 border-l-[4px]"
+                      : ""
+                  } hover:text-custom-150 hover:bg-custom-50 w-full h-full font-[500]
               ${
                 showfull
                   ? "items-start justify-start py-4 flex-row text-[13px]"
                   : " items-center justify-center py-2 flex-col text-xs"
               }`}
-                key={ele.id}
-              >
-                {ele.comp}
-                {/* <Links
+                  key={ele.id}
+                >
+                  {ele.comp}
+                  {/* <Links
                   href={ele.href}
                   name={`${showfull ? ele.name : ele.short}`}
                   className={`${
@@ -179,9 +189,9 @@ export default function AdminNavbar() {
                 >
                   {ele.comp}
                 </Links> */}
-              </Links>
-            );
-          })}
+                </Links>
+              );
+            })}
         </FullFlex>
       </FullFlex>
       <FullFlex className="w-full pb-5 border-t-2 pt-2 text-xs">

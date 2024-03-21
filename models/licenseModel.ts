@@ -19,13 +19,13 @@ export interface ILicense{
     }
 }
 
-export interface IDocument{
+export interface ILDocument{
     _id?:string,
     user_id:mongoose.Schema.Types.ObjectId,
     license:ILicense,
 }
 
-const licenseSchema = new mongoose.Schema<IDocument>({
+const licenseSchema = new mongoose.Schema<ILDocument>({
     user_id:{ type:mongoose.Schema.Types.ObjectId,
         ref:'user'},
     license:{
@@ -41,4 +41,4 @@ const licenseSchema = new mongoose.Schema<IDocument>({
     },
 })
 
-export const License = mongoose.models.license || mongoose.model<IDocument>('license', licenseSchema )
+export const License = mongoose.models.license || mongoose.model<ILDocument>('license', licenseSchema )
