@@ -8,10 +8,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
     try {
         await dbconnect();
-        // const loggedUser = await checkAdmins(req);
-        // if(!loggedUser || loggedUser.role !== "superadmin"){
-        //     return ShowError(401, "Unauthorized. Login Again.");
-        // }
+        const loggedUser = await checkAdmins(req);
+        if(!loggedUser){
+            return ShowError(401, "Unauthorized. Login Again.");
+        }
         const params = req.nextUrl.searchParams;
         const query:any ={}
         if(params.get("province")){
@@ -19,6 +19,9 @@ export async function GET(req: NextRequest) {
         }
         if(params.get("district")){
             query["district"] = params.get("district");
+        }
+        if(loggedUser.role === "admin" || loggedUser.role === "editor"){
+            query["_id"] = loggedUser?.office;
         }
 
         const officeList = await OfficeModel.find(query);
@@ -32,7 +35,10 @@ export async function POST(req: NextRequest) {
     try {
         await dbconnect();
         const loggedUser = await checkAdmins(req);
-        if(!loggedUser || loggedUser.role !== "superadmin"){
+        console.log(loggedUser)
+        if(!loggedUser){
+            return ShowError(401, "Unauthorized. Login Again.");
+        }else if(loggedUser?.role !== "admin" && loggedUser?.role !== "superadmin"){
             return ShowError(401, "Unauthorized. Login Again.");
         }
         const { name, province, address, district } = await req.json();
@@ -56,7 +62,7 @@ export async function PUT(req: NextRequest) {
     try {
         await dbconnect();
         const loggedUser = await checkAdmins(req);
-        if(!loggedUser || loggedUser.role !== "superadmin"){
+        if(!loggedUser || loggedUser.role !== "superadmin" && loggedUser.role !== "admin"){
             return ShowError(401, "Unauthorized. Login Again.");
         }
         const { id, content } = await req.json();

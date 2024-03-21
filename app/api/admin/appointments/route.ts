@@ -50,12 +50,20 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest, res:NextResponse) {
     try {
         await dbconnect();
+        const loggedUser = await checkAdmins(req);
+        if(!loggedUser){
+            return ShowError(401, "Unauthorized. Login Again.");
+        }
         const status = req.nextUrl.searchParams.get('status');
         const category = req.nextUrl.searchParams.get('category');
         let query:any={
         }
         if(status) query['status'] = status;
         if(category) query['category'] = category.toUpperCase();
+        if(loggedUser?.role !== "superadmin"){
+            query['office'] = loggedUser?.office;
+        }
+
 
         // const from = req.nextUrl.searchParams.get('from');
         // const to = req.nextUrl.searchParams.get('to');

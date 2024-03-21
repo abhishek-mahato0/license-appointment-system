@@ -69,6 +69,7 @@ export default function Navbar() {
       comp: <PenSquare strokeWidth={2} size={17} width={17} />,
       short: "Apply",
       params: "new",
+      disabled: session?.user?.hasApplied,
     },
     {
       id: 3,
@@ -77,6 +78,7 @@ export default function Navbar() {
       comp: <PlusCircle strokeWidth={2} size={17} width={17} />,
       short: "Add",
       params: "add",
+      disabled: session?.user?.hasApplied,
     },
     {
       id: 4,
@@ -94,14 +96,7 @@ export default function Navbar() {
       short: "Exam",
       params: "",
     },
-    {
-      id: 6,
-      name: "Reschedule Appointment",
-      href: "/reschedule",
-      comp: <FolderSync strokeWidth={2} size={17} width={17} />,
-      short: "Reschedule",
-      params: "",
-    },
+
     {
       id: 8,
       name: "Appointments",
@@ -117,6 +112,7 @@ export default function Navbar() {
       comp: <User strokeWidth={2} size={17} width={17} />,
       short: "Profile",
       params: "",
+      disable: !session?.user,
     },
   ];
   const [active, setAvtive] = useState(
@@ -161,7 +157,7 @@ export default function Navbar() {
           {dropLinks.map((ele) => {
             return (
               <Links
-                href={ele.href}
+                href={ele?.disable ? "" : ele.href}
                 name={`${showfull ? ele.name : ele.short}`}
                 className={`${
                   active?.id === ele.id
@@ -172,7 +168,8 @@ export default function Navbar() {
                 showfull
                   ? "items-start justify-start py-4 flex-row text-[13px]"
                   : " items-center justify-center py-2 flex-col text-xs"
-              }`}
+              }
+              ${ele?.disable ? "cursor-not-allowed" : "cursor-pointer"}`}
                 key={ele.id}
               >
                 {ele.comp}

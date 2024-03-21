@@ -23,9 +23,9 @@ let data = [
   },
   {
     id: 2,
-    name: "Completed",
-    value: "completed",
-    label: "Completed",
+    name: "Passed",
+    value: "Passed",
+    label: "Passed",
   },
   {
     id: 3,
@@ -50,6 +50,7 @@ export default function EditModal({
       triggerChildren={triggerChildren}
       cancelText="close"
       onClick={() => {}}
+      isHidden={true}
     >
       <div className=" w-full items-center flex gap-3 mb-3">
         <span>{label || "Select Status"}</span>

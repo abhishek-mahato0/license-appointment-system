@@ -1,4 +1,5 @@
 import dbconnect from "@/lib/dbConnect";
+import { checkAdmins } from "@/lib/userAuth";
 import { Appointment } from "@/models/appointmentsModel";
 import { Citizenship } from "@/models/citizenshipModel";
 import { Information } from "@/models/informationModel";
@@ -10,7 +11,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req:NextRequest){
     try {
         await dbconnect();
-        const users = await User.find()
+        const loggedUser = await checkAdmins(req);
+        if(!loggedUser){
+            return ShowError(401, "Unauthorized. Login Again.");
+        }
+        let query:any={}
+        // if(loggedUser.role === "admin" || loggedUser.role === "editor"){
+        //     query["province"] = loggedUser?.province;
+        // }
+        const users = await User.find(query)
         .select("-password")
         // .populate({
         //     path:'citizenship_id',

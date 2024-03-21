@@ -10,10 +10,13 @@ export async function GET(req:NextRequest){
         await dbconnect();
         const loggedUser = await checkAdmins(req);
         
-        if(!loggedUser || loggedUser.role !== "superadmin"){
+        if(!loggedUser){
             return ShowError(401, "Unauthorized. Login Again.");
         }
-        const users = await Administrator.find().select('-password').populate(
+
+        const users = await Administrator.find({
+            office: loggedUser.role==="superadmin" ? {$ne:null} : loggedUser?.office
+        }).select('-password').populate(
             {
                 path: 'createdBy',
                 model :Administrator,
@@ -37,7 +40,7 @@ export async function PATCH(req:NextRequest){
         const {id, content} = await req.json();
         const loggedUser = await checkAdmins(req);
         
-        if(!loggedUser || loggedUser.role !== "superadmin"){
+        if(!loggedUser || (loggedUser.role !== "superadmin" || loggedUser.role !== "admin")){
             return ShowError(401, "Unauthorized. Login Again.");
         }
         const user = await Administrator.findByIdAndUpdate(id,content, {new:true});
@@ -72,18 +75,21 @@ export async function DELETE(req:NextRequest, {params}:any){
 export async function POST(req:NextRequest){
     try {
         await dbconnect();
-        // const loggedUser = await checkAdmins(req);
+        const loggedUser = await checkAdmins(req);
         
-        // if(!loggedUser || loggedUser.role !== "superadmin"){
-        //     return ShowError(401, "Unauthorized. Login Again.");
-        // }
+        if(!loggedUser){
+            return ShowError(401, "Unauthorized. Login Again.");
+        }
+        else if(loggedUser.role !== "superadmin" && loggedUser.role !== "admin"){
+            return ShowError(401, "Unauthorized. Login Again.");
+        }
         const {name, username, password, role, province, office} = await req.json();
         const exists = await Administrator.findOne({username});
         if(exists){
             return ShowError(400, "User already exists");
         }
         let haspass = await bcrypt.hash(password, 10);
-        const user = await Administrator.create({name,username, password:haspass, role, province, office, createdBy: "60f3e3e3e3e3e3e3e3e3e3e3"});
+        const user = await Administrator.create({name,username, password:haspass, role, province, office, createdBy: loggedUser._id });
         if(!user){
             return ShowError(400, "No user found");
         }
