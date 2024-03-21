@@ -39,6 +39,7 @@ export default function page() {
           citizenship_id: res?.data.user.citizenship_id,
           license_id: res?.data.user.license_id,
           information_id: res?.data.user.information_id,
+          hasApplied: res?.data.user.hasApplied,
           redirect: false,
         });
         dispatch(setUser(res?.data.user));
