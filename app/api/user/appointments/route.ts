@@ -5,6 +5,7 @@ import { OfficeModel } from "@/models/OfficeModel";
 import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
 import { Appointment } from "@/models/appointmentsModel";
+import { User } from "@/models/userModel";
 import ShowError from "@/utils/ShowError";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -65,6 +66,7 @@ export async function PUT(req:NextRequest, res:NextResponse){
         if(!app){
             return ShowError(400, "Some error occured. Try again")
         }
+        await User.findByIdAndUpdate(logged?._id, {hasApplied:false});
         return NextResponse.json({ message:'Canceled Successfully'}, {status:200})
         
     } catch (error: any) {

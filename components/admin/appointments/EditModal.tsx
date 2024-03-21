@@ -24,7 +24,7 @@ let data = [
   {
     id: 2,
     name: "Passed",
-    value: "Passed",
+    value: "passed",
     label: "Passed",
   },
   {

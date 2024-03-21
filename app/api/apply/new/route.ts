@@ -17,12 +17,15 @@ import dbconnect from "@/lib/dbConnect";
 
 async function checkIfFailedForThreeTimes(id: string, category: string) {
     try {
-        const user = await User.findById(id).populate({
-            path: "appointment",
-            model: Appointment,
-            match: { category: category, status: "failed" }
-        });
-        if (user?.appointment.length >= 3) {
+        // const user = await User.findById(id).populate({
+        //     path: "appointment",
+        //     model: Appointment,
+        //     match: { $and:[ 
+        //         {category: category}, 
+        //         {status: "failed"} ]}
+        // });
+        const appointments = await Appointment.find({ user_id: id, category: category, status: "failed" });
+        if (appointments.length >= 3) {
             return true;
         }
         return false;

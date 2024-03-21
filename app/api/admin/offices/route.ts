@@ -8,10 +8,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
     try {
         await dbconnect();
-        const loggedUser = await checkAdmins(req);
-        if(!loggedUser){
-            return ShowError(401, "Unauthorized. Login Again.");
-        }
+       
+        // if(!loggedUser){
+        //     return ShowError(401, "Unauthorized. Login Again.");
+        // }
         const params = req.nextUrl.searchParams;
         const query:any ={}
         if(params.get("province")){
@@ -20,9 +20,9 @@ export async function GET(req: NextRequest) {
         if(params.get("district")){
             query["district"] = params.get("district");
         }
-        if(loggedUser.role === "admin" || loggedUser.role === "editor"){
-            query["_id"] = loggedUser?.office;
-        }
+        // if(loggedUser.role === "admin" || loggedUser.role === "editor"){
+        //     query["_id"] = loggedUser?.office;
+        // }
 
         const officeList = await OfficeModel.find(query);
         return NextResponse.json(officeList,{ status: 200 });

@@ -61,6 +61,7 @@ export default function Navbar() {
       comp: <LayoutDashboardIcon strokeWidth={2} size={17} width={17} />,
       short: "Dashboard",
       params: "",
+      show: true,
     },
     {
       id: 2,
@@ -69,7 +70,8 @@ export default function Navbar() {
       comp: <PenSquare strokeWidth={2} size={17} width={17} />,
       short: "Apply",
       params: "new",
-      disabled: session?.user?.hasApplied,
+      disable: String(session?.user?.hasApplied) === "true" ? true : false,
+      show: true,
     },
     {
       id: 3,
@@ -78,7 +80,8 @@ export default function Navbar() {
       comp: <PlusCircle strokeWidth={2} size={17} width={17} />,
       short: "Add",
       params: "add",
-      disabled: session?.user?.hasApplied,
+      disable: String(session?.user?.hasApplied) === "true" ? true : false,
+      show: true,
     },
     {
       id: 4,
@@ -87,6 +90,7 @@ export default function Navbar() {
       comp: <ListChecks strokeWidth={2} size={17} width={17} />,
       short: "Renew",
       params: "",
+      show: true,
     },
     {
       id: 5,
@@ -95,6 +99,7 @@ export default function Navbar() {
       comp: <BookOpen strokeWidth={2} size={17} width={17} />,
       short: "Exam",
       params: "",
+      show: true,
     },
 
     {
@@ -104,6 +109,7 @@ export default function Navbar() {
       comp: <Bike strokeWidth={2} size={17} width={17} />,
       short: "Appointments",
       params: "",
+      show: session?.user?.token,
     },
     {
       id: 7,
@@ -113,6 +119,7 @@ export default function Navbar() {
       short: "Profile",
       params: "",
       disable: !session?.user,
+      show: true,
     },
   ];
   const [active, setAvtive] = useState(
@@ -133,6 +140,7 @@ export default function Navbar() {
       })
     );
   }, [location, params]);
+
   return (
     <div
       className={`${
@@ -154,26 +162,28 @@ export default function Navbar() {
           )}
         </FullFlex>
         <FullFlex className=" w-full flex-col items-start mt-4">
-          {dropLinks.map((ele) => {
-            return (
-              <Links
-                href={ele?.disable ? "" : ele.href}
-                name={`${showfull ? ele.name : ele.short}`}
-                className={`${
-                  active?.id === ele.id
-                    ? "bg-custom-50 border-l-custom-100 text-custom-150 border-l-[4px]"
-                    : ""
-                } hover:text-custom-150 hover:bg-custom-50 w-full h-full font-[500]
+          {dropLinks
+            .filter((ele) => ele?.show)
+            .map((ele) => {
+              return (
+                <Links
+                  href={ele?.disable ? "" : ele.href}
+                  name={`${showfull ? ele.name : ele.short}`}
+                  className={`${
+                    active?.id === ele.id
+                      ? "bg-custom-50 border-l-custom-100 text-custom-150 border-l-[4px]"
+                      : ""
+                  } hover:text-custom-150 hover:bg-custom-50 w-full h-full font-[500]
               ${
                 showfull
                   ? "items-start justify-start py-4 flex-row text-[13px]"
                   : " items-center justify-center py-2 flex-col text-xs"
               }
               ${ele?.disable ? "cursor-not-allowed" : "cursor-pointer"}`}
-                key={ele.id}
-              >
-                {ele.comp}
-                {/* <Links
+                  key={ele.id}
+                >
+                  {ele.comp}
+                  {/* <Links
                   href={ele.href}
                   name={`${showfull ? ele.name : ele.short}`}
                   className={`${
@@ -184,9 +194,9 @@ export default function Navbar() {
                 >
                   {ele.comp}
                 </Links> */}
-              </Links>
-            );
-          })}
+                </Links>
+              );
+            })}
         </FullFlex>
       </FullFlex>
       <FullFlex className="w-full pb-5 border-t-2 pt-2 text-xs">
