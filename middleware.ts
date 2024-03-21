@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
    if(!currentUser || !role){
          if(path.startsWith('/admin')){
-            return Response.redirect(new URL('/admin/login', request.url))
+            return Response.redirect(new URL('/signin', request.url))
          }
         if(path.startsWith('/profile')){
             return Response.redirect(new URL('/login', request.url))
@@ -19,10 +19,10 @@ export async function middleware(request: NextRequest) {
         return Response.redirect(new URL('/login', request.url))
     }
     if(!currentUser && path.startsWith('/admin/')){
-        return Response.redirect(new URL('/admin/login', request.url))
+        return Response.redirect(new URL('/signin', request.url))
     }
     if(currentUser && path.startsWith('/admin') && role?.value === "public"){
-        return Response.redirect(new URL('/admin/login', request.url))
+        return Response.redirect(new URL('/signin', request.url))
     }
     if(currentUser && path.startsWith('/login')){
         return Response.redirect(new URL('/', request.url))
