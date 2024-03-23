@@ -2,6 +2,7 @@
 import { examData } from "@/components/Exam/CatA";
 import { general } from "@/components/Exam/General";
 import { signQues } from "@/components/Exam/Sign";
+import QuizModal from "@/components/common/Examination/QuizModal";
 import PaginationComp from "@/components/common/PaginationComp";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 import { categoryData } from "@/components/data/CategoryData";
@@ -124,13 +125,14 @@ export default function page() {
       </h1>
       <div className=" w-full flex justify-end p-4">
         <div className=" w-[55%] grid grid-cols-3 items-center justify-end gap-3">
-          <Button
+          {/* <Button
             type="submit"
             className=" bg-green-700 text-white"
             onClick={() => router.push(`quiz?category=${categoryParams}`)}
           >
             Play Quiz
-          </Button>
+          </Button> */}
+          <QuizModal />
           <SingleSelect
             data={categoryData.map((ele) => ({
               id: ele.id,

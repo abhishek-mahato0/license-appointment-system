@@ -136,7 +136,7 @@ export default function Navbar() {
         if (params && ele.params != "") {
           return ele.href.includes(location) && ele.params.includes(params);
         }
-        return ele.href == location;
+        return ele.href.includes(location);
       })
     );
   }, [location, params]);
