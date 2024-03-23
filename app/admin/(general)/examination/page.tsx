@@ -1,7 +1,6 @@
 "use client";
 
 import DeleteModal from "@/components/common/DeleteModal";
-import EditIcon from "@/components/common/EditIcon";
 import AddQuestionModal from "@/components/common/Examination/AddQuestionModal";
 import SearchInput from "@/components/common/SearchInput";
 import { TanTable } from "@/components/common/TanTable";
