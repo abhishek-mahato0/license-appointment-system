@@ -5,6 +5,7 @@ import publicDashboardSliceReducer from './slices/dashboardSlice'
 import officeListSliceReducer from './slices/officeListSlice'
 import userSliceReducer from './slices/userSlice'
 import appointmentSliceReducer from './slices/appointmentSlice'
+import newsListSliceReducer from './slices/newsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     dashboard: publicDashboardSliceReducer,
     officeList: officeListSliceReducer,
     user: userSliceReducer,
-    appointments: appointmentSliceReducer
+    appointments: appointmentSliceReducer,
+    news: newsListSliceReducer,
   },
 })
 
