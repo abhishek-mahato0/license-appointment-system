@@ -38,7 +38,7 @@ export default function page() {
       });
       if (res.status === 200) {
         toast({
-          description: "News edited successfully",
+          description: "News edited successfully.",
           title: "Success",
           variant: "success",
         });
