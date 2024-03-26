@@ -1,3 +1,4 @@
+import { Administrator } from "@/models/AdministratorsModel";
 import { NewsModel } from "@/models/NewsModel";
 import ShowError from "@/utils/ShowError";
 import { NextRequest, NextResponse } from "next/server";
@@ -5,7 +6,12 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest, {params}: {params: {id: string}}) {
   try {
     if(!params.id) return ShowError(400, "id is required");
-    const news = await NewsModel.findById(params.id).sort({ date: -1 });
+    const news = await NewsModel.findById(params.id).populate({
+      path:"createdBy",
+      select:"name", 
+      model:Administrator
+    });
+  
     return NextResponse.json(news, { status: 200 });
   } catch (error: any) {
     return ShowError(500, error.message);
