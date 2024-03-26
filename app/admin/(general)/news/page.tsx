@@ -8,7 +8,7 @@ import { TanTable } from "@/components/common/TanTable";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { INews } from "@/models/NewsModel";
-import { fetchNews } from "@/redux/slices/newsSlice";
+import { fetchAdminNews, fetchNews } from "@/redux/slices/newsSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
 import { apiinstance } from "@/services/Api";
 import { ColumnDef } from "@tanstack/react-table";
@@ -20,7 +20,9 @@ export default function page() {
   const { toast } = useToast();
   const [searchText, setSearchText] = React.useState("");
   const [loadings, setLoadings] = React.useState(false);
-  const { newsList, loading, error } = useAppSelector((state) => state.news);
+  const { adminNewsList, loading, error } = useAppSelector(
+    (state) => state.news
+  );
   const dispatch = useAppDispatch();
 
   async function editNews(data: any) {
@@ -43,7 +45,7 @@ export default function page() {
           variant: "success",
         });
         document.getElementById("close")?.click();
-        return dispatch(fetchNews());
+        return dispatch(fetchAdminNews());
       }
     } catch (error: any) {
       return toast({
@@ -65,7 +67,7 @@ export default function page() {
           title: "Success",
           variant: "success",
         });
-        return dispatch(fetchNews());
+        return dispatch(fetchAdminNews());
       }
     } catch (error: any) {
       return toast({
@@ -88,7 +90,7 @@ export default function page() {
           variant: "success",
         });
         document.getElementById("close")?.click();
-        return dispatch(fetchNews());
+        return dispatch(fetchAdminNews());
       }
     } catch (error: any) {
       toast({
@@ -101,13 +103,13 @@ export default function page() {
   }
 
   useEffect(() => {
-    if (newsList.length > 0) return;
-    dispatch(fetchNews());
+    if (adminNewsList.length > 0) return;
+    dispatch(fetchAdminNews());
   }, []);
 
   useEffect(() => {
     if (searchText.length > 2) {
-      const data: any = newsList.filter((item) => {
+      const data: any = adminNewsList.filter((item) => {
         return item?.title?.toLowerCase().includes(searchText.toLowerCase());
       });
       setFilteredData(data);
@@ -222,16 +224,16 @@ export default function page() {
             onSubmit={(data: any) => {
               addNews(data);
             }}
-            triggerChildren={<Button>Add Questions</Button>}
+            triggerChildren={<Button>Add News</Button>}
             loading={loadings}
           />
         </div>
       </div>
       <div className=" w-full mt-3">
-        {newsList && (
+        {adminNewsList && (
           <TanTable
             columns={columns}
-            data={searchText.length > 2 ? filteredData : newsList}
+            data={searchText.length > 2 ? filteredData : adminNewsList}
             loading={loading}
           />
         )}

@@ -21,6 +21,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useToast } from "../ui/use-toast";
 import { apiinstance } from "@/services/Api";
+import Link from "next/link";
 
 type DropLinks = {
   id: number;
@@ -150,7 +151,10 @@ export default function Navbar() {
       onMouseLeave={() => setShowfull(false)}
     >
       <FullFlex className="w-full flex-col px-0 py-0">
-        <FullFlex className=" gap-2 bg-custom-100 w-full px-[2px] py-3">
+        <Link
+          href="/"
+          className="flex items-center justify-center gap-2 bg-custom-100 w-full px-[2px] py-3"
+        >
           <Image src="/images/logo.svg" alt="logo" width={50} height={40} />
           {showfull && (
             <p className=" text-[12px] text-white font-bold">
@@ -160,7 +164,7 @@ export default function Navbar() {
               </p>
             </p>
           )}
-        </FullFlex>
+        </Link>
         <FullFlex className=" w-full flex-col items-start mt-4">
           {dropLinks
             .filter((ele) => ele?.show)
