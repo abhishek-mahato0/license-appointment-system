@@ -104,7 +104,7 @@ export default function page() {
             bloodgroup: others.blood_group,
             guardiansname: guardian_name?.name,
             guardiansrelation: guardian_name?.relation,
-            documentStatus: data?.documentStatus,
+            documentStatus: data?.documentVerified,
           })
         );
       } else {

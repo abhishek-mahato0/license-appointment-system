@@ -77,17 +77,12 @@ export default function AddNewsModal({
               {
                 id: 1,
                 name: "General",
-                value: "general",
+                value: "General",
               },
               {
                 id: 2,
-                name: "Hot",
-                value: "hot",
-              },
-              {
-                id: 3,
-                name: "Trending",
-                value: "trending",
+                name: "Featured",
+                value: "Featured",
               },
             ]}
             classNames=" border-[1px] border-custom-150"

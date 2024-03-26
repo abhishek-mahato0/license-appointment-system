@@ -15,7 +15,6 @@ export async function GET(req: NextRequest) {
       user.license_id != "none" &&
       user.information_id != "none"
     ) {
-        console.log("all n one")
       const profile = await User.findById(user._id)
         .select("-password")
         .populate({
