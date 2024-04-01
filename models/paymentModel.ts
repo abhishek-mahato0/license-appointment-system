@@ -1,7 +1,7 @@
 import mongoose, { mongo } from "mongoose"
 
 export interface IPayment{
-    id?:string,
+    _id?:string,
     user_id:mongoose.Schema.Types.ObjectId,
     appointment_id:mongoose.Schema.Types.ObjectId,
     amount:number,
@@ -9,7 +9,7 @@ export interface IPayment{
     payment_method:string,
     payment_status:string,
     payment_gateway:string,
-    verifiedBy:mongoose.Schema.Types.ObjectId
+    verifiedBy?:mongoose.Schema.Types.ObjectId
 }
 
 const paymentSchema = new mongoose.Schema<IPayment>({
@@ -26,3 +26,5 @@ const paymentSchema = new mongoose.Schema<IPayment>({
         ref:'administrator'}
 
 })
+
+export const Payment = mongoose.models.payment || mongoose.model<IPayment>('payment',paymentSchema);
