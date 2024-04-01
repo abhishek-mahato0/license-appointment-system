@@ -16,19 +16,19 @@ export default function NewsCard({
       key={item._id}
       className={`flex ${
         type === "vertical" ? "flex-col" : ""
-      } w-[260px] items-start justify-center gap-3 bg-custom-50 shadow-md hover:scale-105 duration-75`}
+      } w-full items-start justify-center bg-gray-50 shadow-md hover:scale-105 duration-75 pb-5`}
     >
       <div className={`${type === "vertical" ? "w-full" : "w-[38%]"}`}>
         <img
           src={item?.img}
           alt="news"
-          className="w-[260px] h-[140px] object-fit"
+          className="w-full h-[180px] object-fit"
         />
       </div>
       <div
         className={`${
           type === "vertical" ? " w-full" : "w-[62%]"
-        } flex flex-col gap-2 px-2`}
+        } flex flex-col gap-2 px-2 mt-2`}
       >
         <span className=" flex gap-2 text-xs">
           <p>{item?.createdBy?.name || "Anonymous"}</p>

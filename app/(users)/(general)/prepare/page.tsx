@@ -3,6 +3,7 @@ import { examData } from "@/components/Exam/CatA";
 import { general } from "@/components/Exam/General";
 import { signQues } from "@/components/Exam/Sign";
 import QuizModal from "@/components/common/Examination/QuizModal";
+import HeaderTitle from "@/components/common/HeaderTitle";
 import PaginationComp from "@/components/common/PaginationComp";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 import { categoryData } from "@/components/data/CategoryData";
@@ -119,10 +120,8 @@ export default function page() {
     });
   }, [page, categoryParams, typeParams]);
   return (
-    <div className=" flex flex-col w-full items-start justify-start mt-5">
-      <h1 className=" font-bold text-custom-150 text-xl">
-        Exam Preparation Page {loading.toString()}
-      </h1>
+    <div className=" flex flex-col w-full items-start justify-start mt-1">
+      <HeaderTitle title="Prepare for Exam" />
       <div className=" w-full flex justify-end p-4">
         <div className=" w-[55%] grid grid-cols-3 items-center justify-end gap-3">
           {/* <Button

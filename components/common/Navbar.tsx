@@ -8,6 +8,7 @@ import {
   BookOpen,
   ChevronDown,
   FolderSync,
+  Home,
   LayoutDashboardIcon,
   ListChecks,
   LogOut,
@@ -55,6 +56,15 @@ export default function Navbar() {
   };
 
   const dropLinks = [
+    {
+      id: 0,
+      name: "Public Page",
+      href: "/",
+      comp: <Home strokeWidth={2} size={17} width={17} />,
+      short: "Home",
+      params: "",
+      show: true,
+    },
     {
       id: 1,
       name: "Dashboard",
@@ -126,9 +136,9 @@ export default function Navbar() {
   const [active, setAvtive] = useState(
     dropLinks.find((ele: DropLinks) => {
       if (params && ele.params != "") {
-        return ele.href == location && ele.params == params;
+        return ele.href.includes(location) && ele.params.includes(params);
       }
-      return ele.href == location;
+      return ele.href.includes(location);
     })
   );
   useEffect(() => {

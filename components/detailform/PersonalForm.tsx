@@ -9,19 +9,36 @@ import { useToast } from "@/components/ui/use-toast";
 import { useDispatch } from "react-redux";
 import { setPersonalInformation } from "@/redux/slices/profileInformationSlice";
 import { useRouter } from "next/navigation";
+import { capitalizeFirstLetter } from "@/utils/convertDate";
 
 export default function PersonalForm() {
   const { toast } = useToast();
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
   const handlePersonalData = (data: any) => {
+    console.log(data, "data");
     if (!data) {
       return toast({
         title: "Error",
         description: "Fields are required.",
       });
+    }
+    if (data?.dob) {
+      const dob = new Date(data.dob);
+      const age = new Date().getFullYear() - dob.getFullYear();
+      if (age < 18) {
+        return toast({
+          title: "Error",
+          description: "Age should be greater than 18.",
+        });
+      }
     }
     dispatch(setPersonalInformation(data));
     router.push("address/");
@@ -64,6 +81,11 @@ export default function PersonalForm() {
                         className=" w-[90%] py-1 px-2 rounded-[6px] bg-custom-50 border-custom-150 border-[1px] outline-1 focus:outline-none outline-custom-100"
                         type={item.type}
                       />
+                      {errors[item.name]?.type === "required" && (
+                        <span className=" text-xs font-light text-red-600">
+                          {capitalizeFirstLetter(item.name)} is required
+                        </span>
+                      )}
                     </>
                   )}
                 </div>
@@ -102,6 +124,11 @@ export default function PersonalForm() {
                         className=" w-[90%] py-1 px-2 rounded-[6px] bg-custom-50 border-custom-150 border-[1px] outline-1 focus:outline-none outline-custom-100"
                         type={item.type}
                       />
+                      {errors[item.name]?.type === "required" && (
+                        <span className=" text-xs font-light text-red-600">
+                          {capitalizeFirstLetter(item.name)} is required
+                        </span>
+                      )}
                     </>
                   )}
                 </div>
