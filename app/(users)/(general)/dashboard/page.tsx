@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import { Book, Car, HeartPulse, TimerIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ChartCard from "@/components/recharts/ChartCard";
+import HeaderTitle from "@/components/common/HeaderTitle";
 
 let offices = [
   {
@@ -125,11 +126,9 @@ export default function page() {
   }, [selectedOffice, selectedCat, dispatch]);
 
   return (
-    <div className=" flex flex-col w-full items-start justify-start mt-5">
-      <div className=" w-full justify-between items-center flex pr-6 ">
-        <h1 className=" font-bold text-custom-150 text-2xl">
-          Public Dashboard
-        </h1>
+    <div className=" flex flex-col w-full items-start justify-start mt-3">
+      <div className=" w-full justify-between items-center flex pr-6">
+        <HeaderTitle title="Public Dashboard" />
         <div className="flex items-center justify-center gap-5">
           <SingleSelect
             data={categoryData.map((ele) => ({

@@ -1,4 +1,5 @@
 "use client";
+import HeaderTitle from "@/components/common/HeaderTitle";
 import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
 import { useParams, useRouter } from "next/navigation";
@@ -27,9 +28,7 @@ export default function page() {
 
   return (
     <div className=" w-full flex flex-col px-4 gap-2">
-      <div className="w-full flex justify-between items-center px-4 py-5 text-2xl font-bold text-custom-150">
-        {news?.title}
-      </div>
+      <HeaderTitle title={news?.title} />
       <div className=" w-full">
         <img
           src={news?.img}

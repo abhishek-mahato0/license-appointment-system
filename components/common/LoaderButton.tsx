@@ -18,7 +18,7 @@ export default function LoaderButton({
   return (
     <Button
       type={type}
-      className={`${loading ? "px-5" : ""} ${className}`}
+      className={`${loading ? "px-5 cursor-wait" : ""} ${className}`}
       disabled={loading}
       onClick={onClick}
     >
