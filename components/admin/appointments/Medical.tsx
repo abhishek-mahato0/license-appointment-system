@@ -18,6 +18,7 @@ import SearchInput from "@/components/common/SearchInput";
 import { ColumnDef } from "@tanstack/react-table";
 import PaymentModal from "./PaymentModal";
 import AddPaymentModal from "./AddPaymentModal";
+import HeaderTitle from "@/components/common/HeaderTitle";
 
 type AppointmentColumn = {
   _id?: string;
@@ -490,10 +491,8 @@ export default function Medical() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col gap-3 mt-4 pr-5">
-      <h1 className=" text-2xl text-custom-150 font-bold">
-        Medical Appointments
-      </h1>
+    <div className="w-full flex flex-col pr-5">
+      <HeaderTitle title="Appointments" />
       <div className="w-full flex items-center justify-between">
         <SearchInput onClear={() => {}} onChange={() => {}} />
         <div className="w-full flex items-center gap-2">
@@ -506,7 +505,7 @@ export default function Medical() {
           />
         </div>
       </div>
-      <div className="w-full">
+      <div className="w-full mt-2">
         {data && (
           <TanTable columns={columns} data={data} loading={isFetching} />
         )}
