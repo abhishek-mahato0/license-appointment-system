@@ -71,7 +71,7 @@ export default function AddNewsModal({
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="type">Question Type</label>
+          <label htmlFor="type">News Category</label>
           <SingleSelect
             data={[
               {
@@ -86,7 +86,7 @@ export default function AddNewsModal({
               },
             ]}
             classNames=" border-[1px] border-custom-150"
-            placeholder="Select Type"
+            placeholder="Select Category"
             onSelect={(data: any) => {
               setSelectedType(data);
             }}
