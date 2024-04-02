@@ -36,12 +36,24 @@ export async function POST(req: NextRequest) {
     }
 }
 
-export async function GET(){
+export async function GET(req: NextRequest){
     try {
-        const payments = await Payment.find().populate({
-            path:'user_id',
-            select:'name email',
-            model:User
+        const from = req.nextUrl.searchParams.get("from");
+        const to = req.nextUrl.searchParams.get("to");
+        const status = req.nextUrl.searchParams.get("status");
+        const gateway = req.nextUrl.searchParams.get("gateway");
+        let query:any = {};
+        if(from && !to ) query['payment_date'] = {$gte:new Date(from)} 
+        if(!from && to) query['payment_date']={$lte:new Date(to)}
+        if(from && to) query['payment_date'] = {$gte:new Date(from), $lte:new Date(to)}
+        if(status) query['payment_status'] = status
+        if(gateway) query['payment_gateway'] = gateway
+
+        await dbconnect();
+        const payments = await Payment.find(query).populate({
+            path:'appointment_id',
+            select:'tracking_id',
+            model:Appointment
         }).populate({
             path:'verifiedBy',
             select:'name',

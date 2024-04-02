@@ -1,8 +1,10 @@
 "use client";
 
 import AddNewsModal from "@/components/admin/news/AddNewsModal";
+import FilterModal from "@/components/admin/news/FilterModal";
 import DeleteModal from "@/components/common/DeleteModal";
 import AddQuestionModal from "@/components/common/Examination/AddQuestionModal";
+import HeaderTitle from "@/components/common/HeaderTitle";
 import SearchInput from "@/components/common/SearchInput";
 import { TanTable } from "@/components/common/TanTable";
 import { Button } from "@/components/ui/button";
@@ -11,6 +13,7 @@ import { INews } from "@/models/NewsModel";
 import { fetchAdminNews, fetchNews } from "@/redux/slices/newsSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
 import { apiinstance } from "@/services/Api";
+import { convertDate } from "@/utils/convertDate";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp, Pencil, Trash } from "lucide-react";
 import React, { useEffect, useMemo } from "react";
@@ -45,7 +48,7 @@ export default function page() {
           variant: "success",
         });
         document.getElementById("close")?.click();
-        return dispatch(fetchAdminNews());
+        return dispatch(fetchAdminNews({ to: "", from: "", category: "" }));
       }
     } catch (error: any) {
       return toast({
@@ -67,7 +70,7 @@ export default function page() {
           title: "Success",
           variant: "success",
         });
-        return dispatch(fetchAdminNews());
+        return dispatch(fetchAdminNews({ to: "", from: "", category: "" }));
       }
     } catch (error: any) {
       return toast({
@@ -90,7 +93,7 @@ export default function page() {
           variant: "success",
         });
         document.getElementById("close")?.click();
-        return dispatch(fetchAdminNews());
+        return dispatch(fetchAdminNews({ to: "", from: "", category: "" }));
       }
     } catch (error: any) {
       toast({
@@ -104,7 +107,7 @@ export default function page() {
 
   useEffect(() => {
     if (adminNewsList.length > 0) return;
-    dispatch(fetchAdminNews());
+    dispatch(fetchAdminNews({ to: "", from: "", category: "" }));
   }, []);
 
   useEffect(() => {
@@ -154,14 +157,23 @@ export default function page() {
       accessorKey: "Description",
       header: "Description",
       cell: ({ row }: any) => (
-        <div className=" flex flex-col gap-2">
-          {row.original?.description && <p>{row.original?.description}</p>}
+        <div className="flex w-[370px]">
+          {row.original?.description && (
+            <p className=" w-full flex items-center">
+              {row.original?.description}
+            </p>
+          )}
         </div>
       ),
     },
     {
       accessorKey: "category",
       header: "Category",
+    },
+    {
+      accessorKey: "date",
+      header: "Created Date",
+      cell: ({ row }: any) => <p>{convertDate(row.original?.date)}</p>,
     },
     {
       accessorKey: "createdBy",
@@ -206,9 +218,13 @@ export default function page() {
     },
   ];
 
+  const getFilteredData = (from: string, to: string, category: string) => {
+    dispatch(fetchAdminNews({ to, from, category }));
+  };
+
   return (
-    <div className=" w-full mt-3 flex flex-col pr-6 gap-4">
-      <h1>News</h1>
+    <div className=" w-full flex flex-col pr-6 gap-1">
+      <HeaderTitle title="Posted News" />
       <div className=" w-full flex justify-between">
         <SearchInput
           onChange={(e) => {
@@ -219,14 +235,19 @@ export default function page() {
           }}
           placeholder="Search Question"
         />
-        <div className="flex justify-end gap-4 items-center">
-          <AddNewsModal
-            onSubmit={(data: any) => {
-              addNews(data);
-            }}
-            triggerChildren={<Button>Add News</Button>}
-            loading={loadings}
-          />
+        <div className="w-[50%] flex justify-end gap-3 items-center">
+          <div className="flex">
+            <FilterModal onsubmit={getFilteredData} />
+          </div>
+          <div>
+            <AddNewsModal
+              onSubmit={(data: any) => {
+                addNews(data);
+              }}
+              triggerChildren={<Button>Add News</Button>}
+              loading={loadings}
+            />
+          </div>
         </div>
       </div>
       <div className=" w-full mt-3">

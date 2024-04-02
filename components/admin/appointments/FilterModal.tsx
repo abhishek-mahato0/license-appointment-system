@@ -3,7 +3,6 @@ import React from "react";
 import { SearchSelect } from "@/components/common/Searchselect";
 import { categoryData } from "@/components/data/CategoryData";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 
 type FilterModalProps = {

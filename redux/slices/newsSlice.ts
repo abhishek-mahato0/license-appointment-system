@@ -29,8 +29,8 @@ export const fetchNews = createAsyncThunk("fetchNews", async () => {
     const res = await apiinstance.get(`user/news`);
     return res.data;
  });
- export const fetchAdminNews = createAsyncThunk("fetchAdminNews", async () => {
-    const res = await apiinstance.get("admin/news");
+ export const fetchAdminNews = createAsyncThunk("fetchAdminNews", async ({to, from, category}:{to:string, from:string, category:string}) => {
+    const res = await apiinstance.get(`admin/news?to=${to}&from=${from}&category=${category}`);
     return res.data;
  });
 

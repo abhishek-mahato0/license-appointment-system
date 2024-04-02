@@ -1,6 +1,7 @@
 "use client";
 import AddOfficeModal from "@/components/admin/offices/AddOfficeModal";
 import DeleteModal from "@/components/common/DeleteModal";
+import HeaderTitle from "@/components/common/HeaderTitle";
 import SearchInput from "@/components/common/SearchInput";
 import { TanTable } from "@/components/common/TanTable";
 import { Button } from "@/components/ui/button";
@@ -260,8 +261,8 @@ export default function page() {
     return setFilteredData(data);
   }, [searchText.length > 2]);
   return (
-    <div className=" w-full mt-3 flex flex-col pr-6 gap-4">
-      <h1>Office List</h1>
+    <div className=" w-full flex flex-col pr-6 gap-2">
+      <HeaderTitle title="Transport Offices" />
       <div className=" w-full flex justify-between">
         <SearchInput
           onChange={(e) => {

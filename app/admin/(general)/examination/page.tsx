@@ -2,6 +2,7 @@
 
 import DeleteModal from "@/components/common/DeleteModal";
 import AddQuestionModal from "@/components/common/Examination/AddQuestionModal";
+import HeaderTitle from "@/components/common/HeaderTitle";
 import SearchInput from "@/components/common/SearchInput";
 import { TanTable } from "@/components/common/TanTable";
 import { Button } from "@/components/ui/button";
@@ -301,8 +302,8 @@ export default function page() {
     }
   }, [searchText.length > 2]);
   return (
-    <div className=" w-full mt-3 flex flex-col pr-6 gap-4">
-      <h1>Examination Questions</h1>
+    <div className=" w-full flex flex-col pr-6 gap-1">
+      <HeaderTitle title="Examination Questions" />
       <div className=" w-full flex justify-between">
         <SearchInput
           onChange={(e) => {

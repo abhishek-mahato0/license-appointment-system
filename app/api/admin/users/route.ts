@@ -1,9 +1,5 @@
 import dbconnect from "@/lib/dbConnect";
 import { checkAdmins } from "@/lib/userAuth";
-import { Appointment } from "@/models/appointmentsModel";
-import { Citizenship } from "@/models/citizenshipModel";
-import { Information } from "@/models/informationModel";
-import { License } from "@/models/licenseModel";
 import { User } from "@/models/userModel";
 import ShowError from "@/utils/ShowError";
 import { NextRequest, NextResponse } from "next/server";
@@ -11,27 +7,26 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req:NextRequest){
     try {
         await dbconnect();
+        const hasApplied = req.nextUrl.searchParams.get("applied");
+        const email = req.nextUrl.searchParams.get("byemail");
+        const status = req.nextUrl.searchParams.get("status");
         const loggedUser = await checkAdmins(req);
         if(!loggedUser){
             return ShowError(401, "Unauthorized. Login Again.");
         }
         let query:any={}
-        // if(loggedUser.role === "admin" || loggedUser.role === "editor"){
-        //     query["province"] = loggedUser?.province;
-        // }
+        if(hasApplied){
+            query['hasApplied'] = hasApplied;
+        }
+        if(email){
+            query['email'] = email;
+        }
+        if(status){
+            query['documentVerified.status'] = status;
+        }
         const users = await User.find(query)
         .select("-password")
-        // .populate({
-        //     path:'citizenship_id',
-        //     model: Citizenship
-        // }).populate({
-        //     path:'license_id',
-        //    model: License
-        // })
-        // .populate({
-        //     path:'information_id',
-        //     model: Information
-        // });
+       
         if(!users){
             return ShowError(400, "No users found");
         }

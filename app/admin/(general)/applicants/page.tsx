@@ -1,33 +1,17 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronDown,
-  ChevronUp,
-  Delete,
-  Edit,
-  Eye,
-  Pencil,
-  Trash,
-} from "lucide-react";
+import { ChevronDown, ChevronUp, Eye } from "lucide-react";
 import { TanTable } from "@/components/common/TanTable";
 import SearchInput from "@/components/common/SearchInput";
 import { apiinstance } from "@/services/Api";
 import { IUser } from "@/models/userModel";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
-import { original } from "@reduxjs/toolkit";
 import { Badge } from "@/components/ui/badge";
+import HeaderTitle from "@/components/common/HeaderTitle";
+import FilterModal from "@/components/admin/applicants/FilterModal";
 
 export const columns: ColumnDef<IUser>[] = [
   {
@@ -188,10 +172,16 @@ export default function page() {
   const handleClear = () => {
     setSearchText("");
   };
-  async function getApplicants() {
+  async function getApplicants(
+    applied: string,
+    byemail: string,
+    status: string
+  ) {
     try {
       setLoading(true);
-      const res = await apiinstance.get("/admin/users");
+      const res = await apiinstance.get(
+        `/admin/users?byemail=${byemail}&applied=${applied}&status=${status}`
+      );
       if (res.status === 200) {
         return setData(res.data);
       }
@@ -209,7 +199,7 @@ export default function page() {
     }
   }
   useMemo(() => {
-    getApplicants();
+    getApplicants("", "", "");
   }, []);
   useEffect(() => {
     if (searchText) {
@@ -225,11 +215,11 @@ export default function page() {
     }
   }, [searchText]);
   return (
-    <div className="w-full flex flex-col gap-4 mt-4">
-      <h1>Applicants</h1>
-      <div className="w-full flex justify-between items-center">
+    <div className="w-full flex flex-col gap-2 mt-1">
+      <HeaderTitle title="Applicants" />
+      <div className="w-full flex justify-between items-center pr-3">
         <SearchInput onChange={handleSearch} onClear={handleClear} />
-        {/* <Button>Add New Applicant</Button> */}
+        <FilterModal onsubmit={getApplicants} />
       </div>
       <div className="w-full flex justify-end items-center pr-6 py-2">
         {(searchText ? filteredData : data) && (
