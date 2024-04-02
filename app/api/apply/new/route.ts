@@ -14,6 +14,7 @@ import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
 import { checkLogin } from "@/lib/userAuth";
 import dbconnect from "@/lib/dbConnect";
+import { Payment } from "@/models/paymentModel";
 
 async function checkIfFailedForThreeTimes(id: string, category: string) {
     try {
@@ -210,8 +211,6 @@ export async function POST(req: NextRequest) {
             shift: writtenExamination.shift
         })
         await written.save();
-
-
         const appointment = await new Appointment({
             tracking_id: isLogged?.phone,
             user_id: isLogged._id,
@@ -225,10 +224,11 @@ export async function POST(req: NextRequest) {
             written: written._id,
             trial: trial._id
         }).save()
+        
         user.appointment.push({ id: appointment._id, status: 'pending' })
         user.hasApplied = true
         await user.save();
-        return NextResponse.json({ message: 'Appointment created successfully' }, { status: 201 })
+        return NextResponse.json({ message: 'Appointment created successfully', appointment }, { status: 201 })
 
     } catch (error: any) {
         return ShowError(400, error.message)

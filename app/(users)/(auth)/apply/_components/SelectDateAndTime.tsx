@@ -176,7 +176,9 @@ export default function SelectDateAndTime() {
           description: "Applied for license successfully",
           variant: "success",
         });
-        return router.push("/apply/payment");
+        return router.push(
+          `/apply/payment?app_id=${res?.data?.appointment?._id as string}`
+        );
       } else {
         toast({
           title: "Error",
