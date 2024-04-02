@@ -4,7 +4,8 @@ import { MedicalModal } from "@/models/MedicalExamModel";
 import { OfficeModel } from "@/models/OfficeModel";
 import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
-import { Appointment } from "@/models/appointmentsModel";
+import { Appointment} from "@/models/appointmentsModel";
+import { Payment } from "@/models/paymentModel";
 import ShowError from "@/utils/ShowError";
 import { convertDate } from "@/utils/convertDate";
 import { NextRequest, NextResponse } from "next/server";
@@ -72,11 +73,15 @@ export async function GET(req: NextRequest, res:NextResponse) {
         //     return ShowError(401, "Unauthorized");
         // }
         // if(user?.role !== "superadmin"){
-            const ans = await Appointment.find(query).populate({
+            const appointment:any = await Appointment.find(query).populate({
                 path:"medical",
                 model:MedicalModal,
                
             }).populate({
+                path:"payment",
+                model:Payment,
+            })
+            .populate({
                 path:"written",
                 model:WrittenModal,
             
@@ -89,10 +94,10 @@ export async function GET(req: NextRequest, res:NextResponse) {
                 select:'name'
             }).sort({bookDate:-1
             });
-            return NextResponse.json(ans, { status: 200 });
+            return NextResponse.json(appointment, { status: 200 });
        //}
         //const ans = await Appointment.find();
-        //return NextResponse.json(ans, { status: 401 });
+        // return NextResponse.json(ans, { status: 401 });
     } catch (error:any) {
         return ShowError(500, error.message)
     }

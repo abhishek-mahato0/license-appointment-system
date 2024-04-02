@@ -16,6 +16,8 @@ import FilterModal from "./FilterModal";
 import { ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
 import SearchInput from "@/components/common/SearchInput";
 import { ColumnDef } from "@tanstack/react-table";
+import PaymentModal from "./PaymentModal";
+import AddPaymentModal from "./AddPaymentModal";
 
 type AppointmentColumn = {
   _id?: string;
@@ -101,6 +103,54 @@ export default function Medical() {
       setLoading(false);
     }
   }
+
+  async function updatePayment(id: string, status: string) {
+    try {
+      setLoading(true);
+      const res = await apiinstance.patch(
+        `/admin/appointments/payment?id=${id}`,
+        { status }
+      );
+      if (res.status === 200) {
+        document.getElementById("close")?.click();
+        return toast({
+          title: "Success",
+          description: "Payment status updated successfully.",
+          variant: "success",
+        });
+      }
+    } catch (error: any) {
+      return toast({
+        title: "Error",
+        description: error?.response?.data?.message || "An error occured",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+  async function addPayment(id: string) {
+    try {
+      setLoading(true);
+      const res = await apiinstance.post(`/admin/appointments/payment`, {
+        app_id: id,
+      });
+      if (res.status === 200) {
+        document.getElementById("close")?.click();
+        return toast({
+          title: "Success",
+          description: "Payment status updated successfully.",
+          variant: "success",
+        });
+      }
+    } catch (error: any) {
+      return toast({
+        title: "Error",
+        description: error?.response?.data?.message || "An error occured",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
   const columns: ColumnDef<AppointmentColumn>[] = [
     {
       header: "SN",
@@ -170,7 +220,54 @@ export default function Medical() {
     {
       header: "Payment",
       accessorKey: "payment",
-      cell: ({ row }: any) => row.original?.payment?.status || "No Payment",
+      cell: ({ row }: any) =>
+        row?.original?.payment?.payment_status ? (
+          <PaymentModal
+            loading={loading}
+            triggerChildren={
+              <Badge
+                variant={`${
+                  row.original?.payment?.payment_status === "pending"
+                    ? "secondary"
+                    : row.original?.payment?.payment_status === "completed"
+                    ? "success"
+                    : "destructive"
+                }`}
+                className=" cursor-pointer"
+              >
+                {row.original?.payment?.payment_status || "No Payment"}
+              </Badge>
+            }
+            title="Update Payment Status"
+            label="Select Status"
+            initialValue={row.original?.payment?.payment_status || "pending"}
+            onSubmit={(value) => {
+              updatePayment(row.original?.payment?._id, value);
+            }}
+          />
+        ) : (
+          <AddPaymentModal
+            loading={loading}
+            triggerChildren={
+              <Badge
+                variant={`${
+                  row.original?.payment?.payment_status === "pending"
+                    ? "secondary"
+                    : row.original?.payment?.payment_status === "completed"
+                    ? "success"
+                    : "destructive"
+                }`}
+                className="cursor-pointer"
+              >
+                {row.original?.payment?.payment_status || "No"}
+              </Badge>
+            }
+            title="Make Payment"
+            onSubmit={() => {
+              addPayment(row.original._id);
+            }}
+          />
+        ),
     },
     {
       header: "Biometric",
