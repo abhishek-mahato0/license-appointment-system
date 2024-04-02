@@ -1,3 +1,4 @@
+import dbconnect from "@/lib/dbConnect";
 import { checkAdmins } from "@/lib/userAuth";
 import { Administrator } from "@/models/AdministratorsModel";
 import { NewsModel } from "@/models/NewsModel";
@@ -7,7 +8,16 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req:NextRequest){
     try {
-       const news = await NewsModel.find().sort({date:-1}).populate({
+        await dbconnect();
+        const from = req.nextUrl.searchParams.get("from");
+        const to = req.nextUrl.searchParams.get("to");
+        const category = req.nextUrl.searchParams.get("category");
+        const query:any={}
+        if(from && to) query['date'] = {$gte: new Date(from), $lte: new Date(to)}
+        if(category) query['category'] = category;
+        if(from && !to ) query['date'] = {$gte: new Date(from)}
+        if(!from && to) query['date'] = {$lte: new Date(to)}
+       const news = await NewsModel.find(query).sort({date:-1}).populate({
               path:"createdBy",
               select:"name", 
               model:Administrator
@@ -22,6 +32,7 @@ export async function POST(req:NextRequest){
     try {
         const loggedUser = await checkAdmins(req);
         if(!loggedUser) return ShowError(401, "You are not authorized. Please login again.");
+        await dbconnect();
         const {title, description, img, category} = await req.json();
         if(!title || !description) return ShowError(400, "All fields are required");
         const picture = await uploadPicture(img, "news", String("news"+Date.now()))
