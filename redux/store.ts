@@ -6,6 +6,7 @@ import officeListSliceReducer from './slices/officeListSlice'
 import userSliceReducer from './slices/userSlice'
 import appointmentSliceReducer from './slices/appointmentSlice'
 import newsListSliceReducer from './slices/newsSlice'
+import admindasSliceReducer from './slices/adminDashboard'
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     user: userSliceReducer,
     appointments: appointmentSliceReducer,
     news: newsListSliceReducer,
+    adminDashboard : admindasSliceReducer
   },
 })
 

@@ -17,20 +17,10 @@ type TBarchart = {
 };
 
 const fills = ["#0764D2", "#FF9525", "#FFE28A", "#FFC0CB", "#FF0000"];
-export default function CustomBarChart({ data, keys }: TBarchart) {
+export default function MultiBarChart({ data, keys }: TBarchart) {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart
-        width={450}
-        height={200}
-        data={data}
-        // margin={{
-        //   top: 5,
-        //   right: 5,
-        //   left: 5,
-        //   bottom: 5,
-        // }}
-      >
+      <BarChart width={450} height={200} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" className=" pt-10" />
         <YAxis />
@@ -39,7 +29,7 @@ export default function CustomBarChart({ data, keys }: TBarchart) {
         {keys?.map((key, index) => {
           return (
             <Bar
-              dataKey={key}
+              dataKey="data.count"
               fill={fills[index % fills.length]}
               key={key}
               // activeBar={<Rectangle fill="pink" stroke="blue" />}

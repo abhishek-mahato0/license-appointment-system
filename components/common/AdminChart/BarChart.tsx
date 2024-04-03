@@ -1,4 +1,5 @@
 import { capitalizeFirstLetter } from "@/utils/convertDate";
+import { Item } from "@radix-ui/react-select";
 import React from "react";
 import {
   BarChart,
@@ -9,6 +10,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Cell,
 } from "recharts";
 
 type TBarchart = {
@@ -17,35 +19,20 @@ type TBarchart = {
 };
 
 const fills = ["#0764D2", "#FF9525", "#FFE28A", "#FFC0CB", "#FF0000"];
-export default function CustomBarChart({ data, keys }: TBarchart) {
+export default function AdminBarChart({ data, keys }: TBarchart) {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart
-        width={450}
-        height={200}
-        data={data}
-        // margin={{
-        //   top: 5,
-        //   right: 5,
-        //   left: 5,
-        //   bottom: 5,
-        // }}
-      >
+      <BarChart width={450} height={200} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" className=" pt-10" />
         <YAxis />
         <Tooltip />
         <Legend />
-        {keys?.map((key, index) => {
-          return (
-            <Bar
-              dataKey={key}
-              fill={fills[index % fills.length]}
-              key={key}
-              // activeBar={<Rectangle fill="pink" stroke="blue" />}
-            />
-          );
-        })}
+        <Bar dataKey="count" fill="#0764D2">
+          {data.map((entry: any, index: number) => (
+            <Cell key={`cell-${index}`} fill={fills[index % fills.length]} />
+          ))}
+        </Bar>
       </BarChart>
     </ResponsiveContainer>
   );
