@@ -1,6 +1,6 @@
 import dbconnect from "@/lib/dbConnect";
 import { checkAdmins } from "@/lib/userAuth";
-import { Appointment } from "@/models/appointmentsModel";
+import { User } from "@/models/userModel";
 import ShowError from "@/utils/ShowError";
 import { NextRequest, NextResponse } from "next/server"
 
@@ -12,25 +12,19 @@ export async function GET(req: NextRequest) {
             return ShowError(400, "You are not authorized to perform this action");
         }
         const province = req.nextUrl.searchParams.get("province");
-        const from = req.nextUrl.searchParams.get("from");
-        const to = req.nextUrl.searchParams.get("to");
         const query:any={}
         if(province) query['province'] = +province;
-        if(from && to) query['bookdate'] = {$gte: new Date(from), $lte:new Date(to)}
-        if(!from && to) query['bookdate'] = {$lte:new Date(to)}
-        if(from && !to) query['bookdate'] = {$gte:new Date(from)}
-        const appointmentsCount = await Appointment.aggregate([
+        const appointmentsCount = await User.aggregate([
             { $match: query },
             {
                 $group: {
-                    _id: "$status",
+                    _id: "$documentVerified.status",
                     count: { $sum: 1 },
-                    name: { $first: "$status"}
+                    name: { $first: "$documentVerified.status"}
                 }
             }
         ]);
-
-        return NextResponse.json(appointmentsCount , { status: 200 });
+        return NextResponse.json(appointmentsCount, { status: 200 });
     
     
     } catch (error: any) {
