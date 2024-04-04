@@ -73,8 +73,8 @@ export default function SelectOffice() {
   // }, [selectedCat, dispatch]);
   return (
     <FullFlex className="flex-col gap-4 w-full">
-      <div className=" w-full flex justify-center items-center gap-6">
-        <div className=" flex items-center justify-between gap-3">
+      <div className=" w-full flex justify-center items-center gap-10">
+        <div className="flex items-center justify-between gap-3">
           <p className=" text-customtext-100">Select Province: </p>
           <Select onValueChange={(val) => dispatch(setSelectedProv(val))}>
             <SelectTrigger className="w-[180px] text-customtext-100">
@@ -97,8 +97,8 @@ export default function SelectOffice() {
           </Select>
         </div>
         {office && selectedProv && (
-          <div className="w-1/2 flex gap-1 items-center justify-center">
-            <p className=" w-[30%]">Select Office: </p>
+          <div className="w-[30%] flex gap-2 items-center justify-center">
+            <p className=" min-w-fit">Select Office: </p>
             <SearchSelect
               data={filteredOffice}
               onSelect={(val) => dispatch(setSelectedOffice(val))}

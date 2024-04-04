@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
 import { setBarstate, setIsAgreed } from "@/redux/slices/applynewSlice";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 
 export default function TermsConditions() {
   const router = useRouter();

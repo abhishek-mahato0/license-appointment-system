@@ -15,19 +15,19 @@ export const categoryData = [
     id: 3,
     name: "Tempo, Auto Rickshaw",
     category: "C",
-    src: "/images/bike.svg",
+    src: "/images/tempo.svg",
   },
   {
     id: 4,
     name: "E-Rickshaw",
     category: "C1",
-    src: "/images/bike.svg",
+    src: "/images/e-ric.svg",
   },
   {
     id: 5,
     name: "Power Tiler",
     category: "D",
-    src: "/images/bike.svg",
+    src: "/images/oader.svg",
   },
   {
     id: 6,
@@ -75,7 +75,7 @@ export const categoryData = [
     id: 14,
     name: "Loader",
     category: "I3",
-    src: "/images/bike.svg",
+    src: "/images/loader.svg",
   },
   {
     id: 15,
@@ -87,7 +87,7 @@ export const categoryData = [
     id: 16,
     name: "Backhoe Loader",
     category: "J2",
-    src: "/images/bike.svg",
+    src: "/images/loader.svg",
   },
 
   {
@@ -106,7 +106,7 @@ export const categoryData = [
     id: 19,
     name: "Other heavy equipments",
     category: "J2",
-    src: "/images/bike.svg",
+    src: "/images/truck.svg",
   },
   {
     id: 18,
