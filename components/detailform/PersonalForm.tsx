@@ -23,7 +23,6 @@ export default function PersonalForm() {
     watch,
   } = useForm();
   const handlePersonalData = (data: any) => {
-    console.log(data, "data");
     if (!data) {
       return toast({
         title: "Error",

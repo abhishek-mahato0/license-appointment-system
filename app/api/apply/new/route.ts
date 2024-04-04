@@ -2,29 +2,19 @@ import { Appointment } from "@/models/appointmentsModel";
 import { Citizenship } from "@/models/citizenshipModel";
 import { Information } from "@/models/informationModel";
 import { License } from "@/models/licenseModel";
-import { UAppointment, User } from "@/models/userModel";
+import {  User } from "@/models/userModel";
 import ShowError from "@/utils/ShowError";
 import { convertDate } from "@/utils/convertDate";
 import { NextRequest, NextResponse } from "next/server";
-import { switchType } from "../countoccupancy/route";
-import { DashboardLog, IDashboardSchema } from "@/models/dashboardModel";
-import { increaseOccupancy } from "@/utils/updateDashLog";
 import { MedicalModal } from "@/models/MedicalExamModel";
 import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
 import { checkLogin } from "@/lib/userAuth";
 import dbconnect from "@/lib/dbConnect";
-import { Payment } from "@/models/paymentModel";
 
 async function checkIfFailedForThreeTimes(id: string, category: string) {
     try {
-        // const user = await User.findById(id).populate({
-        //     path: "appointment",
-        //     model: Appointment,
-        //     match: { $and:[ 
-        //         {category: category}, 
-        //         {status: "failed"} ]}
-        // });
+    
         const appointments = await Appointment.find({ user_id: id, category: category, status: "failed" });
         if (appointments.length >= 3) {
             return true;
@@ -63,95 +53,95 @@ async function checkInformation(userId: string) {
     return false
 }
 
-async function updateDashLog(category: string, date: string, office: string, type: string, forType: string) {
-    try {
+// async function updateDashLog(category: string, date: string, office: string, type: string, forType: string) {
+//     try {
 
-        const dashlogForMedical = await DashboardLog.findOne({
-            category: category,
-            date: date,
-            office: office
-        })
-        if (!dashlogForMedical) {
-            const createdLog = await new DashboardLog<IDashboardSchema>({
-                category: category,
-                office,
-                date,
-                medical: {
-                    morning: {
-                        remaining: type === "medical" && forType === "morning" ? 1 : 0,
-                        completed: 0,
-                        passed: 0,
-                        failed: 0
-                    },
-                    evening: {
-                        remaining: type === "medical" && forType === "evening" ? 1 : 0,
-                        completed: 0,
-                        passed: 0,
-                        failed: 0
-                    },
-                    afternoon: {
-                        remaining: type === "medical" && forType === "afternoon" ? 1 : 0,
-                        completed: 0,
-                        passed: 0,
-                        failed: 0
-                    }
+//         const dashlogForMedical = await DashboardLog.findOne({
+//             category: category,
+//             date: date,
+//             office: office
+//         })
+//         if (!dashlogForMedical) {
+//             const createdLog = await new DashboardLog<IDashboardSchema>({
+//                 category: category,
+//                 office,
+//                 date,
+//                 medical: {
+//                     morning: {
+//                         remaining: type === "medical" && forType === "morning" ? 1 : 0,
+//                         completed: 0,
+//                         passed: 0,
+//                         failed: 0
+//                     },
+//                     evening: {
+//                         remaining: type === "medical" && forType === "evening" ? 1 : 0,
+//                         completed: 0,
+//                         passed: 0,
+//                         failed: 0
+//                     },
+//                     afternoon: {
+//                         remaining: type === "medical" && forType === "afternoon" ? 1 : 0,
+//                         completed: 0,
+//                         passed: 0,
+//                         failed: 0
+//                     }
 
-                },
-                trial: {
-                    morning: {
-                        remaining: type === "trial" && forType === "morning" ? 1 : 0,
-                        completed: 0,
-                        passed: 0,
-                        failed: 0
-                    },
-                    evening: {
-                        remaining: type === "trial" && forType === "evening" ? 1 : 0,
-                        completed: 0,
-                        passed: 0,
-                        failed: 0
-                    },
-                    afternoon: {
-                        remaining: type === "trial" && forType === "afternoon" ? 1 : 0,
-                        completed: 0,
-                        passed: 0,
-                        failed: 0
-                    }
-                },
-                written: {
-                    morning: {
-                        remaining: type === "written" && forType === "morning" ? 1 : 0,
-                        completed: 0,
-                        passed: 0,
-                        failed: 0
-                    },
-                    evening: {
-                        remaining: type === "written" && forType === "evening" ? 1 : 0,
-                        completed: 0,
-                        passed: 0,
-                        failed: 0
-                    },
-                    afternoon: {
-                        remaining: type === "written" && forType === "afternoon" ? 1 : 0,
-                        completed: 0,
-                        passed: 0,
-                        failed: 0
-                    }
-                }
+//                 },
+//                 trial: {
+//                     morning: {
+//                         remaining: type === "trial" && forType === "morning" ? 1 : 0,
+//                         completed: 0,
+//                         passed: 0,
+//                         failed: 0
+//                     },
+//                     evening: {
+//                         remaining: type === "trial" && forType === "evening" ? 1 : 0,
+//                         completed: 0,
+//                         passed: 0,
+//                         failed: 0
+//                     },
+//                     afternoon: {
+//                         remaining: type === "trial" && forType === "afternoon" ? 1 : 0,
+//                         completed: 0,
+//                         passed: 0,
+//                         failed: 0
+//                     }
+//                 },
+//                 written: {
+//                     morning: {
+//                         remaining: type === "written" && forType === "morning" ? 1 : 0,
+//                         completed: 0,
+//                         passed: 0,
+//                         failed: 0
+//                     },
+//                     evening: {
+//                         remaining: type === "written" && forType === "evening" ? 1 : 0,
+//                         completed: 0,
+//                         passed: 0,
+//                         failed: 0
+//                     },
+//                     afternoon: {
+//                         remaining: type === "written" && forType === "afternoon" ? 1 : 0,
+//                         completed: 0,
+//                         passed: 0,
+//                         failed: 0
+//                     }
+//                 }
 
-            })
-            await createdLog.save()
-            return true;
-        } else {
-            if (await increaseOccupancy(category, date, office, type, forType, dashlogForMedical)) {
-                await dashlogForMedical.save();
-                return true;
-            }
-            return false;
-        }
-    } catch (error) {
-        return false;
-    }
-}
+//             })
+//             await createdLog.save()
+//             return true;
+//         } else {
+//             if (await increaseOccupancy(category, date, office, type, forType, dashlogForMedical)) {
+//                 await dashlogForMedical.save();
+//                 return true;
+//             }
+//             return false;
+//         }
+//     } catch (error) {
+//         return false;
+//     }
+// }
 export async function POST(req: NextRequest) {
     try {
         await dbconnect();

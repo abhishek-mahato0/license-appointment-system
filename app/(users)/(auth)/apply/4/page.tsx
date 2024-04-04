@@ -1,6 +1,6 @@
 "use client";
 import { useAppSelector } from "@/redux/TypedHooks";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SelectDateAndTime from "../_components/SelectDateAndTime";
 
@@ -9,11 +9,11 @@ export default function page() {
     (state) => state.applynew
   );
   const router = useRouter();
-  // useEffect(() => {
-  //   if (!selectedCat) {
-  //     router.push("/apply/3");
-  //   }
-  // }, [selectedCat]);
+  useEffect(() => {
+    if (!selectedCat) {
+      router.push("/apply/3");
+    }
+  }, [selectedCat]);
   return (
     <div className=" w-full flex flex-col items-center justify-between">
       <h1 className=" w-full justify-start text-custom-150 text-xl font-bold">

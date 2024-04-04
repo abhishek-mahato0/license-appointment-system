@@ -102,15 +102,6 @@ export async function PUT(req:NextRequest,{params}:any) {
        if(!user){
         return ShowError(400, "No user found");
        }
-    //    const informationData = {
-    //        first_name: information?.firstName,
-    //        middle_name: information?.middlename,
-    //        last_name: information?.lastname,
-    //        guardian_name: {name: information?.guardiansname, relation: information?.guardiansrelation},
-    //        DOB: information?.dob,
-    //        gender: information?.gender,
-    //        blood_group: information?.bloodgroup,
-    //     };
     const updated= await Information.findOneAndUpdate({user_id: userId}, {$set:information}, {new:true});
     await updated.save();
     return NextResponse.json({message:"Personal Information saved Successfully"}, {status:200})
