@@ -9,13 +9,13 @@ export async function GET(req:NextRequest){
               path:"createdBy",
               select:"name", 
               model:Administrator
-       }).limit(4)
+       }).limit(5)
        const featuredall = await NewsModel.find({ category:'Featured'}).sort({date:-1}).populate({
         path:"createdBy",
         select:"name", 
         model:Administrator
  })
-       const general = await NewsModel.find({ category:'General'}).sort({date:-1}).populate({
+       const general = await NewsModel.find().sort({date:-1}).populate({
         path:"createdBy",
         select:"name", 
         model:Administrator

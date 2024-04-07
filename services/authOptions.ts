@@ -39,6 +39,7 @@ export const authOptions:AuthOptions = {
             token.license_id=user.license_id;
             token.information_id=user.information_id;
             token.hasApplied=user.hasApplied;
+            token.avatar=user.avatar;
           }
             return token;
           },
@@ -55,6 +56,7 @@ export const authOptions:AuthOptions = {
             session.user.license_id=token.license_id;
             session.user.information_id=token.information_id;
             session.user.hasApplied=token.hasApplied;
+            session.user.avatar=token.avatar;
            }
             return session;
           },

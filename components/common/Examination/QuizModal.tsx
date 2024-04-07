@@ -15,8 +15,6 @@ export default function QuizModal() {
   );
   const [question2, setQuestion2] = useState<any>(signQues.slice(s, s + 5));
   const questions = question1.concat(question2);
-  console.log(questions);
-
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
   const [showYellow, setShowYellow] = useState<string>("");
   const [score, setScore] = useState<number>(0);
@@ -78,7 +76,7 @@ export default function QuizModal() {
       </PopupModal>
 
       <div className=" flex w-full h-fit flex-col items-center justify-start">
-        <div className=" w-full h-full bg-custom-50 flex flex-col items-center justify-start px-2 py-2">
+        <div className=" w-full h-full bg-custom-50 flex flex-col items-center justify-start px-2">
           <div className=" w-full flex items-start justify-start mb-4 gap-5 font-bold text-xl">
             <p className=" text-customtext-100">
               Score: <span className=" text-custom-150">{score}</span>
@@ -98,7 +96,7 @@ export default function QuizModal() {
             [questions[currentQuestion]].map((ele: any, ind: number) => {
               return (
                 <div className=" flex flex-col w-full gap-4" key={ind}>
-                  <h2 className=" flex items-start justify-start gap-2 font-semibold text-[20px] text-customtext-100">
+                  <h2 className=" flex items-start justify-start gap-2 font-semibold text-[16px] text-customtext-100">
                     <span>{currentQuestion + 1}. </span>
                     {ele.question}
                   </h2>
@@ -113,7 +111,7 @@ export default function QuizModal() {
                     {Object.keys(ele.options).map((opt: any) => {
                       return (
                         <div
-                          className={`flex items-center text-[14.8px] justify-start gap-2 py-2 px-4 ml-2 rounded-[20px] cursor-pointer hover:scale-105 ${
+                          className={`flex items-center text-[14px] justify-start gap-2 py-2 px-4 ml-2 rounded-[20px] cursor-pointer hover:scale-105 ${
                             showYellow == opt ? "bg-yellow-400 text-white" : ""
                           } ${
                             showAnswer && opt == ele.correct_answer

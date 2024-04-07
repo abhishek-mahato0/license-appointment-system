@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
       {
         $match: {
           category: category ? category : "A",
-          office: office ? office : { $eq: "Bhaktapur" },
+          office: office ? office : { $exists: true },
           date: date ? date : convertDate(new Date()),
         },
       },

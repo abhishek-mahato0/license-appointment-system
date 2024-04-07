@@ -1,7 +1,6 @@
 
 import dbconnect from "@/lib/dbConnect";
 import { checkAdmins } from "@/lib/userAuth";
-import { Appointment } from "@/models/appointmentsModel";
 import { MedicalModal } from "@/models/MedicalExamModel";
 import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";

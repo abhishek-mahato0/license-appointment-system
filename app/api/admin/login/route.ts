@@ -31,9 +31,9 @@ export async function POST(req: NextRequest) {
         res.cookies.set("token", token, { httpOnly: true, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) });
         res.cookies.set("role", exists?.role, { httpOnly: true, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) });
         return res;
-        // return NextResponse.json({ message: "Login Successfull.", user: { ...others, token }, status: 200 })
     } catch (error: any) {
         console.log(error)
         return ShowError(400, error?.message)
     }
 }
+

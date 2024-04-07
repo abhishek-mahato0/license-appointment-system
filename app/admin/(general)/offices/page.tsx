@@ -11,7 +11,6 @@ import { apiinstance } from "@/services/Api";
 import { getDistrictName, getProvinceName } from "@/utils/common";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp, Pencil, Trash } from "lucide-react";
-import { set } from "mongoose";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -45,13 +44,6 @@ export default function page() {
         description: res?.data?.message || "Something went wrong",
       });
     } catch (error: any) {
-      // if (error?.response?.status === 401) {
-      //   router.push("/admin/login");
-      //   return toast({
-      //     title: "Error",
-      //     description: error?.response?.data?.message,
-      //   });
-      // }
       return toast({
         title: "Error",
         description: "Error",

@@ -32,13 +32,13 @@ type DropLinks = {
   short: string;
   params: string;
 };
+
 export default function Navbar() {
   const location = usePathname();
   const params = useSearchParams().get("type");
   const { data: session } = useSession();
   const [showfull, setShowfull] = useState(false);
   const { toast } = useToast();
-
   const Logout = async () => {
     try {
       const res = await apiinstance.get("user/logout");

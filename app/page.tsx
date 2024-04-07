@@ -22,21 +22,23 @@ export default function Home() {
       <div className=" fixed z-40 top-0 left-0 bg-white bottom-0 ">
         <Navbar />
       </div>
-      <div className=" flex flex-col px-2 py-2 w-full h-full pl-[105px]">
-        <HeaderTitle title="Today's News" />
+      <div className="flex flex-col px-2 py-2 w-full h-full pl-[105px]">
+        <div className=" flex w-full fixed top-0 bg-white py-2 z-20">
+          <HeaderTitle title="Today's News" />
+        </div>
         {loading ? (
           <Loader />
         ) : (
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 w-full h-full px-4 py-2">
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 w-full h-full px-4 pt-[80px]">
             {newsList && newsList?.featured?.length > 0 && (
-              <div className="w-full h-full bg-gray-50">
+              <div className="w-full h-full shadow-xl">
                 <div className="w-full h-fit">
                   <img
                     src={newsList?.featured[0]?.img}
                     alt="news"
                     className="w-full h-[370px] object-fit"
                   />
-                  <div className="flex flex-col gap-2 mt-3 px-4 py-2">
+                  <div className="flex flex-col gap-2 mt-3 px-4 pt-2 pb-4">
                     <span className=" flex gap-2">
                       <p>{newsList?.featured[0]?.createdBy?.name}</p>
                       <p className=" font-extrabold">|</p>
@@ -57,7 +59,7 @@ export default function Home() {
                 <Link
                   href={`/news/${item._id}`}
                   key={item._id}
-                  className=" flex w-full items-start justify-center gap-3 py-1 bg-gray-50 hover:scale-105 duration-75"
+                  className=" flex w-full items-start justify-center gap-3 py-1 hover:scale-105 duration-75 drop-shadow-xl shadow-lg"
                 >
                   <div className=" w-[38%]">
                     <img
@@ -86,8 +88,10 @@ export default function Home() {
         )}
 
         {newsList && newsList?.general?.length > 0 && (
-          <div className=" w-full flex items-start justify-start gap-2 flex-col">
-            <h1>General News</h1>
+          <div className=" w-full flex items-start justify-start gap-2 flex-col mt-8">
+            <h1 className=" font-bold text-xl text-gray-600 w-full pl-4">
+              General News
+            </h1>
             <div className="lg:grid lg:grid-cols-4 grid-cols-1 gap-5 w-full h-full px-4 py-2">
               {newsList?.general?.map((item) => (
                 <NewsCard item={item} type="vertical" />

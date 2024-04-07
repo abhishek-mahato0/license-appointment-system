@@ -4,8 +4,7 @@ import { PopupModal } from "@/components/common/PopupModal";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { provinces } from "@/components/data/ProvinceList";
-import { MultiSelect } from "react-multi-select-component";
-import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
+import { useAppSelector } from "@/redux/TypedHooks";
 import { Toffice } from "@/redux/slices/officeListSlice";
 import Select from "react-select";
 import { customStyles } from "@/components/common/MultiselectStyles";
@@ -24,11 +23,12 @@ export default function AddModal({
   const [selectedOffice, setSelectedOffice] = useState<any>([]);
   return (
     <PopupModal
-      title="Add Administrator"
+      title={type == "add" ? "Add Administrator" : "Edit Administrator"}
       btnText=""
       triggerChildren={triggerChildren}
       cancelText="close"
       onClick={() => {}}
+      isHidden={true}
     >
       <form
         className="w-full flex flex-col gap-3"
@@ -119,22 +119,6 @@ export default function AddModal({
               classNamePrefix={"select"}
               styles={customStyles}
             />
-            {/* <select
-            id="office"
-            required
-            {...register("office")}
-            className="input bg-custom-50 border-[1px] border-custom-100 p-1 focus:outline-none rounded-[4px] pl-2"
-          >
-            {officeList
-              .filter((ele) => ele.province == getValues("province"))
-              .map((province, index) => {
-                return (
-                  <option key={index} value={province?.value}>
-                    {province?.name}
-                  </option>
-                );
-              })}
-          </select> */}
           </div>
         )}
         <div className="flex gap-2 items-center justify-start">
@@ -149,7 +133,7 @@ export default function AddModal({
           </label>
         </div>
         <Button type="submit" className=" absolute bottom-6 right-4">
-          Add
+          {type === "add" ? "Add" : "Save"}
         </Button>
       </form>
     </PopupModal>

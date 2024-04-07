@@ -1,8 +1,7 @@
 "use client";
-import { customStyles } from "@/components/common/MultiselectStyles";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 import { categoryData } from "@/components/data/CategoryData";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   fetchDashboardCounts,
   fetchDashboardMedicalData,
@@ -23,41 +22,30 @@ import { Book, Car, HeartPulse, TimerIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ChartCard from "@/components/recharts/ChartCard";
 import HeaderTitle from "@/components/common/HeaderTitle";
-
-let offices = [
-  {
-    id: 1,
-    name: "RTO Office",
-    value: "RTO",
-  },
-  {
-    id: 2,
-    name: "RTO Office",
-    value: "RTOs",
-  },
-  {
-    id: 3,
-    name: "Lahan",
-    value: "Lahan",
-  },
-  {
-    id: 4,
-    name: "Kathmandu",
-    value: "Kathmandu",
-  },
-  {
-    id: 5,
-    name: "Bhaktapur",
-    value: "Bhaktapur",
-  },
-  {
-    id: 6,
-    name: "Lalitpur",
-    value: "Lalitpur",
-  },
-];
+import { getAllOffices } from "@/utils/officeInfo";
 
 export default function page() {
+  const [offices, setOffices] = useState<any>([]);
+  async function getOfficeList() {
+    const { success, data, error } = await getAllOffices();
+    if (success) {
+      return setOffices(
+        data.map((ele: any) => ({
+          id: ele?._id,
+          label: ele?.name,
+          name: ele?.name,
+          province: ele.province,
+          district: ele?.district,
+          value: ele?._id,
+        }))
+      );
+    }
+    return setOffices([]);
+  }
+  useMemo(() => {
+    getOfficeList();
+  }, []);
+
   const currentTime = new Date().getHours();
   const shift =
     currentTime >= 10 && currentTime <= 12
@@ -74,7 +62,7 @@ export default function page() {
   const router = useRouter();
   const [selectedCat, setSelectedCat] = useState<any>(category || "A");
   const [selectedOffice, setSelectedOffice] = useState<any>(
-    office || "Bhaktapur"
+    offices && offices[0]?.value
   );
   const dispatch = useAppDispatch();
   const { trial, totalCount, written, medical } = useSelector(
@@ -98,6 +86,13 @@ export default function page() {
       dispatch(setTrial(data));
     }
   };
+  const [officename, setOfficename] = useState<any>(null);
+  useEffect(() => {
+    offices &&
+      setOfficename(
+        offices.find((ele: any) => ele.value === selectedOffice)?.name
+      );
+  }, [selectedOffice]);
 
   const fetchMedicalChartData = async () => {
     const { data, success } = await fetchDashboardMedicalData(
@@ -177,7 +172,8 @@ export default function page() {
       </div>
       <div className=" w-full flex flex-col items-start justify-start gap-4">
         <h1 className=" mb-2 text-xl font-medium">
-          Total Occupancy of category {selectedCat} in {selectedOffice}
+          Total Occupancy of category {selectedCat} in{" "}
+          {officename ? officename : "All Offices"}
         </h1>
         <div className=" grid grid-cols-3 w-full gap-x-3 gap-y-6"></div>
         <div className=" grid grid-cols-2 w-full gap-x-3 gap-y-10">

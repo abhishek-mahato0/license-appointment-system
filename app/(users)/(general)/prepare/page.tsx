@@ -122,15 +122,8 @@ export default function page() {
   return (
     <div className=" flex flex-col w-full items-start justify-start mt-1">
       <HeaderTitle title="Prepare for Exam" />
-      <div className=" w-full flex justify-end p-4">
+      <div className=" w-[98%] flex justify-end mb-4">
         <div className=" w-[55%] grid grid-cols-3 items-center justify-end gap-3">
-          {/* <Button
-            type="submit"
-            className=" bg-green-700 text-white"
-            onClick={() => router.push(`quiz?category=${categoryParams}`)}
-          >
-            Play Quiz
-          </Button> */}
           <QuizModal />
           <SingleSelect
             data={categoryData.map((ele) => ({
@@ -158,15 +151,15 @@ export default function page() {
           />
         </div>
       </div>
-      <div className=" w-[98%] bg-custom-50 grid grid-cols-2 p-3">
+      <div className=" w-[98%] bg-custom-50 grid grid-cols-1 py-6 px-8 gap-6">
         {loading ? (
           <div>Loading...</div>
         ) : (
           data?.ques &&
           data?.ques.slice(0, 5).map((ele: any, ind: number) => {
             return (
-              <div className=" flex flex-col w-full mb-6 gap-2" key={ind}>
-                <h2 className=" flex items-center justify-start gap-2 font-semibold text-[17px] text-customtext-100">
+              <div className=" flex flex-col w-full mb-6 gap-3" key={ind}>
+                <h2 className=" flex items-center justify-start gap-2 font-semibold text-[18px] text-gray-600">
                   <span>{ele.id + 1}. </span>
                   {ele.question}
                 </h2>
@@ -177,7 +170,7 @@ export default function page() {
                     className="w-[120px] h-[120px] object-cover"
                   />
                 )}
-                <div className=" grid grid-cols-2 gap-3 w-[93%]">
+                <div className=" grid grid-cols-2 gap-3">
                   {Object.keys(ele.options).map((opt: any) => {
                     return (
                       <p
