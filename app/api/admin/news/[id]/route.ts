@@ -38,3 +38,4 @@ export async function DELETE(req: NextRequest, {params}: {params: {id: string}})
     return ShowError(500, error.message);
   }
 }
+

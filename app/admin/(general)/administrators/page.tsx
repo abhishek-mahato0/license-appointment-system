@@ -1,6 +1,7 @@
 "use client";
 import AddModal from "@/components/admin/administrators/AddModal";
 import DeleteModal from "@/components/common/DeleteModal";
+import HeaderTitle from "@/components/common/HeaderTitle";
 import SearchInput from "@/components/common/SearchInput";
 import { TanTable } from "@/components/common/TanTable";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ import { useAppDispatch } from "@/redux/TypedHooks";
 import { fetchOffices } from "@/redux/slices/officeListSlice";
 import { apiinstance } from "@/services/Api";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp, Eye, Pencil, Trash } from "lucide-react";
+import { ChevronDown, ChevronUp, Pencil, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 interface IAdministrator {
   _id?: string;
@@ -256,7 +257,12 @@ export default function page() {
         return (
           <div className=" w-full flex items-center gap-5 cursor-pointer text-gray-500">
             <AddModal
-              triggerChildren={<Pencil size={20} />}
+              triggerChildren={
+                <Pencil
+                  size={20}
+                  className=" hover:text-custom-150 hover:scale-105"
+                />
+              }
               onSubmit={(data: any) => {
                 handleEdit(data);
               }}
@@ -269,7 +275,7 @@ export default function page() {
               }}
               title="Delete Administrator"
             >
-              <Trash size={20} />
+              <Trash size={20} className=" text-red-500 hover:scale-105" />
             </DeleteModal>
           </div>
         );
@@ -311,8 +317,8 @@ export default function page() {
     }
   };
   return (
-    <div className=" flex flex-col w-full gap-5 mt-5">
-      <h1>Administrators</h1>
+    <div className=" flex flex-col w-full gap-2 mt-1">
+      <HeaderTitle title="Administrators" />
       <div className=" w-full items-center justify-between flex pr-6">
         <SearchInput
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -325,7 +331,7 @@ export default function page() {
           triggerChildren={<Button id="popover">Add Administrators</Button>}
         />
       </div>
-      <div className="w-full flex items-center justify-between pr-7">
+      <div className="w-full flex items-center justify-between pr-7 mt-3">
         {data && (
           <TanTable
             data={searchText.length > 2 ? filteredData : data}

@@ -42,6 +42,7 @@ export default function page() {
           information_id: res?.data.user.information_id,
           hasApplied: res?.data.user.hasApplied,
           redirect: false,
+          avatar: res?.data?.user?.avatar,
         });
         dispatch(setUser(res?.data.user));
         toast({

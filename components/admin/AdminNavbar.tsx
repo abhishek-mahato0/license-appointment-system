@@ -11,6 +11,7 @@ import {
   LayoutDashboardIcon,
   ListChecks,
   LogOut,
+  Newspaper,
   User,
   Users,
 } from "lucide-react";
@@ -48,7 +49,7 @@ export default function AdminNavbar() {
       show: true,
     },
     {
-      id: 6,
+      id: 2,
       name: "All Appointments",
       href: "/admin/appointments",
       comp: <BookDown strokeWidth={2} size={17} width={17} />,
@@ -57,7 +58,7 @@ export default function AdminNavbar() {
       show: true,
     },
     {
-      id: 9,
+      id: 3,
       name: "Payments",
       href: "/admin/payments",
       comp: <IndianRupeeIcon strokeWidth={2} size={17} width={17} />,
@@ -76,7 +77,7 @@ export default function AdminNavbar() {
       show: authenticatedUser.includes(session?.user?.role || "editor"),
     },
     {
-      id: 2,
+      id: 5,
       name: "Total Applicants",
       href: "/admin/applicants",
       comp: <Contact strokeWidth={2} size={17} width={17} />,
@@ -85,7 +86,7 @@ export default function AdminNavbar() {
       show: true,
     },
     {
-      id: 5,
+      id: 6,
       name: "Examinations",
       href: "/admin/examination",
       comp: <BookOpen strokeWidth={2} size={17} width={17} />,
@@ -94,16 +95,25 @@ export default function AdminNavbar() {
       show: true,
     },
     {
-      id: 8,
+      id: 7,
       name: "Posted News",
       href: "/admin/news",
-      comp: <Users strokeWidth={2} size={17} width={17} />,
+      comp: <Newspaper strokeWidth={2} size={17} width={17} />,
       short: "News",
       params: "",
       show: authenticatedUser.includes(session?.user?.role || "editor"),
     },
     {
-      id: 7,
+      id: 8,
+      name: "Administrators",
+      href: "/admin/administrators",
+      comp: <Users strokeWidth={2} size={17} width={17} />,
+      short: "Admins",
+      params: "",
+      show: authenticatedUser.includes(session?.user?.role || "editor"),
+    },
+    {
+      id: 9,
       name: "Change Password",
       href: "/admin/changepassword",
       comp: <User strokeWidth={2} size={17} width={17} />,

@@ -20,6 +20,7 @@ import {
   setAppointment,
   setPendingAppointment,
 } from "@/redux/slices/appointmentSlice";
+import HeaderTitle from "@/components/common/HeaderTitle";
 
 type AppointmentColumn = {
   _id?: string;
@@ -316,9 +317,7 @@ export default function page() {
 
   return (
     <div className="w-full flex flex-col gap-3 mt-4 pr-5">
-      <h1 className=" text-2xl text-custom-150 font-bold">
-        Medical Appointments
-      </h1>
+      <HeaderTitle title="My Appointments" />
       {/* <div className="w-full flex items-center justify-between">
         <SearchInput onClear={() => {}} onChange={() => {}} />
         <div className="w-full flex items-center gap-2">

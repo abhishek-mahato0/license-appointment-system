@@ -3,7 +3,7 @@ import { examData } from "@/components/Exam/CatA";
 import { signQues } from "@/components/Exam/Sign";
 import { PopupModal } from "@/components/common/PopupModal";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function page() {
   const router = useRouter();

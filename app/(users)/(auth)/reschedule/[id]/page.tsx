@@ -1,4 +1,5 @@
 "use client";
+import HeaderTitle from "@/components/common/HeaderTitle";
 import SelectDateAndTime from "@/components/reschedule/SelectDateAndTime";
 import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
 import { setPendingAppointment } from "@/redux/slices/appointmentSlice";
@@ -20,9 +21,7 @@ export default function page({ params }: { params: any }) {
   }, [params?.id]);
   return (
     <div className=" w-full items-center justify-center flex flex-col mt-5">
-      <h1 className=" w-full flex items-center justify-start text-custom-150 pl-3 text-2xl font-bold mb-3">
-        Reschedule Appointment
-      </h1>
+      <HeaderTitle title="Reschedule Appointment" />
       <div className=" w-full flex flex-col items-center justify-center">
         <div className=" w-[98%] p-3 flex flex-col bg-custom-50">
           <div className=" w-full flex flex-col justify-start items-start pl-3">

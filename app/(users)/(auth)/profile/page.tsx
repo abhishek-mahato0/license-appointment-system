@@ -1,5 +1,7 @@
 "use client";
+import ChangePassword from "@/components/common/ChangePassword";
 import Outline from "@/components/common/FormDetail/Outline";
+import HeaderTitle from "@/components/common/HeaderTitle";
 import AddressEditForm from "@/components/common/profile/AddressEditForm";
 import CitimageEditForm from "@/components/common/profile/CitimageEditForm";
 import CitizenshipEditForm from "@/components/common/profile/CitizenshipEditForm";
@@ -15,6 +17,7 @@ import {
 } from "@/components/detailform/FormData";
 import ProfileLoader from "@/components/loaders/ProfileLoader";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch } from "@/redux/TypedHooks";
 import {
@@ -85,8 +88,12 @@ export default function page() {
           setLicenseInformation({
             licenseno: license_id?.license?.license_no,
             category: license_id?.license?.category,
-            issuedate: convertDate(license_id?.license?.license_date),
-            expirydate: convertDate(license_id?.license?.expire_date),
+            issuedate:
+              license_id?.license?.license_date &&
+              convertDate(license_id?.license?.license_date),
+            expirydate:
+              license_id?.license?.expire_date &&
+              convertDate(license_id?.license?.expire_date),
             office: license_id?.license?.office,
             front: license_id?.license?.image.front,
             back: license_id?.license?.image.back,
@@ -160,64 +167,79 @@ export default function page() {
     //     });
     //   }
     // }
+    if (!session?.user?.id) {
+      return router.push("/login");
+    }
     if (session?.user?.id) {
       try {
         setLoading(true);
         getPersonalInformation();
-        // session?.user?.citizenship_id !== "none" && getDocumentInformation();
-        // session?.user?.license_id !== "none" && getLicenseInformation();
       } finally {
         setLoading(false);
       }
     }
-  }, [session?.user?.id]);
+  }, [session]);
   return (
     <div className=" flex w-full items-start justify-start flex-col p-2 gap-4 ">
-      <h1 className=" mb-4 font-bold text-custom-150 text-2xl">
-        Profile Summary
-      </h1>
+      <HeaderTitle title="Profile Summary" />
       {status === "loading" || loading ? (
         <ProfileLoader />
       ) : (
         <div className=" w-[95%] flex flex-col gap-5 bg-custom-50 px-8 py-5">
+          <div className=" w-full items-center justify-end gap-3 flex">
+            <div className="flex gap-2">
+              {personalInformation?.documentStatus?.status !== "verified" ? (
+                <div className=" flex gap-2">
+                  <Badge variant="secondary">
+                    {personalInformation?.documentStatus?.status}
+                  </Badge>
+                  {personalInformation?.documentStatus?.message && (
+                    <p className=" text-red-500 text-xs">
+                      Message: {personalInformation?.documentStatus?.message}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className=" flex gap-2">
+                  <Badge variant="success">Verified</Badge>
+                </div>
+              )}
+            </div>
+            <ChangePassword
+              triggerChildren={<Button>Change Password</Button>}
+            />
+          </div>
           <Outline title="Personal Information">
-            <div className=" w-full items-center flex justify-between">
-              <div className="flex gap-2">
-                {personalInformation?.documentStatus?.status !== "verified" ? (
-                  <div className=" flex gap-2">
-                    <Badge variant="secondary">
-                      {personalInformation?.documentStatus?.status}
-                    </Badge>
-                    {personalInformation?.documentStatus?.message && (
-                      <p className=" text-red-500 text-xs">
-                        Message: {personalInformation?.documentStatus?.message}
-                      </p>
-                    )}
-                  </div>
-                ) : (
-                  <div className=" flex gap-2">
-                    <Badge variant="success">Verified</Badge>
-                  </div>
-                )}
-              </div>
+            <div className=" w-full items-center flex justify-end">
               {Object.keys(personalInformation).length > 0 && (
                 <PersonalEditForm personalInformation={personalInformation} />
               )}
             </div>
-            <div className="grid grid-cols-3 gap-3 items-center justify-between w-full px-3 py-2">
-              {personalData?.map((item: any) => {
-                return (
-                  <div
-                    className=" flex flex-col gap-1 items-start justify-start"
-                    key={item.value}
-                  >
-                    <p className="text-sm font-semibold">{item.placeholder}</p>
-                    <p className=" border-[1px] border-custom-150 px-2 py-1">
-                      {personalInformation[item.name] || "N/A"}
-                    </p>
-                  </div>
-                );
-              })}
+            <div className=" w-full grid grid-cols-3 gap-3 items-center justify-between px-3 py-2">
+              {session?.user?.avatar && (
+                <img
+                  src={session?.user?.avatar}
+                  alt="profile"
+                  className=" w-full h-full rounded-sm"
+                />
+              )}
+              <div className=" col-span-2 grid grid-cols-3 gap-3 items-center justify-between w-full px-3 py-2">
+                {personalData?.map((item: any) => {
+                  return (
+                    <div
+                      className=" flex flex-col gap-1 items-start justify-start"
+                      key={item.value}
+                    >
+                      <p className="text-sm font-semibold">
+                        {item.placeholder}
+                      </p>
+                      <p className=" border-[1px] border-custom-150 px-2 py-1">
+                        {personalInformation[item.name] || "N/A"}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </Outline>
           <Outline title="Temporary Address">
@@ -318,7 +340,7 @@ export default function page() {
           </Outline>
           <Outline title="License Information">
             {licenseInformation &&
-            Object.keys(licenseInformation).length > 0 ? (
+            Object.keys(licenseInformation).length > 1 ? (
               <>
                 <div className=" w-full items-center flex justify-end gap-3">
                   {Object.keys(licenseInformation).length > 0 && (
@@ -333,7 +355,7 @@ export default function page() {
                   )}
                 </div>
                 <div className="grid grid-cols-3 gap-3 items-center justify-between w-full px-3 py-2">
-                  {Object.keys(licenseInformation).length > 0 &&
+                  {Object.keys(licenseInformation)?.length > 0 &&
                     licenseData.map((item: any) => {
                       return (
                         <div

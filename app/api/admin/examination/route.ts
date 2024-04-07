@@ -9,13 +9,12 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest){
     try{
         await dbconnect();
-        const logged = await checkLogged(req);
+       
         const params = req.nextUrl.searchParams;
-
+        
         let query:any={}
         if(params?.get("category")) query["category"] = {$in: params?.get("category")?.split(",")}
-        if(params?.get("type")) query["type"] = params.get('type')
-        if(!logged) return ShowError(401, "You are not logged in")
+        if(params?.get("type")) query["type"] = params.get('type');
     
         const questions = await Questions.find(query).populate({
             path:"createdBy",

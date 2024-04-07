@@ -12,9 +12,6 @@ export async function middleware(request: NextRequest) {
       return Response.redirect(new URL("/login", request.url));
     }
   }
-  //    if(currentUser && role?.value !== "public" && (path.startsWith('/') || path.startsWith('/login') || path.startsWith('/apply') || path.startsWith('/reschedule') || path.startsWith('/appointments') || path.startsWith('/profile' ))){
-  //         return Response.redirect(new URL('/admin/dashboard', request.url))
-  //    }
 
   if (
     currentUser &&

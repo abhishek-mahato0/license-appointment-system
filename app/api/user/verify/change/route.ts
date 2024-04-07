@@ -1,12 +1,12 @@
-import { checkAdmins } from "@/lib/userAuth";
+import { checkLogin } from "@/lib/userAuth";
 import ShowError from "@/utils/ShowError";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcryptjs';
-import { Administrator } from "@/models/AdministratorsModel";
+import { User } from "@/models/userModel";
 
 export async function PATCH(req: NextRequest) {
     try {
-        const exists = await checkAdmins(req);
+        const exists = await checkLogin(req);
         if (!exists) {
             return ShowError(400, "Incorrect token. Please login again.");
         }
@@ -14,7 +14,7 @@ export async function PATCH(req: NextRequest) {
         if(!password){
             return ShowError(400,"Password is required");
         }
-        const user = await Administrator.findById(exists._id);
+        const user = await User.findById(exists._id);
         if (!user) {
             return ShowError(400, "User not found");
         }
@@ -22,7 +22,7 @@ export async function PATCH(req: NextRequest) {
         if( matched){
             user.password = bcrypt.hashSync(password?.newPassword, 10);
             await user.save();
-            return NextResponse.json({ message: "Password reset successfull." }, { status: 200 });
+            return NextResponse.json({ message: "Password reset successfully" }, { status: 200 });
         } 
         return ShowError(400, "Current password is incorrect. Please try again.");
     } catch (error: any) {
