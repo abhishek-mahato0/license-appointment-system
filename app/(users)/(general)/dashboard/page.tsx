@@ -14,7 +14,7 @@ import {
   setTrial,
   setWritten,
 } from "@/redux/slices/dashboardSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
+import { useAppDispatch } from "@/redux/TypedHooks";
 import CustomBarChart from "@/components/recharts/BarChart";
 import DashboardCard from "@/components/common/dashboard/Card";
 import { useSelector } from "react-redux";
@@ -46,17 +46,20 @@ export default function page() {
     getOfficeList();
   }, []);
 
-  const currentTime = new Date().getHours();
-  const shift =
-    currentTime >= 10 && currentTime <= 12
-      ? "Morning"
-      : currentTime === 13
-      ? "Break"
-        ? currentTime <= 14 && currentTime > 13
-          ? "Afternoon"
-          : currentTime >= 14 && currentTime <= 17
-        : "Evening"
-      : "Not Open";
+  function displayShift() {
+    const currentTime = new Date().getHours();
+    if (currentTime >= 10 && currentTime <= 12) {
+      return "Morning";
+    } else if (currentTime === 13) {
+      return "Break";
+    } else if (currentTime > 13 && currentTime <= 15) {
+      return "Afternoon";
+    } else if (currentTime >= 16 && currentTime <= 17) {
+      return "Evening";
+    } else {
+      return "Not Open";
+    }
+  }
   const category = useSearchParams().get("category");
   const office = useSearchParams().get("office");
   const router = useRouter();
@@ -152,7 +155,7 @@ export default function page() {
         </div>
       </div>
       <div className=" w-full flex gap-2 p-4 mt-4 mb-6 justify-between">
-        <DashboardCard title="Current Shift" count={shift}>
+        <DashboardCard title="Current Shift" count={displayShift()}>
           <TimerIcon size={40} />
         </DashboardCard>
         {totalCount &&
