@@ -1,6 +1,8 @@
 import dbconnect from "@/lib/dbConnect";
 import { Citizenship } from "@/models/citizenshipModel";
 import { User } from "@/models/userModel";
+import { informationConfirmationtemplate } from "@/utils/EmailTemplate";
+import { sendCustomMail } from "@/utils/sendTokenEmail";
 import ShowError from "@/utils/ShowError";
 import { uploadPicture } from "@/utils/uploadPicture";
 import { NextRequest, NextResponse } from "next/server";
@@ -49,11 +51,15 @@ export async function POST(req: NextRequest, { params }: any) {
     await citizenshipDoc.save();
     user.citizenship_id = citizenshipDoc._id;
     await user.save();
+    await sendCustomMail(user?.email,"Confirmation: Receipt of Your Information", "Citizenship Information",informationConfirmationtemplate(), "Message");
     return NextResponse.json({_id: citizenshipDoc._id ,message:"Citizenship Inforamtion Saved Successfully."}, {status:200})
     } catch (error:any) {
         return ShowError(500, error.message);
     } 
 }
+
+
+
 
 export async function GET(req: NextRequest, { params }: any) {
   try {

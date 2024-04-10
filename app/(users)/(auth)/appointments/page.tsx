@@ -158,7 +158,7 @@ export default function page() {
           variant={`${
             row.original.biometric === "pending"
               ? "secondary"
-              : row.original.biometric === "completed"
+              : row.original.biometric === "passed"
               ? "success"
               : "destructive"
           }`}
@@ -316,7 +316,7 @@ export default function page() {
   }, [data]);
 
   return (
-    <div className="w-full flex flex-col gap-3 mt-4 pr-5">
+    <div className="w-full flex flex-col gap-3 mt-1 pr-5">
       <HeaderTitle title="My Appointments" />
       {/* <div className="w-full flex items-center justify-between">
         <SearchInput onClear={() => {}} onChange={() => {}} />

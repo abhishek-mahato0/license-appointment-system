@@ -27,7 +27,7 @@ function Category() {
         <Button
           disabled={!selectedCat}
           onClick={() => {
-            dispatch(setBarstate({ active: 3, completed: [1, 2] }));
+            //dispatch(setBarstate({ active: 3, completed: [1, 2] }));
             router.push("/apply/3");
           }}
         >
