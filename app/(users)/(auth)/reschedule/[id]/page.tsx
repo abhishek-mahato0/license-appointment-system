@@ -20,7 +20,7 @@ export default function page({ params }: { params: any }) {
     getAppointment();
   }, [params?.id]);
   return (
-    <div className=" w-full items-center justify-center flex flex-col mt-5">
+    <div className=" w-full items-center justify-center flex flex-col mt-1">
       <HeaderTitle title="Reschedule Appointment" />
       <div className=" w-full flex flex-col items-center justify-center">
         <div className=" w-[98%] p-3 flex flex-col bg-custom-50">

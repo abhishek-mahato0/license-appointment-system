@@ -11,11 +11,9 @@ export async function sendMail(email:string,token:string, userId:string) {
             text: "Verify you email." ,// plain text body
             html:`
             <h1>This is mail from license-appointment.</h1>
-            <p>Please click the link below to verify your email </p>
+            <p>Please click the link below to verify your email </p><br>
             <p>${process.env.VERIFY_URL}/${userId}?token=${token}`
           })
-          console.log(info);
-         //  return NextResponse.json({message:"An email is sent to you. Click the link given to verify your account."}, {status:201})
          return true;
     } catch (error:any) {
       return false;
@@ -34,7 +32,6 @@ export async function sendCustomMail(email:string,subject:string,text:string,htm
            text: text ,// plain text body
            html:`${html}`
          })
-         return NextResponse.json({message:message}, {status:201})
    } catch (error:any) {
       ShowError(400,error?.message)
    }  

@@ -230,11 +230,11 @@ export default function Medical() {
                 variant={`${
                   row.original?.payment?.payment_status === "pending"
                     ? "secondary"
-                    : row.original?.payment?.payment_status === "completed"
+                    : row.original?.payment?.payment_status === "passed"
                     ? "success"
                     : "destructive"
                 }`}
-                className=" cursor-pointer"
+                className=" cursor-not-allowed"
               >
                 {row.original?.payment?.payment_status || "No Payment"}
               </Badge>
@@ -254,7 +254,7 @@ export default function Medical() {
                 variant={`${
                   row.original?.payment?.payment_status === "pending"
                     ? "secondary"
-                    : row.original?.payment?.payment_status === "completed"
+                    : row.original?.payment?.payment_status === "passed"
                     ? "success"
                     : "destructive"
                 }`}
@@ -281,7 +281,7 @@ export default function Medical() {
               variant={`${
                 row.original.biometric === "pending"
                   ? "secondary"
-                  : row.original.biometric === "completed"
+                  : row.original.biometric === "passed"
                   ? "success"
                   : "destructive"
               }`}
@@ -313,7 +313,7 @@ export default function Medical() {
                     Status:
                     <Badge
                       variant={`${
-                        row.original.medical?.status === "completed"
+                        row.original.medical?.status === "passed"
                           ? "success"
                           : row.original.medical?.status === "pending"
                           ? "secondary"

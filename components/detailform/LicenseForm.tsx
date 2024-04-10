@@ -15,18 +15,23 @@ import { useSession } from "next-auth/react";
 import { Updatelocalstorage } from "@/utils/Updatelocalstorage";
 import Select from "react-select";
 import { customStyles } from "../common/MultiselectStyles";
+import LoaderButton from "../common/LoaderButton";
 
 export default function LicenseForm() {
   const { toast } = useToast();
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [pictureFront, setPictureFront] = useState<any>(null);
   const [pictureBack, setPictureBack] = useState<any>(null);
+  const [frontImage, setFrontImage] = useState<any>(null);
+  const [backImage, setBackImage] = useState<any>(null);
 
   const onChangeFrontPicture = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (e.target.files) {
+      setFrontImage(e.target.files[0]);
       const fileReader = new FileReader();
       fileReader.readAsDataURL(e.target.files[0]);
       fileReader.onload = () => {
@@ -37,6 +42,7 @@ export default function LicenseForm() {
   const onChangeBackPicture = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (e.target.files) {
+      setBackImage(e.target.files[0]);
       const fileReader = new FileReader();
       fileReader.readAsDataURL(e.target.files[0]);
       fileReader.onload = () => {
@@ -47,12 +53,72 @@ export default function LicenseForm() {
   const profileFrontref = useRef<any>(null);
   const profileBackref = useRef<any>(null);
 
+  async function verifyImage(): Promise<{ success: boolean; message: string }> {
+    const formdata = new FormData();
+    formdata.append("front_image", frontImage as Blob);
+    formdata.append("back_image", backImage as Blob);
+    try {
+      const res = await apiinstance.post(
+        "http://127.0.0.1:5000/predict/license",
+        formdata
+      );
+
+      if (res.status === 200) {
+        const { data } = res;
+        if (data?.front_prediction === "0" && data?.back_prediction === "0") {
+          return {
+            success: false,
+            message: "Invalid images for license. Please upload a valid image.",
+          };
+        } else if (
+          data?.front_prediction === "1" &&
+          data?.back_prediction === "0"
+        ) {
+          return {
+            success: false,
+            message: "Invalid back image for license.",
+          };
+        } else if (
+          data?.front_prediction === "0" &&
+          data?.back_prediction === "1"
+        ) {
+          return {
+            success: false,
+            message: "Invalid front image for license.",
+          };
+        }
+        return {
+          success: true,
+          message: "Valid image for license.",
+        };
+      }
+      return {
+        success: false,
+        message: "Invalid image for license.",
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: error?.response?.data?.message || "Invalid image for license.",
+      };
+    }
+  }
+
   const { register, handleSubmit } = useForm();
   const handlePersonalData = async (data: any) => {
+    setLoading(true);
     if (!pictureFront || !pictureBack) {
       return toast({
         title: "Error",
         description: "Please upload both front and back picture.",
+      });
+    }
+    const { success, message } = await verifyImage();
+    if (!success) {
+      setLoading(false);
+      return toast({
+        title: "Error",
+        description: message,
       });
     }
     const payload = {
@@ -77,13 +143,22 @@ export default function LicenseForm() {
         description: res.data.message,
         variant: "success",
       });
-      Updatelocalstorage({ license_id: res.data._id });
-      return router.push("summary/");
+      // Updatelocalstorage({ license_id: res.data._id });
+      update({
+        ...session,
+        user: {
+          ...session?.user,
+          citizenship_id: res?.data._id,
+        },
+      });
+      return router.push("/profile");
     } catch (error) {
       return toast({
         title: "Error",
         description: "Some error occured",
       });
+    } finally {
+      setLoading(false);
     }
   };
   const [selectedCat, setSelectedCat] = useState<any>([]);
@@ -202,12 +277,12 @@ export default function LicenseForm() {
           </div>
         </Outline>
         <div className=" flex items-center justify-end w-full">
-          <Button className=" rounded-sm" type="submit">
+          <LoaderButton className=" rounded-sm" type="submit" loading={loading}>
             Next
             <p>
               <ChevronRight width={17} />
             </p>
-          </Button>
+          </LoaderButton>
         </div>
       </form>
     </div>

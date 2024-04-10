@@ -4,6 +4,8 @@ import { Citizenship } from "@/models/citizenshipModel";
 import { Information } from "@/models/informationModel";
 import { License } from "@/models/licenseModel";
 import { User } from "@/models/userModel";
+import { documentStatusTemplate } from "@/utils/EmailTemplate";
+import { sendCustomMail } from "@/utils/sendTokenEmail";
 import ShowError from "@/utils/ShowError";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -82,6 +84,13 @@ export async function PATCH(req:NextRequest, {params}: {params: {id: string}}){
         }
         const content = await req.json()
         const exists = await User.findByIdAndUpdate(params.id, content);
+        await sendCustomMail(exists?.email,"Status of Your Information", "User Information", documentStatusTemplate(
+            {
+                status: exists?.documentVerified?.status,
+                user: exists?.name,
+                message: content?.documentVerified?.message,
+            }
+        ), "Message");
         return NextResponse.json({user:exists, message:"User updated successfully"}, {status:200});
         
     } catch (error: any) {

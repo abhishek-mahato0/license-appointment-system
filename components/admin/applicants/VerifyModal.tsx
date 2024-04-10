@@ -1,4 +1,5 @@
 "use client";
+import LoaderButton from "@/components/common/LoaderButton";
 import { PopupModal } from "@/components/common/PopupModal";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ type EditModalProps = {
   triggerChildren: JSX.Element;
   label?: string;
   initialValue?: string;
+  loading?: boolean;
 };
 
 let data = [
@@ -38,6 +40,7 @@ export default function VerifyModal({
   triggerChildren,
   label,
   initialValue,
+  loading,
 }: EditModalProps) {
   const [value, setValue] = React.useState(initialValue || "");
   const [remarks, setRemarks] = React.useState("");
@@ -48,6 +51,7 @@ export default function VerifyModal({
       triggerChildren={triggerChildren}
       cancelText="close"
       onClick={() => {}}
+      isHidden={true}
     >
       <div className=" w-full flex flex-col gap-3">
         <span>{label || "Select Status"}</span>
@@ -67,12 +71,13 @@ export default function VerifyModal({
           className=" w-full border-[1px] focus:border-custom-100 border-gray-600 rounded-md p-2 outline-none focus:border-primary-500 transition-all duration-300 ease-in-out bg-custom-50"
         />
       </div>
-      <Button
+      <LoaderButton
         onClick={() => onSubmit(value, remarks)}
         className=" absolute bottom-6 right-3"
+        loading={loading}
       >
         Save
-      </Button>
+      </LoaderButton>
     </PopupModal>
   );
 }

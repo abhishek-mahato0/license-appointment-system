@@ -11,6 +11,9 @@ import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
 import { checkLogin } from "@/lib/userAuth";
 import dbconnect from "@/lib/dbConnect";
+import { sendCustomMail } from "@/utils/sendTokenEmail";
+import { appointmentConfirmationTemplate } from "@/utils/EmailTemplate";
+import { getOfficeById } from "@/utils/officeInfo";
 
 async function checkIfFailedForThreeTimes(id: string, category: string) {
     try {
@@ -218,6 +221,21 @@ export async function POST(req: NextRequest) {
         user.appointment.push({ id: appointment._id, status: 'pending' })
         user.hasApplied = true
         await user.save();
+        let offices = await getOfficeById(appointment?.office)
+        await sendCustomMail(isLogged?.email, "Appointment Confirmation", "Appointment", 
+        appointmentConfirmationTemplate({
+            user: isLogged?.name,
+            appointmentDate: appointment.bookDate,
+            appointments: [
+                { name: "Medical", date: medical.date, shift: medical.shift },
+                { name: "Trial", date: trial.date, shift: trial.shift },
+                { name: "Written", date: written.date, shift: written.shift },
+            ],
+            location: offices?.data?.name,
+            trackingNumber: appointment.tracking_id,
+            category: appointment.category
+        })
+        , "Message")
         return NextResponse.json({ message: 'Appointment created successfully', appointment }, { status: 201 })
 
     } catch (error: any) {

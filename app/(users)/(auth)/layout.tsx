@@ -16,7 +16,7 @@ export default function RootLayout({
   const location = usePathname();
 
   useEffect(() => {
-    if (location.includes("/apply/")) return;
+    if (!location.includes("/apply/")) return;
     if (location.includes("/apply/1")) {
       dispatch(setBarstate({ active: 1, completed: [] }));
     } else if (location.includes("/apply/2")) {
@@ -28,7 +28,31 @@ export default function RootLayout({
     } else {
       dispatch(setBarstate({ active: 5, completed: [1, 2, 3, 4] }));
     }
-  }, [location.includes("/apply/")]);
+  }, [location]);
+
+  useEffect(() => {
+    if (!session?.user?.token) return;
+    if (location.includes("/renew") && session?.user.license_id === "none") {
+      return redirect("/detailform/license");
+    } else if (
+      String(session?.user.hasApplied) === "true" &&
+      location.includes("/detailform/license/")
+    ) {
+      return redirect("/dashboard");
+    } else if (
+      String(session?.user.hasApplied) === "true" &&
+      location.includes("/renew")
+    ) {
+      return redirect("/dashboard");
+    } else if (
+      session?.user?.information_id !== "none" &&
+      session?.user?.citizenship_id !== "none" &&
+      session?.user?.license_id !== "none" &&
+      location.includes("/detailform/license")
+    ) {
+      return redirect("/dashboard");
+    }
+  }, [location]);
 
   if (status === "loading") {
     return <div>Loading...</div>;
@@ -46,6 +70,5 @@ export default function RootLayout({
       return redirect("/detailform/license");
     }
   }
-
   return <>{children}</>;
 }

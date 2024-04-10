@@ -1,4 +1,5 @@
 import dbconnect from "@/lib/dbConnect";
+import { checkAdmins } from "@/lib/userAuth";
 import { MedicalModal } from "@/models/MedicalExamModel";
 import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
@@ -35,10 +36,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
 export async function PUT(req: NextRequest) {
   try {
     await dbconnect();
+    const isLogged = await checkAdmins(req);
+    if(!isLogged) return ShowError(400, "You are not authorized to perform this action" );
     const type = req.nextUrl.searchParams.get("type");
     if (!type) return ShowError(400, "Type is required");
     const { id, status, app_id } = await req.json();
-
+    
     if (!id || !status || !app_id)
       return ShowError(400, "Id and status is required");
     if (status === "failed") {
@@ -83,15 +86,14 @@ export async function PUT(req: NextRequest) {
         { status: 200 }
       );
     }
-    console.log(type, status, app_id, id, "here");
+  
 
     if (status === "passed" && type === "trial") {
-      console.log("comes");
       const appointment = await Appointment.findByIdAndUpdate(app_id, {
         status: "passed",
       });
       if (!appointment) return ShowError(400, "Appointment not found");
-      console.log(appointment, "user_id");
+  
       const citizenship = await Citizenship.findOne({
         user_id: appointment?.user_id,
       });

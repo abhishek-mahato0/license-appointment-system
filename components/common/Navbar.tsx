@@ -120,7 +120,7 @@ export default function Navbar() {
       comp: <Bike strokeWidth={2} size={17} width={17} />,
       short: "Appointments",
       params: "",
-      show: session?.user?.token,
+      show: String(session?.user?.hasApplied) === "true" ? true : false,
     },
     {
       id: 7,

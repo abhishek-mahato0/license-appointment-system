@@ -135,7 +135,7 @@ export default function SelectOffice() {
           disabled={!selectedOffice}
           onClick={() => {
             setLoading(true);
-            dispatch(setBarstate({ active: 4, completed: [1, 2, 3] }));
+            // dispatch(setBarstate({ active: 4, completed: [1, 2, 3] }));
             router.push("/apply/4");
             setLoading(false);
           }}

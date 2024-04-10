@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
 import { setBarstate, setIsAgreed } from "@/redux/slices/applynewSlice";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 export default function TermsConditions() {
   const router = useRouter();
@@ -48,7 +48,6 @@ export default function TermsConditions() {
           className=" rounded-sm"
           disabled={!isTermsAgreed}
           onClick={() => {
-            dispatch(setBarstate({ active: 2, completed: [1] }));
             router.push("/apply/2");
           }}
         >

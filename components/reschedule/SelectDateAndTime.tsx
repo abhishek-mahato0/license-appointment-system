@@ -43,11 +43,11 @@ export default function SelectDateAndTime({ info }: { info: IInfo }) {
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const [medical, setMedical] = useState<Tdata>({
-    date: info?.medical?.date || getCustomDate(7),
+    date: new Date(info?.medical?.date) || getCustomDate(7),
     shift: info?.medical?.shift || "morning",
   });
   const [written, setWritten] = useState<Tdata>({
-    date: info?.written?.date || getCustomDate(8),
+    date: new Date(info?.written?.date) || getCustomDate(8),
     shift: info?.written?.shift || "morning",
   });
   const [trial, setTrial] = useState<Tdata>({
@@ -395,7 +395,7 @@ export default function SelectDateAndTime({ info }: { info: IInfo }) {
                   placeholder="Select Date"
                   classNames=" z-30 bg-white"
                   disabled={(date: Date) => {
-                    const currentDate = new Date(new Date());
+                    const currentDate = new Date(written.date || new Date());
                     currentDate.setDate(currentDate.getDate());
                     const maxDate = new Date();
                     maxDate.setDate(currentDate.getDate() + 7);
@@ -466,7 +466,7 @@ export default function SelectDateAndTime({ info }: { info: IInfo }) {
                   placeholder="Select Date"
                   classNames=" z-30 bg-white"
                   disabled={(date: Date) => {
-                    const currentDate = new Date(new Date());
+                    const currentDate = new Date(trial.date || new Date());
                     currentDate.setDate(currentDate.getDate());
                     const maxDate = new Date();
                     maxDate.setDate(currentDate.getDate() + 10);

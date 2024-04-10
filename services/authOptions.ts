@@ -27,10 +27,9 @@ export const authOptions:AuthOptions = {
       },
       callbacks: {
           async jwt({ token, user, trigger, session }) {
-            // if(trigger === 'update' && session?.citizenship_id){
-            //   console.log("triggered")
-            //   token.citizenship_id=session.citizenship_id;
-            // }
+            if(trigger === 'update'){
+               return {...token, ...user}
+            }
           if(token && user){
             token.id = user.id;
             token.jwt = user.token;
@@ -45,9 +44,6 @@ export const authOptions:AuthOptions = {
           },
       
           async session({ session, token, trigger, newSession }) {
-            // if (trigger === "update" && newSession?.citizenship_id) {
-            //     session.user.citizenship_id = newSession.citizenship_id;
-            // }
            if(session.user && token){
             session.user.id=token.id;
             session.user.token=token.jwt

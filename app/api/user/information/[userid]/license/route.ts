@@ -1,4 +1,5 @@
 
+import dbconnect from "@/lib/dbConnect";
 import { Information } from "@/models/informationModel";
 import { License } from "@/models/licenseModel";
 import { User } from "@/models/userModel";
@@ -8,6 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req:NextRequest,{params}:any) {
     try {
+        await dbconnect();
        const userId = params.userid;
        const licenseInformation  = await req.json();
        if(Object.keys(licenseInformation).length <6){
@@ -74,17 +76,18 @@ export async function POST(req:NextRequest,{params}:any) {
 }
 export async function GET(req:NextRequest,{params}:any) {
     try {
+        await dbconnect();
         const userId = params.userid;
         if(!userId){
             return ShowError(400, "Not valid url.");
         }
         const user = await User.findById(userId.toString());
         if(!user){
-            return NextResponse.json({found:false, cat:""}, {status:400});
+            return ShowError(400, "No user found");
         }
         const userDocuments = await License.findOne({user_id: user._id});
         if(!userDocuments){
-            return NextResponse.json({found:false, cat:""}, {status:400});
+            return ShowError(400, "No documents found. Please register license first.");
         }
         return NextResponse.json(userDocuments, {status:200});
 
@@ -95,6 +98,7 @@ export async function GET(req:NextRequest,{params}:any) {
 
 export async function PUT(req:NextRequest,{params}:any) {
     try {
+        await dbconnect();
         const userId = params.userid;
         const licenseInformation  = await req.json();
         if(Object.keys(licenseInformation).length <6){

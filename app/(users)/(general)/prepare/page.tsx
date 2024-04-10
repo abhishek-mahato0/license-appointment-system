@@ -7,6 +7,7 @@ import HeaderTitle from "@/components/common/HeaderTitle";
 import PaginationComp from "@/components/common/PaginationComp";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 import { categoryData } from "@/components/data/CategoryData";
+import QuizLoader from "@/components/loaders/QuizLoader";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -153,7 +154,7 @@ export default function page() {
       </div>
       <div className=" w-[98%] bg-custom-50 grid grid-cols-1 py-6 px-8 gap-6">
         {loading ? (
-          <div>Loading...</div>
+          <QuizLoader />
         ) : (
           data?.ques &&
           data?.ques.slice(0, 5).map((ele: any, ind: number) => {
