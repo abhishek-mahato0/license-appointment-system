@@ -86,3 +86,48 @@ export const provinces =
       province:2
    }
   ]
+
+  export const updatedprovinces = 
+  [
+    {
+       "id":1,
+       "name":"Province-1",
+       "value":"1"
+    },
+    {
+       "id":2,
+       "name":"Province-2",
+      
+       "value":"2"
+    },
+    {
+       "id":3,
+       "name":"Bagmati",
+      
+       "value":"3"
+    },
+    {
+       "id":4,
+       "name":"Gandaki",
+     
+       "value":"4"
+    },
+    {
+       "id":5,
+       "name":"Province-5",
+       
+       "value":"5"
+    },
+    {
+       "id":6,
+       "name":"Karnali",
+      
+       "value":"6"
+    },
+    {
+       "id":7,
+       "name":"Sudur pashchim",
+       
+       "value":"7"
+    }
+  ];

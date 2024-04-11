@@ -104,6 +104,15 @@ export default function AdminNavbar() {
       show: authenticatedUser.includes(session?.user?.role || "editor"),
     },
     {
+      id: 10,
+      name: "Renew Applications",
+      href: "/admin/renew",
+      comp: <FolderSync strokeWidth={2} size={17} width={17} />,
+      short: "Renew",
+      params: "",
+      show: authenticatedUser.includes(session?.user?.role || "editor"),
+    },
+    {
       id: 8,
       name: "Administrators",
       href: "/admin/administrators",
