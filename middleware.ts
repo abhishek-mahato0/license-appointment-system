@@ -1,6 +1,8 @@
+import { getSession } from "next-auth/react";
 import { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
+
   const currentUser = request.cookies.get("token");
   const role = request.cookies.get("role") || { name: "role", value: "public" };
   const path = request.nextUrl.pathname;

@@ -145,11 +145,7 @@ export default function LicenseForm() {
       });
       // Updatelocalstorage({ license_id: res.data._id });
       update({
-        ...session,
-        user: {
-          ...session?.user,
-          citizenship_id: res?.data._id,
-        },
+        license_id: res?.data._id,
       });
       return router.push("/profile");
     } catch (error) {

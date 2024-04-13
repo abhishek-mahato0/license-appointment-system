@@ -20,7 +20,7 @@ export default function Banner() {
         </div>
       </Link>
 
-      <div className="flex flex-col items-start justify-start text-left text-white leading-6 px-5 mt-5 mb-3">
+      <div className="flex flex-col items-start justify-start text-left text-white leading-6 px-5 mt-5 mb-3 text-lg">
         Welcome to our official government licensing website, where we offer a
         modernized approach to license applications, renewals, and preparation.
         <p className="py-4">

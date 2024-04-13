@@ -14,7 +14,6 @@ export default function page() {
   );
   const [question2, setQuestion2] = useState<any>(signQues.slice(s, s + 5));
   const questions = question1.concat(question2);
-  console.log(questions);
 
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
   const [showYellow, setShowYellow] = useState<string>("");

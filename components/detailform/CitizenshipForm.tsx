@@ -140,18 +140,13 @@ export default function CitizenshipForm() {
           description: res.data.message,
           variant: "success",
         });
+        update({
+          citizenship_id: res?.data._id,
+        });
         if (hasLicense) {
           return router.push("license/");
-        } else {
-          update({
-            ...session,
-            user: {
-              ...session?.user,
-              citizenship_id: res?.data._id,
-            },
-          });
-          return router.push("/profile");
         }
+        return router.push("/profile");
       } catch (error) {
         return toast({
           title: "Error",

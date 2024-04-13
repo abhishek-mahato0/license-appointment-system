@@ -14,6 +14,7 @@ import {
 } from "@/redux/slices/applynewSlice";
 import { apiinstance } from "@/services/Api";
 import { convertDate, getCustomDate } from "@/utils/convertDate";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -30,7 +31,7 @@ export default function SelectDateAndTime() {
     submission: false,
   });
   const router = useRouter();
-  const userInfo: any = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const { data: session, update } = useSession();
   const { trialExamination, medicalExamination, writtenExamination } =
     useAppSelector((state) => state.applynew);
   const { toast } = useToast();
@@ -150,7 +151,7 @@ export default function SelectDateAndTime() {
   async function applyForLicense() {
     try {
       const res = await apiinstance.post("/apply/new", {
-        userId: userInfo?.id || "",
+        userId: session?.user?.id || "",
         selectedProv,
         selectedCat,
         selectedOffice,
@@ -175,6 +176,9 @@ export default function SelectDateAndTime() {
           title: "Success",
           description: "Applied for license successfully",
           variant: "success",
+        });
+        update({
+          hasApplied: true,
         });
         return router.push(
           `/apply/payment?app_id=${res?.data?.appointment?._id as string}`

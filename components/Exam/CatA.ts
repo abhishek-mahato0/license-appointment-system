@@ -710,7 +710,7 @@ export const examData = [
       C: "माथिका दुवै",
       D: "कुनै पनि होइन",
     },
-    correct_answer: "माथिका दुवै",
+    correct_answer: "C",
     category: ["All"],
   },
   {
@@ -755,7 +755,7 @@ export const examData = [
       C: "शैक्षिक योग्यता",
       D: "स्थायी ठेगाना",
     },
-    correct_answer: "शैक्षिक योग्यता",
+    correct_answer: "C",
     category: ["All"],
   },
   {
@@ -767,7 +767,7 @@ export const examData = [
       C: "३ पटक",
       D: "४ पटक",
     },
-    correct_answer: "३ पटक",
+    correct_answer: "C",
     category: ["All"],
   },
   {
@@ -778,7 +778,7 @@ export const examData = [
       C: "माथिका दुवै",
       D: "कुनै पनि होइन",
     },
-    correct_answer: "माथिका दुवै",
+    correct_answer: "C",
     category: ["All"],
   },
 ];

@@ -37,13 +37,13 @@ export function documentStatusTemplate({
   return `
     <h2>Document Verification Status</h2>
     <p>Dear ${user},</p>
-    <p>We hope this email finds you well. We wanted to inform you about the status of your document verification.</p>
+    <p>We hope this email finds you well. We wanted to inform you about the status of your document.</p><br/>
     <p><strong>Status: ${status}</strong></p>
-    <p><strong>Message: </strong>${message}</p>
-    <p>If your document status is verified, you are all set! If it's pending, please be patient as we review your submission. If any further action is required from your end, we will reach out to you promptly.</p>
+    <p><strong>Message: </strong>${message}</p><br/>
+    <p>If your document status is verified, you are all set and can apply for services!</p>
     <p>If your document status is rejected, please review the message provided and resubmit your document accordingly.</p>
     <p>Thank you for your cooperation and understanding.</p>
-  <p>Best regards,<br><h4>License Appointment System</h4>Department of transport and license<br>Government of Nepal.</p>`;
+  <p>Best regards,</p><h4>License Appointment System</h4><p>Department of transport and license</p><p>Government of Nepal.</p>`;
 }
 
 export function appointmentConfirmationTemplate({
@@ -86,7 +86,7 @@ export function appointmentConfirmationTemplate({
     ))}
     <p>Please ensure you arrive at the test center at least 5 minutes before your scheduled time. Bring all the necessary documents and equipment required for the test.</p>
     <p>Thank you for choosing us for your driving license test. We wish you the best of luck!</p>
-    <p>Best regards,<br>[Government of Nepal]<br>[Department of transport]<br>[Government of Nepal.]</p>`;
+    <p>Best regards,</p><h4>License Appointment System</h4><p>Department of transport and license</p><p>Government of Nepal.</p>`;
 }
 
 export function individualAppointmentTemplate({
@@ -109,7 +109,7 @@ export function individualAppointmentTemplate({
     <p>If your status is 'Pending', please note that we are still in the process of reviewing your examination results. This may take some time, and we appreciate your patience.</p>
     <p>If your status is 'failed', please reschedule you appointment.</p>
     <p>Thank you for your cooperation throughout this process.</p>
-    <p>Best regards,<br>[Government of Nepal]<br>[Department of transport]<br>[Government of Nepal.]</p>`;
+    <p>Best regards,</p><h4>License Appointment System</h4><p>Department of transport and license</p><p>Government of Nepal.</p>`;
 }
 
 export function appointmentRescheduleTemplate({
@@ -159,5 +159,26 @@ export function appointmentRescheduleTemplate({
           <br />
     <p>If you have any questions or concerns, please don't hesitate to contact us at [contact email or phone number].</p>
     <p>Thank you for your cooperation and understanding.</p>
-    <p>Best regards,<br>[Government of Nepal]<br>[Department of transport]<br>[Government of Nepal.]</p>`;
+    <p>Best regards,</p><h4>License Appointment System</h4><p>Department of transport and license</p><p>Government of Nepal.</p>`;
+}
+
+export function newAdministratorTemplate({
+  name,
+  email,
+  password,
+}: {
+  name: string;
+  email: string;
+  password: string;
+}) {
+  return `
+    <h2>New Administrator Account</h2>
+    <p>Dear ${name},</p>
+    <p>We are pleased to inform you that an administrator account has been created for you. Please find your login details below:</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Password:</strong> ${password}</p>
+    <p>For security reasons, we recommend changing your password after logging in for the first time.</p>
+    <p>Thank you for joining our team. We look forward to working with you!</p>
+    <p>Best regards,</p><h4>License Appointment System</h4><p>Department of transport and license</p><p>Government of Nepal.</p>
+    `;
 }

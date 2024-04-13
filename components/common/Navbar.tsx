@@ -216,11 +216,18 @@ export default function Navbar() {
       <FullFlex className="w-full pb-5 border-t-2 pt-2 text-xs">
         {session?.user?.email && (
           <FullFlex className=" justify-between gap-2">
-            <Avatar>
-              <AvatarFallback className=" bg-custom-100 text-white text-sm">
-                {session.user.name?.split("")[0]}
-              </AvatarFallback>
-            </Avatar>
+            {session.user?.avatar ? (
+              <img
+                src={session.user?.avatar}
+                className=" h-10 w-10 rounded-full"
+              />
+            ) : (
+              <Avatar>
+                <AvatarFallback className=" bg-custom-100 text-white text-sm">
+                  {session.user.name?.split("")[0]}
+                </AvatarFallback>
+              </Avatar>
+            )}
             {showfull && (
               <p className=" text-[11px]">
                 <p className=" font-bold">{session.user?.name}</p>

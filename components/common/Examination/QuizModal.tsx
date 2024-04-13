@@ -3,30 +3,39 @@ import { examData } from "@/components/Exam/CatA";
 import { signQues } from "@/components/Exam/Sign";
 import { PopupModal } from "@/components/common/PopupModal";
 import { Button } from "@/components/ui/button";
+import { apiinstance } from "@/services/Api";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export default function QuizModal() {
   const router = useRouter();
-  let n = selectRandomQuestions(examData.length - 20);
-  let s = selectRandomQuestions(signQues.length - 20);
-  const [question1, setQuestion1] = useState<any>(
-    examData.map((ele, ind) => ({ ...ele, id: ind + 1 })).slice(n, n + 10)
-  );
-  const [question2, setQuestion2] = useState<any>(signQues.slice(s, s + 5));
-  const questions = question1.concat(question2);
+  const [loading, setLoading] = useState(false);
+  const [questions, setQuestions] = useState<any>([]);
+
+  async function getQuestions() {
+    try {
+      setLoading(true);
+      const res = await apiinstance.get(`/user/question?preparation=quiz`);
+      return setQuestions(res.data);
+    } catch (error: any) {
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
   const [showYellow, setShowYellow] = useState<string>("");
   const [score, setScore] = useState<number>(0);
-  const [totalQuestion, setTotalQuestion] = useState<number>(questions.length);
+  const [totalQuestion, setTotalQuestion] = useState<number>(
+    questions?.length || 15
+  );
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+
+  useLayoutEffect(() => {
+    getQuestions();
+  }, []);
   function playAgain() {
-    let n = selectRandomQuestions(examData.length - 20);
-    let s = selectRandomQuestions(signQues.length - 20);
-    setQuestion1(
-      examData.map((ele, ind) => ({ ...ele, id: ind + 1 })).slice(n, n + 10)
-    );
-    setQuestion2(signQues.slice(s, s + 5));
+    getQuestions();
     setScore(0);
     setCurrentQuestion(0);
     setShowAnswer(false);
@@ -108,7 +117,7 @@ export default function QuizModal() {
                     />
                   )}
                   <div className=" grid grid-cols-2 gap-3 w-full">
-                    {Object.keys(ele.options).map((opt: any) => {
+                    {Object.keys(ele.answers).map((opt: any) => {
                       return (
                         <div
                           className={`flex items-center text-[14px] justify-start gap-2 py-2 px-4 ml-2 rounded-[20px] cursor-pointer hover:scale-105 ${
@@ -135,7 +144,7 @@ export default function QuizModal() {
                           }}
                         >
                           <span>{opt}.</span>
-                          {ele.options[opt]}
+                          {ele.answers[opt]}
                         </div>
                       );
                     })}

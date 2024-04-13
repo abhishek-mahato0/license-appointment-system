@@ -21,24 +21,37 @@ export const authOptions:AuthOptions = {
       session:{
           strategy:'jwt'
       },
-      secret:"aslkdjsalkdfasdf80980",
+      secret:process.env.NEXTAUTH_SECRET,
       pages:{
           signIn:'/login'
       },
       callbacks: {
           async jwt({ token, user, trigger, session }) {
             if(trigger === 'update'){
-               return {...token, ...user}
+                if(session?.hasApplied){
+                   token.hasApplied=session.hasApplied
+                }else if (session?.citizenship_id){
+                  token.citizenship_id=session.citizenship_id
+                }else if(session?.license_id){
+                  token.license_id=session.license_id
+                }else if(session?.information_id){
+                  token.information_id=session.information_id
+                }
+                null;
             }
-          if(token && user){
-            token.id = user.id;
-            token.jwt = user.token;
-            token.role=user.role;
-            token.citizenship_id=user.citizenship_id;
-            token.license_id=user.license_id;
-            token.information_id=user.information_id;
-            token.hasApplied=user.hasApplied;
-            token.avatar=user.avatar;
+          if(user){
+            return{
+              ...token,
+            id : user.id,
+            jwt : user.token,
+            role:user.role,
+            citizenship_id:user.citizenship_id,
+            license_id:user.license_id,
+            information_id:user.information_id,
+            hasApplied:user.hasApplied,
+            avatar:user.avatar,
+            documentStatus:user.documentStatus,
+            };
           }
             return token;
           },
@@ -53,6 +66,7 @@ export const authOptions:AuthOptions = {
             session.user.information_id=token.information_id;
             session.user.hasApplied=token.hasApplied;
             session.user.avatar=token.avatar;
+            session.user.documentStatus=token.documentStatus;
            }
             return session;
           },

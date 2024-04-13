@@ -43,19 +43,25 @@ export default function page() {
           description: "Password and confirm password should match.",
         });
       }
+      if (datas?.phone.length !== 10) {
+        return toast({
+          title: "Error",
+          description: "Phone number should be 10 digits.",
+        });
+      }
       const payload = { ...datas, avatar: profile };
-      const { data } = await apiinstance.post("user/register", payload);
-      if (data) {
+      const res = await apiinstance.post("user/register", payload);
+      if (res.status === 201 || res.status === 200) {
         toast({
           title: "Success",
-          description: data?.message,
+          description: res.data?.message,
           variant: "success",
         });
         return redirect("/login");
       }
       return toast({
         title: "Error",
-        description: data?.message,
+        description: res?.data?.message,
         variant: "destructive",
       });
     } catch (error: any) {
@@ -70,7 +76,7 @@ export default function page() {
   };
 
   return (
-    <div className="flex w-full h-full">
+    <div className="flex w-full h-screen">
       <div className=" w-[40%]">
         <Banner />
       </div>
@@ -122,9 +128,13 @@ export default function page() {
             <input
               {...register("phone", {
                 required: true,
+                maxLength: 10,
+                minLength: 10,
               })}
               type="tel"
               placeholder="Phone Number"
+              max={10}
+              min={10}
               className=" border-b-2 border-b-custom-100 outline-none w-full p-3 bg-[#e3f2ff]"
             />
             {errors?.phone && (
@@ -142,6 +152,7 @@ export default function page() {
                 {...register("password", {
                   required: true,
                 })}
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                 type={`${showpassword ? "text" : "password"}`}
                 placeholder="*********"
                 className=" outline-none p-3 w-full bg-[#e3f2ff]"
@@ -164,9 +175,14 @@ export default function page() {
                 />
               )}
             </div>
-            {errors?.password && (
+            {errors?.password?.type === "required" ? (
               <p className=" text-xs text-red-600">Please provide password</p>
-            )}
+            ) : errors?.password?.type === "pattern" ? (
+              <p className=" text-xs text-red-600">
+                Password should contain atleast 1 uppercase, 1 lowercase, 1
+                digit and 8 characters
+              </p>
+            ) : null}
           </FullFlex>
           <FullFlex className="flex-col items-start">
             <label>Confirm Password</label>

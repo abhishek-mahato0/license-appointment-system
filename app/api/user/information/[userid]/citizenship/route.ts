@@ -122,7 +122,9 @@ export async function PUT(req: NextRequest, { params }: any) {
         "No documents found. Please register citizenship first."
       );
     }
+    user.documentVerified.status = "pending";
     await userDocuments.save();
+    await user.save();
     return NextResponse.json(
       { message: "Citizenship Information updated Successfully." },
       { status: 200 }

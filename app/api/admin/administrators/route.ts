@@ -4,6 +4,8 @@ import { Administrator } from "@/models/AdministratorsModel";
 import ShowError from "@/utils/ShowError"
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcryptjs';
+import { sendCustomMail } from "@/utils/sendTokenEmail";
+import { newAdministratorTemplate } from "@/utils/EmailTemplate";
 
 export async function GET(req:NextRequest){
     try {
@@ -83,7 +85,10 @@ export async function POST(req:NextRequest){
         else if(loggedUser.role !== "superadmin" && loggedUser.role !== "admin"){
             return ShowError(401, "Unauthorized. Login Again.");
         }
-        const {name, username, password, role, province, office} = await req.json();
+        const {name, username, password, role, province, office, send} = await req.json();
+        if(!name || !username || !password || !role || !province || !office){
+            return ShowError(400, "All fields are required");
+        }
         const exists = await Administrator.findOne({username});
         if(exists){
             return ShowError(400, "User already exists");
@@ -93,6 +98,7 @@ export async function POST(req:NextRequest){
         if(!user){
             return ShowError(400, "No user found");
         }
+        await sendCustomMail(username, "Account Created", `Your account has been created. Please login with your credentials.`, newAdministratorTemplate({name:name, email:username, password:password }) ,"message");
         return NextResponse.json(user, {status: 201});
     }catch(error:any){
         return ShowError(500, error.message)

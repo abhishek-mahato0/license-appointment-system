@@ -46,6 +46,7 @@ export async function PUT(req: NextRequest, { params }: any) {
       );
     }
     await userDocuments.save();
+    
     return NextResponse.json(
       { message: "license Information updated Successfully." },
       { status: 200 }
