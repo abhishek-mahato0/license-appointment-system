@@ -1,6 +1,5 @@
 "use client";
 import { examData } from "@/components/Exam/CatA";
-import { general } from "@/components/Exam/General";
 import { signQues } from "@/components/Exam/Sign";
 import QuizModal from "@/components/common/Examination/QuizModal";
 import HeaderTitle from "@/components/common/HeaderTitle";
@@ -8,7 +7,7 @@ import PaginationComp from "@/components/common/PaginationComp";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 import { categoryData } from "@/components/data/CategoryData";
 import QuizLoader from "@/components/loaders/QuizLoader";
-import { Button } from "@/components/ui/button";
+import { apiinstance } from "@/services/Api";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
@@ -22,104 +21,41 @@ let typeOptions = [
   {
     id: 2,
     name: "Traffic Signs",
-    value: "signs",
+    value: "sign",
   },
 ];
 export default function page() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<any>("");
-  const [selectedType, setSelectedType] = useState<any>("");
-  const categoryParams = useSearchParams().get("category");
-  const typeParams = useSearchParams().get("type");
+  const [selectedCategory, setSelectedCategory] = useState<any>("all");
+  const [selectedType, setSelectedType] = useState<any>("all");
+  const categoryParams = useSearchParams().get("category") || "all";
+  const typeParams = useSearchParams().get("type") || "all";
   const page = useSearchParams().get("page");
   const [data, setData] = useState<any>([]);
-  useMemo(() => {
-    setLoading(true);
-    if (categoryParams && typeParams) {
-      if (typeParams === "signs") {
-        return setData({
-          total: Math.round(signQues.length / 5),
-          current: page,
-          previous: Number(page) - 1,
-          next: Number(page) + 1,
-          ques: signQues.map((ele: any, ind: Number) => ({
-            ...ele,
-            id: ind,
-          })),
-        });
-      } else if (typeParams === "general" && categoryParams === "all") {
-        return setData({
-          total: Math.round(examData.length / 5),
-          current: page,
-          previous: Number(page) - 1,
-          next: Number(page) + 1,
-          ques: examData.map((ele: any, ind: Number) => ({
-            ...ele,
-            id: ind,
-          })),
-        });
-      } else if (categoryParams != "all" && typeParams != "signs") {
-        return setData({
-          total: Math.round(examData.length / 5),
-          current: page,
-          previous: Number(page) - 1,
-          next: Number(page) + 1,
-          ques:
-            examData
-              .map((ele: any, ind: Number) => ({ ...ele, id: ind }))
-              .filter((ele) => ele.category.includes(categoryParams)).length > 5
-              ? examData
-                  .map((ele: any, ind: Number) => ({ ...ele, id: ind }))
-                  .filter((ele) => ele.category.includes(categoryParams))
-              : examData.map((ele: any, ind: Number) => ({
-                  ...ele,
-                  id: ind,
-                })),
-        });
-      }
-      return setData({
-        total: Math.round(examData.length / 5),
-        current: page,
-        previous: Number(page) - 1,
-        next: Number(page) + 1,
-        ques: examData.map((ele: any, ind: Number) => ({ ...ele, id: ind })),
-      });
-    } else {
-      return setData({
-        total: Math.round(examData.length / 5),
-        current: page,
-        previous: Number(page) - 1,
-        next: Number(page) + 1,
-        ques: examData.map((ele: any, ind: Number) => ({ ...ele, id: ind })),
-      });
-    }
-  }, [categoryParams, typeParams]);
 
-  useEffect(() => {
-    if (!data) return;
-    if (!page) {
-      setLoading(false);
+  async function getQuestions() {
+    try {
+      setLoading(true);
+      const res = await apiinstance.get(
+        `/user/question?category=${selectedCategory}&type=${typeParams}&page=${page}`
+      );
       return setData({
-        total: Math.round(data?.ques?.length / 5),
+        total: res.data?.total,
         current: page,
         previous: Number(page) - 1,
         next: Number(page) + 1,
-        ques: data?.ques?.slice(0, 5),
+        ques: res.data?.questions,
       });
+    } catch (error: any) {
+      return null;
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-    return setData({
-      total: Math.floor(data?.ques?.length / 5),
-      current: page,
-      previous: Number(page) - 1,
-      next: Number(page) + 1,
-      ques: data?.ques?.slice(
-        (Number(page) - 1) * 5,
-        (Number(page) - 1) * 5 + 5
-      ),
-    });
-  }, [page, categoryParams, typeParams]);
+  }
+  useMemo(() => {
+    getQuestions();
+  }, [categoryParams, typeParams, page]);
   return (
     <div className=" flex flex-col w-full items-start justify-start mt-1">
       <HeaderTitle title="Prepare for Exam" />
@@ -157,12 +93,17 @@ export default function page() {
           <QuizLoader />
         ) : (
           data?.ques &&
-          data?.ques.slice(0, 5).map((ele: any, ind: number) => {
+          data?.ques.map((ele: any, ind: number) => {
             return (
               <div className=" flex flex-col w-full mb-6 gap-3" key={ind}>
                 <h2 className=" flex items-center justify-start gap-2 font-semibold text-[18px] text-gray-600">
-                  <span>{ele.id + 1}. </span>
-                  {ele.question}
+                  <span>
+                    {parseInt(page ? page : "1") > 1
+                      ? parseInt(page ? page : "1") * 10 - 10 + ind + 1
+                      : ind + 1}
+                    .{" "}
+                  </span>
+                  {ele?.question}
                 </h2>
                 {ele?.img && (
                   <img
@@ -172,7 +113,7 @@ export default function page() {
                   />
                 )}
                 <div className=" grid grid-cols-2 gap-3">
-                  {Object.keys(ele.options).map((opt: any) => {
+                  {Object.keys(ele.answers).map((opt: any) => {
                     return (
                       <p
                         className={`flex items-center justify-start gap-2 py-2 px-4 ml-2 rounded-[20px] ${
@@ -182,7 +123,7 @@ export default function page() {
                         }`}
                       >
                         <span>{opt}.</span>
-                        {ele.options[opt]}
+                        {ele?.answers[opt]}
                       </p>
                     );
                   })}

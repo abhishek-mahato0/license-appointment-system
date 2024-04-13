@@ -8,7 +8,8 @@ interface Iuser extends DefaultUser{
   license_id:string;
   information_id:string;
   hasApplied:boolean;
-  avatar:string
+  avatar:string;
+  documentStatus:string;
 }
 declare module "next-auth" {
   interface Session {
@@ -24,6 +25,7 @@ declare module "next-auth" {
       information_id:string,
       hasApplied:boolean
       avatar:string
+      documentStatus:string
     }
   }
   
@@ -37,5 +39,6 @@ declare module "next-auth" {
       information_id:string;
       hasApplied:boolean
       avatar:string
+      documentStatus:string
     }
   }

@@ -27,18 +27,14 @@ import {
   setPersonalInformation,
 } from "@/redux/slices/profileInformationSlice";
 import { convertDate } from "@/utils/convertDate";
-import {
-  fetchUserCitizenshipInformation,
-  fetchUserLicenseInformation,
-  fetchUserPersonalInformation,
-} from "@/utils/fetchUserInformation";
+import { fetchUserPersonalInformation } from "@/utils/fetchUserInformation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function page() {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const router = useRouter();

@@ -83,7 +83,7 @@ export async function PATCH(req:NextRequest, {params}: {params: {id: string}}){
             return ShowError(401, "Unauthorized access.");
         }
         const content = await req.json()
-        const exists = await User.findByIdAndUpdate(params.id, content);
+        const exists = await User.findByIdAndUpdate(params.id, content, {new:true});
         await sendCustomMail(exists?.email,"Status of Your Information", "User Information", documentStatusTemplate(
             {
                 status: exists?.documentVerified?.status,

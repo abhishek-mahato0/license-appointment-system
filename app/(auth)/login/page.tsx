@@ -41,6 +41,7 @@ export default function page() {
           license_id: res?.data.user.license_id,
           information_id: res?.data.user.information_id,
           hasApplied: res?.data.user.hasApplied,
+          documentStatus: res?.data?.user?.documentVerified?.status,
           redirect: false,
           avatar: res?.data?.user?.avatar,
         });

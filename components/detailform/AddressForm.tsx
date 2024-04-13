@@ -15,7 +15,7 @@ import { useSession } from "next-auth/react";
 import { Updatelocalstorage } from "@/utils/Updatelocalstorage";
 
 export default function AddressForm() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const { toast } = useToast();
   const { personalInformation } = useAppSelector(
     (state) => state.profileInformation
@@ -100,8 +100,8 @@ export default function AddressForm() {
           description: res.data.message,
           variant: "success",
         });
-        console.log(res, "res");
-        Updatelocalstorage({ information_id: res.data._id });
+        // Updatelocalstorage({ information_id: res.data._id });
+        update({ information_id: res.data._id });
         return router.push("citizenship/");
       } else {
         return toast({

@@ -92,15 +92,15 @@ export default function page() {
         <div className=" w-[99%] flex-col bg-custom-50 gap-5">
           <div className="w-full flex items-center justify-start bg-custom-50 text-gray-700">
             <div className="w-full flex items-start justify-start gap-5 px-6 py-4">
-              <div className="w-[25%] bg-white rounded-lg">
+              <div className="w-[30%] bg-white rounded-lg">
                 <img
                   src={data?.avatar || "/images/avatar.png"}
                   alt="profile"
-                  className=" w-full h-[230px]"
+                  className=" w-full h-[290px]"
                 />
               </div>
 
-              <div className="w-[75%] flex items-start justify-between">
+              <div className="w-[65%] flex items-start justify-between">
                 <div className="w-full flex flex-col items-start justify-between gap-2">
                   {data?.information_id !== "none" &&
                   data?.information_id?.hasOwnProperty("_id") ? (
@@ -153,13 +153,13 @@ export default function page() {
           </div>
           <div className="w-full flex flex-col gap-4 bg-custom-50 px-6 py-5">
             <Outline title="Temporary Address">
-              <div className=" grid grid-cols-3 gap-y-3">
+              <div className=" grid grid-cols-3 gap-y-4">
                 {data?.information_id !== "none" &&
                 data?.information_id?.hasOwnProperty("permanent_address") ? (
                   temporaryaddressData.map((ele, index) => (
                     <div className="flex gap-3" key={ele.id}>
                       <p className=" font-bold">
-                        {capitalizeFirstLetter(ele.name)} :&nbsp;
+                        {capitalizeFirstLetter(ele.name)} :
                       </p>
                       <p>{data?.information_id?.permanent_address[ele.name]}</p>
                     </div>

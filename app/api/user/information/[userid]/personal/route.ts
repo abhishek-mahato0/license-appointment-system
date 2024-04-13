@@ -102,8 +102,10 @@ export async function PUT(req:NextRequest,{params}:any) {
        if(!user){
         return ShowError(400, "No user found");
        }
+       user.documentVerified.status = "pending";
     const updated= await Information.findOneAndUpdate({user_id: userId}, {$set:information}, {new:true});
     await updated.save();
+    await user.save();
     return NextResponse.json({message:"Personal Information saved Successfully"}, {status:200})
     } catch (error:any) {
         console.log(error)

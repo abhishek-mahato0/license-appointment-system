@@ -17,6 +17,7 @@ import { handleFormData } from "../FormDetail/HandleFormData";
 import { apiinstance } from "@/services/Api";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type TPersonalInformation = {
   personalInformation: any;
@@ -26,7 +27,7 @@ export default function PersonalEditForm({
   personalInformation,
 }: TPersonalInformation) {
   const closeref = useRef<any>(null);
-  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const { data: session } = useSession();
   const { toast } = useToast();
   const router = useRouter();
   const {
@@ -37,10 +38,10 @@ export default function PersonalEditForm({
     defaultValues: personalInformation,
   });
   const onSubmit = async (data: any) => {
-    if (!userInfo?.id) {
+    if (!session?.user?.id) {
       toast({
         title: "Error",
-        description: "PLease login to continue.",
+        description: "Please login to continue.",
       });
       return router.push("/login");
     }
@@ -60,7 +61,7 @@ export default function PersonalEditForm({
         phone: data.phone,
       };
       const res = await apiinstance.put(
-        `/user/information/${userInfo.id}/personal`,
+        `/user/information/${session.user.id}/personal`,
         payload
       );
       if (res.status === 200) {
