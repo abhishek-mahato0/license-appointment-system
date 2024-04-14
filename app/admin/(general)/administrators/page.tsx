@@ -2,6 +2,7 @@
 import AddModal from "@/components/admin/administrators/AddModal";
 import DeleteModal from "@/components/common/DeleteModal";
 import HeaderTitle from "@/components/common/HeaderTitle";
+import LoaderButton from "@/components/common/LoaderButton";
 import SearchInput from "@/components/common/SearchInput";
 import { TanTable } from "@/components/common/TanTable";
 import { Button } from "@/components/ui/button";
@@ -9,9 +10,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch } from "@/redux/TypedHooks";
 import { fetchOffices } from "@/redux/slices/officeListSlice";
 import { apiinstance } from "@/services/Api";
+import { exportasExcel } from "@/utils/ExportasExcel";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp, Pencil, Trash } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, Pencil, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import * as XLSX from "xlsx";
 interface IAdministrator {
   _id?: string;
   name: string;
@@ -284,6 +287,7 @@ export default function page() {
   ];
 
   const onsubmit = async (data: any) => {
+    setLoading(true);
     try {
       if (
         !data.role ||
@@ -303,6 +307,7 @@ export default function page() {
         return toast({
           title: "Success",
           description: "Administrator added successfully",
+          variant: "success",
         });
       }
       return toast({
@@ -314,8 +319,11 @@ export default function page() {
         title: "Error",
         description: error?.response?.data?.message || "An error occured",
       });
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <div className=" flex flex-col w-full gap-2 mt-1">
       <HeaderTitle title="Administrators" />
@@ -326,10 +334,17 @@ export default function page() {
           }
           onClear={() => setSearchText("")}
         />
-        <AddModal
-          onSubmit={onsubmit}
-          triggerChildren={<Button id="popover">Add Administrators</Button>}
-        />
+        <div className=" flex items-center justify-between gap-5">
+          <AddModal
+            onSubmit={onsubmit}
+            addloading={loading}
+            triggerChildren={<Button id="popover">Add Administrators</Button>}
+          />
+          <LoaderButton onClick={() => exportasExcel(data, "Administrator")}>
+            Excel file
+            <Download size={20} className=" ml-2" />
+          </LoaderButton>
+        </div>
       </div>
       <div className="w-full flex items-center justify-between pr-7 mt-3">
         {data && (

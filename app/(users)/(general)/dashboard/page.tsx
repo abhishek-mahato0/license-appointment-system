@@ -125,9 +125,9 @@ export default function page() {
 
   return (
     <div className=" flex flex-col w-full items-start justify-start mt-3">
-      <div className=" w-full justify-between items-center flex pr-6">
+      <div className=" w-full justify-between items-center flex lg:pr-6 pr-2 lg:flex-row flex-col">
         <HeaderTitle title="Public Dashboard" />
-        <div className="flex items-center justify-center gap-5">
+        <div className="flex items-center flex-col lg:flex-row lg:justify-center gap-5">
           <SingleSelect
             data={categoryData.map((ele) => ({
               id: ele.id,
@@ -136,7 +136,7 @@ export default function page() {
             }))}
             value={selectedCat}
             placeholder="Select Category"
-            classNames=" outline-none border-b-2 border-x-[0px] border-t-[0px] hover:border-custom-100 border-customtext-100 min-w-[220px]"
+            classNames=" outline-none border-b-2 border-x-[0px] border-t-[0px] hover:border-custom-100 border-customtext-100 lg:min-w-[220px] w-[90%]"
             onSelect={(value: any) => {
               setSelectedCat(value);
               router.push(`?category=${value}&office=${selectedOffice}`);
@@ -145,7 +145,7 @@ export default function page() {
           <SingleSelect
             data={offices}
             value={selectedOffice}
-            classNames=" outline-none border-b-2 border-x-[0px] border-t-[0px] hover:border-custom-100 border-customtext-100 min-w-[160px]"
+            classNames=" outline-none border-b-2 border-x-[0px] border-t-[0px] hover:border-custom-100 border-customtext-100 lg:min-w-[160px]"
             onSelect={(value: any) => {
               setSelectedOffice(value);
               router.push(`?category=${selectedCat}&office=${value}`);
@@ -154,7 +154,7 @@ export default function page() {
           />
         </div>
       </div>
-      <div className=" w-full flex gap-2 p-4 mt-4 mb-6 justify-between">
+      <div className=" w-full flex gap-4 lg:gap-2 lg:p-4 p-1 mt-4 mb-6 justify-between lg:flex-row flex-col">
         <DashboardCard title="Current Shift" count={displayShift()}>
           <TimerIcon size={40} />
         </DashboardCard>
@@ -179,7 +179,7 @@ export default function page() {
           {officename ? officename : "All Offices"}
         </h1>
         <div className=" grid grid-cols-3 w-full gap-x-3 gap-y-6"></div>
-        <div className=" grid grid-cols-2 w-full gap-x-3 gap-y-10">
+        <div className=" grid lg:grid-cols-2 grid-cols-1 w-full gap-x-3 gap-y-10 pr-5 lg:pr-3">
           {medical && (
             <ChartCard title="Medical">
               <CustomBarChart

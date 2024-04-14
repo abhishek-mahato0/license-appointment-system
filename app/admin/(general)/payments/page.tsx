@@ -1,6 +1,7 @@
 "use client";
 import FilterModal from "@/components/admin/payment/FilterModal";
 import HeaderTitle from "@/components/common/HeaderTitle";
+import LoaderButton from "@/components/common/LoaderButton";
 import SearchInput from "@/components/common/SearchInput";
 import { TanTable } from "@/components/common/TanTable";
 import { Button } from "@/components/ui/button";
@@ -10,8 +11,9 @@ import { IPayment } from "@/models/paymentModel";
 import { apiinstance } from "@/services/Api";
 import { getDistrictName, getProvinceName } from "@/utils/common";
 import { convertDate } from "@/utils/convertDate";
+import { exportasExcel } from "@/utils/ExportasExcel";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, RotateCcw } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 export default function page() {
@@ -112,6 +114,17 @@ export default function page() {
           />
           <div className="w-full flex justify-end items-center gap-2">
             <FilterModal onsubmit={fetchPayments} />
+            <LoaderButton
+              onClick={() =>
+                exportasExcel(
+                  filterData.length > 0 ? filterData : data,
+                  "Payment"
+                )
+              }
+            >
+              Excel file
+              <Download size={20} className=" ml-2" />
+            </LoaderButton>
           </div>
         </div>
       </div>

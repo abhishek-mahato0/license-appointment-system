@@ -27,13 +27,15 @@ export async function POST(req: NextRequest) {
     try {
         await dbconnect();
         const loggedUser = await checkAdmins(req);
-        console.log(loggedUser)
         if(!loggedUser){
             return ShowError(401, "Unauthorized. Login Again.");
         }else if(loggedUser?.role !== "admin" && loggedUser?.role !== "superadmin"){
             return ShowError(401, "Unauthorized. Login Again.");
         }
         const { name, province, address, district } = await req.json();
+        if(province !== loggedUser?.province){
+            return ShowError(401, "You cannot add office of another province.");
+        }
         if (!name || !province || !address || !district) {
             return ShowError(400, "Invalid request. Missing fields");
         }

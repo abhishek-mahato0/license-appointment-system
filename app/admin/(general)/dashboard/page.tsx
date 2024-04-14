@@ -18,10 +18,13 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
 import { capitalizeFirstLetter } from "@/utils/convertDate";
 import { BookDown, BookOpen, ListChecks, User, Users } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { usePDF } from "react-to-pdf";
 
 export default function page() {
   const [province, setProvince] = useState("");
+  const { toPDF, targetRef } = usePDF({ filename: "dashboard.pdf" });
+  const pdfref = useRef(null);
   const [to, setTo] = useState("");
   const [from, setFrom] = useState("");
   const dispatch = useAppDispatch();
@@ -75,7 +78,7 @@ export default function page() {
     );
   }, [from, to, province]);
   return (
-    <div className=" flex w-full flex-col px-3 mt-2">
+    <div className=" flex w-full flex-col px-3 mt-2" ref={targetRef}>
       <div className=" flex items-center justify-between w-full">
         <HeaderTitle title="Admin Dashboard" />
         <div className="flex items-center justify-center gap-5 py-2 px-3">
@@ -150,7 +153,7 @@ export default function page() {
           </Button>
         </div>
       </div>
-      <div className=" mt-4 mb-2 flex items-center justify-start font-bold">
+      <div className=" mt-4 mb-2 flex items-center justify-between font-bold">
         <h2>
           Showing results of {province === "" && "all"} Province{" "}
           {province != "" && province}{" "}
@@ -159,6 +162,7 @@ export default function page() {
           {from === "" && to !== "" && `upto ${to}.`}
           {from !== "" && to !== "" && `from ${from} to ${to}.`}
         </h2>
+        <Button onClick={() => toPDF()}>Export as PDF</Button>
       </div>
       <div className=" w-full flex mt-3 flex-col lg:flex-row justify-between items-center px-3 gap-2">
         {totalCounts.loading ? (

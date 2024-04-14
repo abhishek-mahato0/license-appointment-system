@@ -87,10 +87,10 @@ export default function AdminNavbar() {
     },
     {
       id: 6,
-      name: "Examinations",
+      name: "Questions",
       href: "/admin/examination",
       comp: <BookOpen strokeWidth={2} size={17} width={17} />,
-      short: "Exam",
+      short: "Questions",
       params: "",
       show: true,
     },

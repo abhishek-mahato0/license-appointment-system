@@ -3,14 +3,16 @@
 import DeleteModal from "@/components/common/DeleteModal";
 import AddQuestionModal from "@/components/common/Examination/AddQuestionModal";
 import HeaderTitle from "@/components/common/HeaderTitle";
+import LoaderButton from "@/components/common/LoaderButton";
 import SearchInput from "@/components/common/SearchInput";
 import { TanTable } from "@/components/common/TanTable";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { TQuestions } from "@/models/QuestionsModel";
 import { apiinstance } from "@/services/Api";
+import { exportasExcel } from "@/utils/ExportasExcel";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp, Pencil, Trash } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, Pencil, Trash } from "lucide-react";
 import React, { useEffect } from "react";
 
 export default function page() {
@@ -199,7 +201,7 @@ export default function page() {
               }
             />
             <DeleteModal
-              title="this question."
+              title="Delete the question."
               onDelete={() => {
                 deleteQuestion(row.original?._id || "");
               }}
@@ -322,6 +324,17 @@ export default function page() {
             triggerChildren={<Button>Add Questions</Button>}
             loading={loading}
           />
+          <LoaderButton
+            onClick={() =>
+              exportasExcel(
+                filteredData.length > 0 ? filteredData : questions,
+                "Question"
+              )
+            }
+          >
+            Excel file
+            <Download size={20} className=" ml-2" />
+          </LoaderButton>
         </div>
       </div>
       <div className=" w-full mt-3">

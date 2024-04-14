@@ -1,4 +1,5 @@
 "use client";
+import LoaderButton from "@/components/common/LoaderButton";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
@@ -11,6 +12,7 @@ export default function page() {
   const { toast } = useToast();
   const [show, setShow] = React.useState(false);
   const router = useRouter();
+  const [loading, setLoading] = React.useState(false);
   const {
     register,
     handleSubmit,
@@ -18,6 +20,13 @@ export default function page() {
   } = useForm();
   const onSubmit = async (data: any) => {
     try {
+      if (data.oldPassword === data.newPassword) {
+        return toast({
+          title: "Error",
+          description: "Old and new password cannot be same",
+        });
+      }
+      setLoading(true);
       const res = await apiinstance.patch("admin/login/verify/change", data);
       if (res.status === 200) {
         toast({
@@ -32,6 +41,8 @@ export default function page() {
         title: "Error",
         description: error?.response?.data?.message,
       });
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -98,9 +109,13 @@ export default function page() {
               </span>
             )}
           </div>
-          <Button type="submit" className=" bg-custom-100 text-white">
+          <LoaderButton
+            loading={loading}
+            type="submit"
+            className=" bg-custom-100 text-white"
+          >
             Submit
-          </Button>
+          </LoaderButton>
         </form>
       </div>
     </div>

@@ -21,6 +21,6 @@ const TrailSchema = new mongoose.Schema<ITrailSchema>({
 
 })
 
-export const TrailModal = mongoose.models.trail || mongoose.model<ITrailSchema>(
+export const TrailModal = mongoose.models.trial || mongoose.model<ITrailSchema>(
     "trial", TrailSchema
 );
