@@ -2,7 +2,6 @@
 import React from "react";
 import { PopupModal } from "@/components/common/PopupModal";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import { provinces } from "@/components/data/ProvinceList";
 import { districtList } from "@/components/data/DistrictList";
 import LoaderButton from "@/components/common/LoaderButton";
@@ -27,11 +26,12 @@ export default function AddOfficeModal({
 
   return (
     <PopupModal
-      title="Add new office"
+      title={type === "add" ? "Add new office" : "Edit office"}
       btnText=""
       triggerChildren={triggerChildren}
       cancelText="close"
       onClick={() => {}}
+      isHidden={true}
     >
       <form
         className="w-full flex flex-col gap-4"

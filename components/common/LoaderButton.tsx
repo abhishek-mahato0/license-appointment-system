@@ -8,12 +8,21 @@ export default function LoaderButton({
   className,
   type = "button",
   onClick,
+  variant = "default",
 }: {
   children: React.ReactNode;
   loading?: boolean;
   className?: string;
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link"
+    | "khalti";
 }) {
   return (
     <Button
@@ -21,6 +30,7 @@ export default function LoaderButton({
       className={`${loading ? "px-5 cursor-wait" : ""} ${className}`}
       disabled={loading}
       onClick={onClick}
+      variant={variant}
     >
       {loading ? (
         <Loader width="20" height="20" color="white" type="spinner" />

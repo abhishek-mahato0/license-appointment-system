@@ -5,6 +5,7 @@ import FilterModal from "@/components/admin/news/FilterModal";
 import DeleteModal from "@/components/common/DeleteModal";
 import AddQuestionModal from "@/components/common/Examination/AddQuestionModal";
 import HeaderTitle from "@/components/common/HeaderTitle";
+import LoaderButton from "@/components/common/LoaderButton";
 import SearchInput from "@/components/common/SearchInput";
 import { TanTable } from "@/components/common/TanTable";
 import { Button } from "@/components/ui/button";
@@ -14,8 +15,9 @@ import { fetchAdminNews, fetchNews } from "@/redux/slices/newsSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
 import { apiinstance } from "@/services/Api";
 import { convertDate } from "@/utils/convertDate";
+import { exportasExcel } from "@/utils/ExportasExcel";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp, Pencil, Trash } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, Pencil, Trash } from "lucide-react";
 import React, { useEffect, useMemo } from "react";
 
 export default function page() {
@@ -248,6 +250,17 @@ export default function page() {
               loading={loadings}
             />
           </div>
+          <LoaderButton
+            onClick={() =>
+              exportasExcel(
+                filteredData.length > 0 ? filteredData : adminNewsList,
+                "News"
+              )
+            }
+          >
+            Excel file
+            <Download size={20} className=" ml-2" />
+          </LoaderButton>
         </div>
       </div>
       <div className=" w-full mt-3">

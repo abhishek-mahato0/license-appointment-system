@@ -10,16 +10,19 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
+import LoaderButton from "./LoaderButton";
 
 type TDeleteModal = {
   title: string;
   children: React.ReactNode;
   onDelete: () => void;
+  loading?: boolean;
 };
 export default function DeleteModal({
   children,
   onDelete,
   title,
+  loading = false,
 }: TDeleteModal) {
   return (
     <Dialog>
@@ -37,9 +40,14 @@ export default function DeleteModal({
               Close
             </Button>
           </DialogClose>
-          <Button type="submit" variant="destructive" onClick={onDelete}>
+          <LoaderButton
+            loading={loading}
+            type="submit"
+            variant="destructive"
+            onClick={onDelete}
+          >
             Delete
-          </Button>
+          </LoaderButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>

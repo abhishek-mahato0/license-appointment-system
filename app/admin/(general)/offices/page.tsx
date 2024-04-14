@@ -2,6 +2,7 @@
 import AddOfficeModal from "@/components/admin/offices/AddOfficeModal";
 import DeleteModal from "@/components/common/DeleteModal";
 import HeaderTitle from "@/components/common/HeaderTitle";
+import LoaderButton from "@/components/common/LoaderButton";
 import SearchInput from "@/components/common/SearchInput";
 import { TanTable } from "@/components/common/TanTable";
 import { Button } from "@/components/ui/button";
@@ -9,8 +10,9 @@ import { useToast } from "@/components/ui/use-toast";
 import { IOffice } from "@/models/OfficeModel";
 import { apiinstance } from "@/services/Api";
 import { getDistrictName, getProvinceName } from "@/utils/common";
+import { exportasExcel } from "@/utils/ExportasExcel";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp, Pencil, Trash } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, Pencil, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -156,11 +158,15 @@ export default function page() {
           <div className="flex gap-2">
             <AddOfficeModal
               triggerChildren={
-                <Button variant="ghost" onClick={() => {}}>
-                  <Pencil size={20} />
+                <Button variant="ghost">
+                  <Pencil
+                    size={20}
+                    className=" hover:text-custom-150 hover:scale-105"
+                  />
                 </Button>
               }
               defaultValues={row.original}
+              loading={loading}
               type="edit"
               onSubmit={(data) => {
                 const id = row?.original._id || "id";
@@ -176,8 +182,8 @@ export default function page() {
               title={`${row.original.name}`}
               onDelete={() => deleteOffice(row.original._id || "id")}
             >
-              <Button variant="ghost" onClick={() => {}}>
-                <Trash size={20} />
+              <Button variant="ghost">
+                <Trash size={20} className=" text-red-700 hover:scale-105" />
               </Button>
             </DeleteModal>
           </div>
@@ -215,7 +221,7 @@ export default function page() {
   async function fetchOffices() {
     setIsFetching(true);
     try {
-      const res = await apiinstance.get("/admin/offices");
+      const res = await apiinstance.get("/admin/offices/authenticated");
 
       if (res.status === 200) {
         return setData(res.data);
@@ -277,6 +283,17 @@ export default function page() {
             }}
             triggerChildren={<Button>Add Offices</Button>}
           />
+          <LoaderButton
+            onClick={() =>
+              exportasExcel(
+                filteredData.length > 0 ? filteredData : data,
+                "Offices"
+              )
+            }
+          >
+            Excel file
+            <Download size={20} className=" ml-2" />
+          </LoaderButton>
         </div>
       </div>
       <div className=" w-full mt-3">

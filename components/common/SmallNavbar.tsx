@@ -4,14 +4,12 @@ import Links from "@/components/common/Links";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Bike,
-  Book,
   BookOpen,
-  ChevronDown,
-  FolderSync,
   Home,
   LayoutDashboardIcon,
   ListChecks,
   LogOut,
+  MenuSquare,
   PenSquare,
   PlusCircle,
   User,
@@ -33,7 +31,7 @@ type DropLinks = {
   params: string;
 };
 
-export default function Navbar() {
+export default function SmallNav() {
   const location = usePathname();
   const params = useSearchParams().get("type");
   const { data: session } = useSession();
@@ -151,21 +149,16 @@ export default function Navbar() {
       })
     );
   }, [location, params]);
+  const [show, setShow] = useState(false);
 
   return (
-    <div
-      className={`${
-        showfull ? "w-[280px]" : "w-[90px]"
-      } hidden lg:flex flex-col bg-white text-customtext-100 items-start justify-between border-r-[1px] shadow-md h-full duration-150 ease-in-out `}
-      onMouseEnter={() => setShowfull(true)}
-      onMouseLeave={() => setShowfull(false)}
-    >
-      <FullFlex className="w-full flex-col px-0 py-0">
+    <div className=" flex w-screen lg:hidden bg-black">
+      <div className=" w-full items-center justify-between flex relative">
         <Link
           href="/"
-          className="flex items-center justify-center gap-2 bg-custom-100 w-full px-[2px] py-3"
+          className="flex items-start justify-start gap-2 bg-custom-100 w-[100%] px-[10px] py-3"
         >
-          <Image src="/images/logo.svg" alt="logo" width={50} height={40} />
+          <Image src="/images/logo.svg" alt="logo" width={40} height={40} />
           {showfull && (
             <p className=" text-[12px] text-white font-bold">
               Governmant of Nepal
@@ -175,78 +168,13 @@ export default function Navbar() {
             </p>
           )}
         </Link>
-        <FullFlex className=" w-full flex-col items-start mt-4">
-          {dropLinks
-            .filter((ele) => ele?.show)
-            .map((ele) => {
-              return (
-                <Links
-                  href={ele?.disable ? "" : ele.href}
-                  name={`${showfull ? ele.name : ele.short}`}
-                  className={`${
-                    active?.id === ele.id
-                      ? "bg-custom-50 border-l-custom-100 text-custom-150 border-l-[4px]"
-                      : ""
-                  } hover:text-custom-150 hover:bg-custom-50 w-full h-full font-[500]
-              ${
-                showfull
-                  ? "items-start justify-start py-4 flex-row text-[13px]"
-                  : " items-center justify-center py-2 flex-col text-xs"
-              }
-              ${ele?.disable ? "cursor-not-allowed" : "cursor-pointer"}`}
-                  key={ele.id}
-                >
-                  {ele.comp}
-                  {/* <Links
-                  href={ele.href}
-                  name={`${showfull ? ele.name : ele.short}`}
-                  className={`${
-                    !showfull
-                      ? "flex-col text-xs"
-                      : "flex-row text-[13px] gap-4"
-                  }`}
-                >
-                  {ele.comp}
-                </Links> */}
-                </Links>
-              );
-            })}
-        </FullFlex>
-      </FullFlex>
-      <FullFlex className="w-full pb-5 border-t-2 pt-2 text-xs">
-        {session?.user?.email && (
-          <FullFlex className=" justify-between gap-2">
-            {session.user?.avatar ? (
-              <img
-                src={session.user?.avatar}
-                className=" h-10 w-10 rounded-full"
-              />
-            ) : (
-              <Avatar>
-                <AvatarFallback className=" bg-custom-100 text-white text-sm">
-                  {session.user.name?.split("")[0]}
-                </AvatarFallback>
-              </Avatar>
-            )}
-            {showfull && (
-              <p className=" text-[11px]">
-                <p className=" font-bold">{session.user?.name}</p>
-                {session?.user.email}
-              </p>
-            )}
-            {showfull && (
-              <LogOut
-                className=" cursor-pointer"
-                onClick={async () => {
-                  localStorage.removeItem("userInfo");
-                  signOut();
-                  Logout();
-                }}
-              />
-            )}
-          </FullFlex>
-        )}
-      </FullFlex>
+        <MenuSquare
+          strokeWidth={2}
+          size={20}
+          width={50}
+          className=" absolute top-5 right-1 font-bold text-3xl text-white"
+        />
+      </div>
     </div>
   );
 }

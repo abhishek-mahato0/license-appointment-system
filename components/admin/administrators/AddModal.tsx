@@ -8,11 +8,13 @@ import { useAppSelector } from "@/redux/TypedHooks";
 import { Toffice } from "@/redux/slices/officeListSlice";
 import Select from "react-select";
 import { customStyles } from "@/components/common/MultiselectStyles";
+import LoaderButton from "@/components/common/LoaderButton";
 export default function AddModal({
   defaultValues,
   onSubmit,
   triggerChildren,
   type = "add",
+  addloading,
 }: any) {
   const { register, handleSubmit, getValues, watch } = useForm({
     defaultValues,
@@ -132,9 +134,13 @@ export default function AddModal({
             Send Credentials to user with above email.
           </label>
         </div>
-        <Button type="submit" className=" absolute bottom-6 right-4">
+        <LoaderButton
+          loading={addloading}
+          type="submit"
+          className=" absolute bottom-6 right-4"
+        >
           {type === "add" ? "Add" : "Save"}
-        </Button>
+        </LoaderButton>
       </form>
     </PopupModal>
   );

@@ -77,6 +77,7 @@ export default function AddQuestionModal({
       triggerChildren={triggerChildren}
       cancelText="close"
       onClick={() => {}}
+      isHidden={true}
     >
       <form
         className="w-full flex flex-col gap-4"

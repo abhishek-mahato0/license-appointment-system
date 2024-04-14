@@ -22,15 +22,29 @@ export default function ChangePassword({
   async function handleChangePassword() {
     try {
       setLoading(true);
+      if (oldPassword === newPassword) {
+        setLoading(false);
+        return toast({
+          title: "Error",
+          description: "Old and new password cannot be same",
+        });
+      } else if (newPassword.length < 6 || oldPassword.length < 1) {
+        setLoading(false);
+        return toast({
+          title: "Error",
+          description: "Password must be atleast 6 characters long",
+        });
+      }
       const payload = {
         oldPassword,
         newPassword,
       };
       const res = await apiinstance.patch("user/verify/change", payload);
       if (res.status == 200) {
-        document.getElementById("close")?.click();
+        setLoading(false);
         await apiinstance.get("user/logout");
         await signOut();
+        document.getElementById("close")?.click();
         return toast({
           title: "Success",
           description: res?.data?.message,
@@ -38,12 +52,11 @@ export default function ChangePassword({
         });
       }
     } catch (error: any) {
+      setLoading(false);
       return toast({
         title: "Error",
         description: error?.response?.data?.message || "Some error occured",
       });
-    } finally {
-      setLoading(false);
     }
   }
   return (

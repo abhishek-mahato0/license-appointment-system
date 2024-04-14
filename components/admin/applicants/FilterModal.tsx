@@ -31,7 +31,7 @@ export default function FilterModal({ onsubmit }: FilterModalProps) {
   const [status, setStatus] = React.useState("");
 
   return (
-    <div className=" w-[35%] items-end justify-end px-4 py-2 flex flex-col z-50 relative">
+    <div className=" w-[60%] items-end justify-end px-4 py-2 flex flex-col z-50 relative">
       <Button onClick={() => setOpen(!open)}>Filter</Button>
       <div
         className={`${
@@ -44,8 +44,8 @@ export default function FilterModal({ onsubmit }: FilterModalProps) {
           <h2 className=" w-full font-semibold text-xl">Filter</h2>
         </div>
         <div className=" w-full flex gap-2 justify-between px-3">
-          <div className=" w-full flex gap-2 items-center">
-            <label className=" font-bold">Has Applied</label>
+          <div className=" w-1/2 flex gap-2 items-center">
+            <label className=" font-bold text-[14px]">Has Applied</label>
             <input
               type="checkbox"
               className=" focus:outline-none outline-2 border-b-2 border-customtext-100 px-2 h-6 w-6"
@@ -53,8 +53,10 @@ export default function FilterModal({ onsubmit }: FilterModalProps) {
               checked={applied === "true" ? true : false}
             />
           </div>
-          <div className=" w-full flex gap-2">
-            <label className=" font-bold">Is Verified By Email</label>
+          <div className=" w-1/2 flex gap-2">
+            <label className=" font-bold text-[14px]">
+              Is Verified By Email
+            </label>
             <input
               type="checkbox"
               className=" focus:outline-none outline-2 border-b-2 border-customtext-100 px-2  h-6 w-6"

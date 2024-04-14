@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, Eye } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, Eye } from "lucide-react";
 import { TanTable } from "@/components/common/TanTable";
 import SearchInput from "@/components/common/SearchInput";
 import { apiinstance } from "@/services/Api";
@@ -12,6 +12,8 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import HeaderTitle from "@/components/common/HeaderTitle";
 import FilterModal from "@/components/admin/applicants/FilterModal";
+import LoaderButton from "@/components/common/LoaderButton";
+import { exportasExcel } from "@/utils/ExportasExcel";
 
 export const columns: ColumnDef<IUser>[] = [
   {
@@ -219,7 +221,13 @@ export default function page() {
       <HeaderTitle title="Applicants" />
       <div className="w-full flex justify-between items-center pr-3">
         <SearchInput onChange={handleSearch} onClear={handleClear} />
-        <FilterModal onsubmit={getApplicants} />
+        <div className="flex items-center justify-end gap-3 w-1/2">
+          <FilterModal onsubmit={getApplicants} />
+          <LoaderButton onClick={() => exportasExcel(data, "Applicants")}>
+            Excel file
+            <Download size={20} className=" ml-2" />
+          </LoaderButton>
+        </div>
       </div>
       <div className="w-full flex justify-end items-center pr-6 py-2">
         {(searchText ? filteredData : data) && (

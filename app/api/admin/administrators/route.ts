@@ -39,12 +39,14 @@ export async function GET(req:NextRequest){
 export async function PATCH(req:NextRequest){
     try {
         await dbconnect();
+        let verified = ["superadmin", "admin"];
         const {id, content} = await req.json();
         const loggedUser = await checkAdmins(req);
         
-        if(!loggedUser || (loggedUser.role !== "superadmin" || loggedUser.role !== "admin")){
-            return ShowError(401, "Unauthorized. Login Again.");
+        if(!loggedUser || !verified.includes(loggedUser.role)){
+            return ShowError(401, "Unauthoriused. Login Again.");
         }
+       
         const user = await Administrator.findByIdAndUpdate(id,content, {new:true});
         if(!user){
             return ShowError(400, "No user found");
