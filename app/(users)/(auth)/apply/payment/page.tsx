@@ -18,7 +18,7 @@ export default function page({
   const [loading, setLoading] = React.useState(false);
 
   let payload = {
-    return_url: `${process.env?.BASE_URL}/apply/payment/verify/`,
+    return_url: "/apply/payment/verify/",
     website_url: process?.env?.BASE_URL,
     amount: 1000,
     purchase_order_id: app_id,
@@ -102,7 +102,7 @@ export default function page({
               Pay Rs 1000 cash
             </Button>
           </div>
-          <p className=" text-red-600 text-xs">
+          <p className=" text-red-600 text-xs mt-4">
             Note: The khalti payment is not stable and does not work sometimes.
             In that case please choose cash on payment.{" "}
           </p>
