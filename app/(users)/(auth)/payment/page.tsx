@@ -26,7 +26,7 @@ export default function page({
   const [paymentUrl, setPaymentUrl] = useState("");
   const dispatch = useAppDispatch();
   let payload = {
-    return_url: process.env.KHALTI_RETURN_URL,
+    return_url: `${process.env.BASE_URL}/payment/verify`,
     website_url: process?.env?.BASE_URL,
     amount: 100000,
     purchase_order_id: app_id,
