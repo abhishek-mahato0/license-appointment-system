@@ -23,6 +23,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import ChartCard from "@/components/recharts/ChartCard";
 import HeaderTitle from "@/components/common/HeaderTitle";
 import { getAllOffices } from "@/utils/officeInfo";
+import { sendCustomMail } from "@/utils/sendTokenEmail";
+import { informationConfirmationtemplate } from "@/utils/EmailTemplate";
 
 export default function page() {
   const [offices, setOffices] = useState<any>([]);
@@ -124,10 +126,10 @@ export default function page() {
   }, [selectedOffice, selectedCat, dispatch]);
 
   return (
-    <div className=" flex flex-col w-full items-start justify-start mt-3">
-      <div className=" w-full justify-between items-center flex lg:pr-6 pr-2 lg:flex-row flex-col">
+    <div className=" flex flex-col w-full items-start justify-start md:mt-3 mt-5">
+      <div className=" w-full md:justify-between items-center flex md:pr-6 pl-1 md:flex-row flex-col">
         <HeaderTitle title="Public Dashboard" />
-        <div className="flex items-center flex-col lg:flex-row lg:justify-center gap-5">
+        <div className="flex items-center flex-col lg:flex-row lg:justify-center gap-5 w-full md:w-auto">
           <SingleSelect
             data={categoryData.map((ele) => ({
               id: ele.id,
@@ -136,7 +138,7 @@ export default function page() {
             }))}
             value={selectedCat}
             placeholder="Select Category"
-            classNames=" outline-none border-b-2 border-x-[0px] border-t-[0px] hover:border-custom-100 border-customtext-100 lg:min-w-[220px] w-[90%]"
+            classNames=" outline-none border-b-2 border-x-[0px] border-t-[0px] hover:border-custom-100 border-customtext-100 md:min-w-[220px] w-full"
             onSelect={(value: any) => {
               setSelectedCat(value);
               router.push(`?category=${value}&office=${selectedOffice}`);
@@ -145,7 +147,7 @@ export default function page() {
           <SingleSelect
             data={offices}
             value={selectedOffice}
-            classNames=" outline-none border-b-2 border-x-[0px] border-t-[0px] hover:border-custom-100 border-customtext-100 lg:min-w-[160px]"
+            classNames=" outline-none border-b-2 border-x-[0px] border-t-[0px] hover:border-custom-100 border-customtext-100 md:min-w-[160px]"
             onSelect={(value: any) => {
               setSelectedOffice(value);
               router.push(`?category=${selectedCat}&office=${value}`);

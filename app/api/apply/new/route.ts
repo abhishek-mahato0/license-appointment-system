@@ -2,7 +2,7 @@ import { Appointment } from "@/models/appointmentsModel";
 import { Citizenship } from "@/models/citizenshipModel";
 import { Information } from "@/models/informationModel";
 import { License } from "@/models/licenseModel";
-import {  User } from "@/models/userModel";
+import {  UAppointment, User } from "@/models/userModel";
 import ShowError from "@/utils/ShowError";
 import { convertDate } from "@/utils/convertDate";
 import { NextRequest, NextResponse } from "next/server";
@@ -17,10 +17,19 @@ import { getOfficeById } from "@/utils/officeInfo";
 
 async function checkIfFailedForThreeTimes(id: string, category: string) {
     try {
-    
-        const appointments = await Appointment.find({ user_id: id, category: category, status: "failed" });
-        if (appointments.length >= 3) {
-            return true;
+        const medicalCount = await MedicalModal.countDocuments({ user_id: id, category: category, status: "failed" });
+        const writtenCount = await WrittenModal.countDocuments({ user_id: id, category: category, status: "failed" });
+        const trialCount = await TrailModal.countDocuments({ user_id: id, category: category, status: "failed" });
+        if (medicalCount >= 3 || writtenCount >= 3 || trialCount >= 3) {
+           const date = await Appointment.findOne({ user_id: id, category: category }).sort({ bookDate: -1 });
+            if (date) {
+                const today = new Date();
+                const lastDate = new Date(date.bookDate);
+                const diff = Math.abs(today.getTime() - lastDate.getTime());
+                const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                if (diffDays < 90) return true;
+            }
+            return false;
         }
         return false;
     } catch (error: any) {
@@ -28,8 +37,12 @@ async function checkIfFailedForThreeTimes(id: string, category: string) {
     }
 }
 
-async function checkType(userId: string) {
-    const license = await License.findOne({ user_Id: userId });
+async function checkType(userId: string, category: string) {
+    const license = await License.findOne({ user_id: userId });
+    if(license?.license?.category.includes(category)){
+        return 'error';
+    }
+    console.log(license?.license?.category.includes(category), license, category)
     if (!license) return 'new';
     return 'add';
 }
@@ -56,95 +69,6 @@ async function checkInformation(userId: string) {
     return false
 }
 
-// async function updateDashLog(category: string, date: string, office: string, type: string, forType: string) {
-//     try {
-
-//         const dashlogForMedical = await DashboardLog.findOne({
-//             category: category,
-//             date: date,
-//             office: office
-//         })
-//         if (!dashlogForMedical) {
-//             const createdLog = await new DashboardLog<IDashboardSchema>({
-//                 category: category,
-//                 office,
-//                 date,
-//                 medical: {
-//                     morning: {
-//                         remaining: type === "medical" && forType === "morning" ? 1 : 0,
-//                         completed: 0,
-//                         passed: 0,
-//                         failed: 0
-//                     },
-//                     evening: {
-//                         remaining: type === "medical" && forType === "evening" ? 1 : 0,
-//                         completed: 0,
-//                         passed: 0,
-//                         failed: 0
-//                     },
-//                     afternoon: {
-//                         remaining: type === "medical" && forType === "afternoon" ? 1 : 0,
-//                         completed: 0,
-//                         passed: 0,
-//                         failed: 0
-//                     }
-
-//                 },
-//                 trial: {
-//                     morning: {
-//                         remaining: type === "trial" && forType === "morning" ? 1 : 0,
-//                         completed: 0,
-//                         passed: 0,
-//                         failed: 0
-//                     },
-//                     evening: {
-//                         remaining: type === "trial" && forType === "evening" ? 1 : 0,
-//                         completed: 0,
-//                         passed: 0,
-//                         failed: 0
-//                     },
-//                     afternoon: {
-//                         remaining: type === "trial" && forType === "afternoon" ? 1 : 0,
-//                         completed: 0,
-//                         passed: 0,
-//                         failed: 0
-//                     }
-//                 },
-//                 written: {
-//                     morning: {
-//                         remaining: type === "written" && forType === "morning" ? 1 : 0,
-//                         completed: 0,
-//                         passed: 0,
-//                         failed: 0
-//                     },
-//                     evening: {
-//                         remaining: type === "written" && forType === "evening" ? 1 : 0,
-//                         completed: 0,
-//                         passed: 0,
-//                         failed: 0
-//                     },
-//                     afternoon: {
-//                         remaining: type === "written" && forType === "afternoon" ? 1 : 0,
-//                         completed: 0,
-//                         passed: 0,
-//                         failed: 0
-//                     }
-//                 }
-
-//             })
-//             await createdLog.save()
-//             return true;
-//         } else {
-//             if (await increaseOccupancy(category, date, office, type, forType, dashlogForMedical)) {
-//                 await dashlogForMedical.save();
-//                 return true;
-//             }
-//             return false;
-//         }
-//     } catch (error) {
-//         return false;
-//     }
-// }
 export async function POST(req: NextRequest) {
     try {
         await dbconnect();
@@ -163,14 +87,18 @@ export async function POST(req: NextRequest) {
         if (user?.documentVerified?.status !== "verified") return ShowError(400, 'Your document is not verified.');
 
         // if(user.appointment.some((item:UAppointment)=> item.status==="pending")) return ShowError(400, 'User already has an appointment');
-        if (user.hasApplied) return ShowError(400, 'User already has an appointment');
+        // if (user.hasApplied) return ShowError(400, 'You already have an appointment. ');
 
-        if (await checkCitizenship(isLogged?._id) === false) return ShowError(400, 'User has not uploaded citizenship');
+        if (await checkCitizenship(isLogged?._id) === false) return ShowError(400, 'You have not filled and uploaded citizenship details.');
 
         // if(await checkLicense(userId)===false) return ShowError(400, 'User has not uploaded license');
-        if (await checkInformation(isLogged._id) === false) return ShowError(400, 'User has not filled information form');
+        if (await checkInformation(isLogged._id) === false) return ShowError(400, 'You have not filled your details form.');
+
         //check iof the person has failed for three times in any appointment
-        if (await checkIfFailedForThreeTimes(isLogged._id, selectedCat)) return ShowError(400, 'User has already failed for three times');
+        if (await checkIfFailedForThreeTimes(isLogged._id, selectedCat)) return ShowError(400, 'You have already failed for three times in license examination. You can only apply after 90days of your recent appointment.');
+
+        //check if already have license.
+        if (await checkType(isLogged._id, selectedCat)==="error") return ShowError(400, 'You already have a license for this category. Please choose a new category to apply for license.');
         //check if the user has applied after failing.
         const medical = await new MedicalModal({
             tracking_id: isLogged?.phone,
@@ -208,7 +136,7 @@ export async function POST(req: NextRequest) {
             tracking_id: isLogged?.phone,
             user_id: isLogged._id,
             category: selectedCat,
-            type: await checkType(isLogged?._id),
+            type: await checkType(isLogged?._id, selectedCat),
             bookDate: convertDate(new Date()),
             office: selectedOffice,
             province: selectedProv,

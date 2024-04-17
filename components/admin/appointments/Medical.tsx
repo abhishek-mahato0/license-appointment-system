@@ -49,6 +49,7 @@ export default function Medical() {
       });
       if (res.status === 200) {
         document.getElementById("close")?.click();
+        fetchAppointments("", "", "", "");
         return toast({
           title: "Success",
           description: "Biometric status updated successfully.",
@@ -84,6 +85,7 @@ export default function Medical() {
         }
       );
       if (res.status === 200) {
+        fetchAppointments("", "", "", "");
         document.getElementById("close")?.click();
         return toast({
           title: "Success",
@@ -113,6 +115,7 @@ export default function Medical() {
         { status }
       );
       if (res.status === 200) {
+        fetchAppointments("", "", "", "");
         document.getElementById("close")?.click();
         return toast({
           title: "Success",
@@ -136,7 +139,9 @@ export default function Medical() {
         app_id: id,
       });
       if (res.status === 200) {
+        fetchAppointments("", "", "", "");
         document.getElementById("close")?.click();
+
         return toast({
           title: "Success",
           description: "Payment status updated successfully.",

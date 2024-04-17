@@ -24,7 +24,6 @@ import { usePDF } from "react-to-pdf";
 export default function page() {
   const [province, setProvince] = useState("");
   const { toPDF, targetRef } = usePDF({ filename: "dashboard.pdf" });
-  const pdfref = useRef(null);
   const [to, setTo] = useState("");
   const [from, setFrom] = useState("");
   const dispatch = useAppDispatch();

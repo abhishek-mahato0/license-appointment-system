@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       if( !email || !password || ! name || !phone || !avatar){
         return ShowError(400,"Missing Fields")
       }
-     
+  
       const exists = await User.find({$or:[ {email:email}, {phone:phone}]});
       if(exists.length > 0){
         return ShowError(400,"User already exists.")
@@ -42,8 +42,8 @@ export async function POST(req: NextRequest) {
         return ShowError(400,"User not created.")
       }
       await user.save();
+      await sendMail(user.email,token,user._id.toString(), user.name)
      
-      await sendMail(user.email,token,user._id.toString())
       return NextResponse.json({message:"An account verification email is sent. Plase verify you account. "}, {status:201})
       //return NextResponse.json({message:"User created successfully."}, {status:201})
         

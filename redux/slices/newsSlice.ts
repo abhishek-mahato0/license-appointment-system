@@ -26,6 +26,7 @@ const initialState:TNewsState={
 }
 
 export const fetchNews = createAsyncThunk("fetchNews", async () => {
+
     const res = await apiinstance.get(`user/news`);
     return res.data;
  });

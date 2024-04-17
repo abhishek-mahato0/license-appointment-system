@@ -110,7 +110,7 @@ export default function ForgetPassword({
       title="Forget Password"
       triggerChildren={triggerChildren}
       onClick={() => {}}
-      btnclassNames=" mr-10"
+      isHidden={true}
     >
       <div className={`${params === "forget" ? "flex" : "hidden"} w-full`}>
         <div className="flex flex-col gap-3 w-full">

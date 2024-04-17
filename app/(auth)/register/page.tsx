@@ -77,10 +77,10 @@ export default function page() {
 
   return (
     <div className="flex w-full h-screen">
-      <div className=" w-[40%]">
+      <div className=" hidden md:flex w-[40%]">
         <Banner />
       </div>
-      <FullFlex className="w-[60%] flex-col bg-[#e3f2ff] h-full">
+      <div className="md:w-[60%] flex items-center md:justify-center w-full flex-col bg-custom-50 h-full">
         <h1 className=" text-2xl font-semibold pb-4 pt-4">Register</h1>
         <form
           onSubmit={handleSubmit((datas) => registerUser(datas))}
@@ -259,7 +259,7 @@ export default function page() {
             className=" hover:underline"
           ></Links>
         </form>
-      </FullFlex>
+      </div>
     </div>
   );
 }

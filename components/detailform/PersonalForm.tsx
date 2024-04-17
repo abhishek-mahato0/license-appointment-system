@@ -44,13 +44,13 @@ export default function PersonalForm() {
   };
 
   return (
-    <div className=" flex flex-col w-full">
+    <div className=" flex flex-col w-full h-fit">
       <form
-        className=" w-[100%] bg-custom-50 p-8 gap-8 flex flex-col"
+        className=" w-[100%] bg-custom-50 p-8 gap-8 flex flex-col md:h-auto min-h-[1300px]"
         onSubmit={handleSubmit((data) => handlePersonalData(data))}
       >
         <Outline title="Personal Information">
-          <div className="grid grid-cols-3 gap-3 items-center justify-between w-full px-3 py-2">
+          <div className="grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between w-full px-3 py-2">
             {personalData.map((item: any) => {
               return (
                 <div className=" flex flex-col gap-1 items-start justify-start">
@@ -93,7 +93,7 @@ export default function PersonalForm() {
           </div>
         </Outline>
         <Outline title="Education Information">
-          <div className="grid grid-cols-2 gap-3 items-center justify-between w-full px-3 py-2">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-3 items-center justify-between w-full px-3 py-2">
             {educationData.map((item) => {
               return (
                 <div className=" flex flex-col gap-1 items-start justify-start">

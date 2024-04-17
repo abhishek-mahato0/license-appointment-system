@@ -254,7 +254,7 @@ export default function AddressEditForm({
               </div>
             </Outline>
             <Outline title="Temporary Address">
-              <div className=" w-full items-center justify-end flex px-3 -mt-3">
+              <div className=" w-full items-center justify-end flex px-3 md:-mt-3">
                 <p
                   className=" text-xs py-1 px-2 bg-custom-150 text-white cursor-pointer"
                   onClick={() => setTemporaryAddress(permanentAddress)}

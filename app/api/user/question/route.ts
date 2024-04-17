@@ -24,7 +24,7 @@ export async function GET(req:NextRequest){
           const questions = [...generalQuestions, ...signQuestions];
           return NextResponse.json(questions, {status:200})
         }
-        if(type){
+        if(type && type !=="null"){
             if(type !== "all")
               query['type'] = type;
         }

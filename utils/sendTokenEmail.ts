@@ -1,25 +1,20 @@
 import { transporter } from "@/lib/nodemailerConfig";
 import ShowError from "./ShowError";
-import { NextResponse } from "next/server";
+import { accountConfirmationTemplate } from "./EmailTemplate";
 
-export async function sendMail(email:string,token:string, userId:string) {
+export async function sendMail(email:string,token:string, userId:string, name:string) {
     try {
        const info=await transporter.sendMail({
             from: 'licenseappointmant@gmail.com', // sender address
             to: email, // list of receivers
             subject: "Email verification token", // Subject line
             text: "Verify you email." ,// plain text body
-            html:`
-            <h1>This is mail from license-appointment.</h1>
-            <p>Please click the link below to verify your email </p><br>
-            <p>${process.env.VERIFY_URL}/${userId}?token=${token}`
+            html: accountConfirmationTemplate({token,userId,name})
           })
          return true;
     } catch (error:any) {
       return false;
-       //ShowError(400,error?.message)
     }
-    // send mail with defined transport object
    
 }
 

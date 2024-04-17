@@ -116,14 +116,22 @@ export default function page() {
           <div className=" flex flex-col gap-2">
             <label>Phone Number.</label>
             <input
-              {...register("tracking_id", { required: true })}
+              {...register("tracking_id", {
+                required: true,
+                maxLength: 10,
+                minLength: 10,
+              })}
               placeholder="Enter Phone Number"
               className=" w-[90%] py-1 px-2 rounded-[6px] bg-custom-50 border-custom-150 border-[1px] outline-1 focus:outline-none outline-custom-100"
               type="text"
             />
-            {errors?.tracking_id && errors?.tracking_id.type === "required" && (
+            {errors?.tracking_id && errors?.tracking_id.type === "maxLength" ? (
               <span className=" text-xs font-light text-red-600">
-                Phone no is required
+                Phone must be 10 digits long
+              </span>
+            ) : (
+              <span className=" text-xs font-light text-red-600">
+                Phone Number is required.
               </span>
             )}
           </div>

@@ -204,7 +204,7 @@ export default function page() {
               }
             />
             <DeleteModal
-              title="this question."
+              title="Delete news."
               onDelete={() => {
                 deleteNews(row?.original?._id as string);
               }}

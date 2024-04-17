@@ -38,7 +38,6 @@ export async function GET(req: NextRequest, {params}:any) {
       ShowError( 400, "No user found. Invalid token");
     }
   } catch (error: any) {
-    console.log(error?.message);
     return ShowError(400, error?.message);
   }
 }
