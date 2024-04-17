@@ -15,153 +15,6 @@ import FilterModal from "@/components/admin/applicants/FilterModal";
 import LoaderButton from "@/components/common/LoaderButton";
 import { exportasExcel } from "@/utils/ExportasExcel";
 
-export const columns: ColumnDef<IUser>[] = [
-  {
-    accessorKey: "",
-    header: "SN",
-    cell: ({ row }: any) => row.index + 1,
-  },
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className=" gap-2"
-        >
-          Name
-          {column.getIsSorted() === "asc" ? (
-            <ChevronDown size={20} />
-          ) : (
-            <ChevronUp size={20} />
-          )}
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className=" gap-2"
-        >
-          Email
-          {column.getIsSorted() === "asc" ? (
-            <ChevronDown size={20} />
-          ) : (
-            <ChevronUp size={20} />
-          )}
-        </Button>
-      );
-    },
-    cell: (row: any) => {
-      return (
-        <div className=" flex items-start gap-4">
-          <img
-            src={row.row.original?.avatar || "/images/bike.svg"}
-            className="w-10 h-10 rounded-full object-cover"
-            alt="profile"
-          />
-          <span>{row.getValue()}</span>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "phone",
-    header: "Phone",
-  },
-
-  {
-    accessorKey: "isverifiedByEmail",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className=" gap-2"
-        >
-          Verified By Email
-          {column.getIsSorted() === "asc" ? (
-            <ChevronDown size={20} />
-          ) : (
-            <ChevronUp size={20} />
-          )}
-        </Button>
-      );
-    },
-    cell(row: any) {
-      return (
-        <div className="w-full flex items-center gap-2">
-          {row.getValue() ? "Yes" : "No"}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "hasApplied",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className=" gap-2"
-        >
-          Has Applied
-          {column.getIsSorted() === "asc" ? (
-            <ChevronDown size={20} />
-          ) : (
-            <ChevronUp size={20} />
-          )}
-        </Button>
-      );
-    },
-    cell(row: any) {
-      return (
-        <div className="w-full flex items-center gap-2">
-          {row.getValue() ? "Yes" : "No"}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "documentVerified",
-    header: "Document Status",
-    cell: ({ row }: any) => {
-      return (
-        <div className="w-full flex items-center gap-2">
-          <Badge
-            variant={`${
-              row?.original?.documentVerified?.status === "verified"
-                ? "success"
-                : "destructive"
-            }`}
-          >
-            {row?.original.documentVerified?.status}
-          </Badge>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "",
-    header: "Action",
-    cell: ({ row }) => {
-      return (
-        <div className=" w-full flex items-center gap-5 cursor-pointer text-gray-500">
-          <Link href={`applicants/${row.original._id}`}>
-            <Eye size={25} />
-          </Link>
-        </div>
-      );
-    },
-  },
-];
-
 export default function page() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -174,6 +27,153 @@ export default function page() {
   const handleClear = () => {
     setSearchText("");
   };
+  const columns: ColumnDef<IUser>[] = [
+    {
+      accessorKey: "",
+      header: "SN",
+      cell: ({ row }: any) => row.index + 1,
+    },
+    {
+      accessorKey: "name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className=" gap-2"
+          >
+            Name
+            {column.getIsSorted() === "asc" ? (
+              <ChevronDown size={20} />
+            ) : (
+              <ChevronUp size={20} />
+            )}
+          </Button>
+        );
+      },
+    },
+    {
+      accessorKey: "email",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className=" gap-2"
+          >
+            Email
+            {column.getIsSorted() === "asc" ? (
+              <ChevronDown size={20} />
+            ) : (
+              <ChevronUp size={20} />
+            )}
+          </Button>
+        );
+      },
+      cell: (row: any) => {
+        return (
+          <div className=" flex items-start gap-4">
+            <img
+              src={row.row.original?.avatar || "/images/bike.svg"}
+              className="w-10 h-10 rounded-full object-cover"
+              alt="profile"
+            />
+            <span>{row.getValue()}</span>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "phone",
+      header: "Phone",
+    },
+
+    {
+      accessorKey: "isverifiedByEmail",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className=" gap-2"
+          >
+            Verified By Email
+            {column.getIsSorted() === "asc" ? (
+              <ChevronDown size={20} />
+            ) : (
+              <ChevronUp size={20} />
+            )}
+          </Button>
+        );
+      },
+      cell(row: any) {
+        return (
+          <div className="w-full flex items-center gap-2">
+            {row.getValue() ? "Yes" : "No"}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "hasApplied",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className=" gap-2"
+          >
+            Has Applied
+            {column.getIsSorted() === "asc" ? (
+              <ChevronDown size={20} />
+            ) : (
+              <ChevronUp size={20} />
+            )}
+          </Button>
+        );
+      },
+      cell(row: any) {
+        return (
+          <div className="w-full flex items-center gap-2">
+            {row.getValue() ? "Yes" : "No"}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "documentVerified",
+      header: "Document Status",
+      cell: ({ row }: any) => {
+        return (
+          <div className="w-full flex items-center gap-2">
+            <Badge
+              variant={`${
+                row?.original?.documentVerified?.status === "verified"
+                  ? "success"
+                  : "destructive"
+              }`}
+            >
+              {row?.original.documentVerified?.status}
+            </Badge>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "",
+      header: "Action",
+      cell: ({ row }) => {
+        return (
+          <div className=" w-full flex items-center gap-5 cursor-pointer text-gray-500">
+            <Link href={`applicants/${row.original._id}`}>
+              <Eye size={25} />
+            </Link>
+          </div>
+        );
+      },
+    },
+  ];
+
   async function getApplicants(
     applied: string,
     byemail: string,
