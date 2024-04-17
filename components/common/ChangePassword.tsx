@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { PopupModal } from "./PopupModal";
 import { useSearchParams } from "next/navigation";
 import { Button } from "../ui/button";
@@ -60,45 +60,47 @@ export default function ChangePassword({
     }
   }
   return (
-    <PopupModal
-      title="Change Password"
-      triggerChildren={triggerChildren}
-      onClick={() => {}}
-      isHidden={true}
-    >
-      <div className="flex w-full flex-col gap-6">
-        <div className="flex flex-col gap-2 w-full">
-          <label>Old Password</label>
-          <input
-            type="password"
-            required
-            placeholder="Enter your old password"
-            className=" border-b-2 border-b-custom-150 outline-none w-full py-[5px] px-3 bg-[#e3f2ff]"
-            onChange={(e) => setOldPassword(e.target.value)}
-            value={oldPassword}
-          />
+    <Suspense>
+      <PopupModal
+        title="Change Password"
+        triggerChildren={triggerChildren}
+        onClick={() => {}}
+        isHidden={true}
+      >
+        <div className="flex w-full flex-col gap-6">
+          <div className="flex flex-col gap-2 w-full">
+            <label>Old Password</label>
+            <input
+              type="password"
+              required
+              placeholder="Enter your old password"
+              className=" border-b-2 border-b-custom-150 outline-none w-full py-[5px] px-3 bg-[#e3f2ff]"
+              onChange={(e) => setOldPassword(e.target.value)}
+              value={oldPassword}
+            />
+          </div>
+          <div className="flex flex-col gap-2 w-full">
+            <label>New Password</label>
+            <input
+              type="password"
+              required
+              placeholder="Enter your new password"
+              className=" border-b-2 border-b-custom-150 outline-none w-full py-[5px] px-3 bg-[#e3f2ff]"
+              onChange={(e) => setNewPassword(e.target.value)}
+              value={newPassword}
+            />
+          </div>
+          <div className=" absolute bottom-6 right-3">
+            <LoaderButton
+              type="submit"
+              onClick={handleChangePassword}
+              loading={loading}
+            >
+              Submit
+            </LoaderButton>
+          </div>
         </div>
-        <div className="flex flex-col gap-2 w-full">
-          <label>New Password</label>
-          <input
-            type="password"
-            required
-            placeholder="Enter your new password"
-            className=" border-b-2 border-b-custom-150 outline-none w-full py-[5px] px-3 bg-[#e3f2ff]"
-            onChange={(e) => setNewPassword(e.target.value)}
-            value={newPassword}
-          />
-        </div>
-        <div className=" absolute bottom-6 right-3">
-          <LoaderButton
-            type="submit"
-            onClick={handleChangePassword}
-            loading={loading}
-          >
-            Submit
-          </LoaderButton>
-        </div>
-      </div>
-    </PopupModal>
+      </PopupModal>
+    </Suspense>
   );
 }

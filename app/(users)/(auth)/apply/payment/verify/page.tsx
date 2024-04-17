@@ -3,7 +3,7 @@ import Loader from "@/components/common/Loader";
 import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
 import { useSession } from "next-auth/react";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function page({

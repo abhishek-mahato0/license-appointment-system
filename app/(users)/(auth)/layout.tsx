@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/redux/TypedHooks";
 import { setBarstate } from "@/redux/slices/applynewSlice";
 import { useSession } from "next-auth/react";
 import { redirect, usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 export default function RootLayout({
   children,
@@ -70,5 +70,5 @@ export default function RootLayout({
       return redirect("/detailform/license");
     }
   }
-  return <>{children}</>;
+  return <Suspense>{children}</Suspense>;
 }
