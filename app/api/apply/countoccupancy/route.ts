@@ -2,39 +2,9 @@ import dbconnect from "@/lib/dbConnect";
 import { MedicalModal } from "@/models/MedicalExamModel";
 import { TrailModal } from "@/models/TrialExamModel";
 import { WrittenModal } from "@/models/WrittenExamModel";
-import { Appointment, IAppointment } from "@/models/appointmentsModel";
 import ShowError from "@/utils/ShowError";
 import { NextRequest, NextResponse } from "next/server";
-
-type TReq = {
-  status: string;
-  category: string;
-  sdate: Date;
-  office: string;
-  examtype: string;
-};
-export async function POST(req: NextRequest) {
-  try {
-    await dbconnect();
-    const { sdate, category, office, examtype, status }: TReq =
-      await req.json();
-    console.log(sdate, category, office, examtype);
-    if (!sdate || !category || !examtype || !office || !status)
-      return ShowError(400, "Invalid request. Insufficient data provided");
-    const endDate = new Date(sdate);
-    const res = await switchType(
-      category,
-      office,
-      examtype,
-      sdate,
-      status
-    );
-    return res;
-  } catch (error: any) {
-    return ShowError(400, error.message);
-  }
-}
-export async function switchType(
+async function switchType(
   category: string,
   office: string,
   type: string,
@@ -83,5 +53,35 @@ export async function switchType(
         }, {})
     ).map(([shift, count]) => ({ shift, count }));
     return NextResponse.json(newArr, { status: 200 });
+  }
+}
+
+
+type TReq = {
+  status: string;
+  category: string;
+  sdate: Date;
+  office: string;
+  examtype: string;
+};
+export async function POST(req: NextRequest) {
+  try {
+    await dbconnect();
+    const { sdate, category, office, examtype, status }: TReq =
+      await req.json();
+    console.log(sdate, category, office, examtype);
+    if (!sdate || !category || !examtype || !office || !status)
+      return ShowError(400, "Invalid request. Insufficient data provided");
+    const endDate = new Date(sdate);
+    const res = await switchType(
+      category,
+      office,
+      examtype,
+      sdate,
+      status
+    );
+    return res;
+  } catch (error: any) {
+    return ShowError(400, error.message);
   }
 }
