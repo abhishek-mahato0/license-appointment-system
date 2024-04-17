@@ -93,7 +93,7 @@ export default function CitizenshipEditForm({ citizenshipInformation }: any) {
             onSubmit={handleSubmit((data) => handlePersonalData(data))}
           >
             <Outline title="Citizenship Information">
-              <div className="grid grid-cols-2 gap-3 items-center justify-between w-full px-3 py-2">
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-3 items-center justify-between w-full px-3 py-2">
                 {citizenshipData.map((item: any) => {
                   return (
                     <div className=" flex flex-col gap-1 items-start justify-start">
@@ -104,7 +104,7 @@ export default function CitizenshipEditForm({ citizenshipInformation }: any) {
               </div>
             </Outline>
             <Outline title="Citizenship Picture">
-              <div className="flex justify-between items-start w-full gap-2 ">
+              <div className="hidden md:flex justify-between items-start w-full gap-2 ">
                 <FullFlex className=" w-full">
                   {citizenshipInformation.front && (
                     <img

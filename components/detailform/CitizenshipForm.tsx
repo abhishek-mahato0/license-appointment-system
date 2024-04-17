@@ -61,7 +61,7 @@ export default function CitizenshipForm() {
     formdata.append("back_image", pictureBack as Blob);
     try {
       const res = await apiinstance.post(
-        "http://127.0.0.1:5000/predict/citizenship",
+        `${process.env.FLASK_SERVER}/predict/citizenship`,
         formdata
       );
 
@@ -165,12 +165,12 @@ export default function CitizenshipForm() {
   return (
     <div className=" flex flex-col w-full">
       <form
-        className=" w-[100%] bg-custom-50 p-8 gap-8 flex flex-col"
+        className=" w-[100%] bg-custom-50 p-8 gap-8 flex flex-col md:h-auto h-[1300px]"
         encType="multipart/form-data"
         onSubmit={handleSubmit((data) => handlePersonalData(data))}
       >
         <Outline title="Citizenship Information">
-          <div className="grid grid-cols-2 gap-3 items-center justify-between w-full px-3 py-2">
+          <div className="grid md:grid-cols-2 gap-3 items-center justify-between w-full px-3 py-2">
             {citizenshipData.map((item: any) => {
               return (
                 <div className=" flex flex-col gap-1 items-start justify-start">
@@ -181,8 +181,8 @@ export default function CitizenshipForm() {
           </div>
         </Outline>
         <Outline title="Citizenship Picture">
-          <div className="flex justify-between items-start w-full gap-2 ">
-            <FullFlex className="items-start border-[1px] border-custom-100 p-2 flex-col w-[49%]">
+          <div className="flex justify-between items-start w-full gap-2 md:flex-row flex-col">
+            <FullFlex className="items-start border-[1px] border-custom-100 p-2 flex-col md:w-[49%] w-full">
               <FullFlex className=" w-full items-center gap-2 justify-between mr-4">
                 <div
                   onClick={() => profileFrontref.current?.click()}
@@ -215,12 +215,12 @@ export default function CitizenshipForm() {
                   <img
                     src={URL?.createObjectURL(pictureFront)}
                     alt="profile"
-                    className="w-full h-[240px] object-cover"
+                    className="w-full md:h-[240px] h-[180px] object-fit"
                   />
                 )}
               </FullFlex>
             </FullFlex>
-            <FullFlex className="items-start border-[1px] border-custom-100 p-2 flex-col w-[49%]">
+            <FullFlex className="items-start border-[1px] border-custom-100 p-2 flex-col md:w-[49%] w-full">
               <FullFlex className=" w-full items-center justify-between mr-4">
                 <div
                   onClick={() => profileBackref?.current?.click()}
@@ -253,7 +253,7 @@ export default function CitizenshipForm() {
                   <img
                     src={URL?.createObjectURL(pictureBack)}
                     alt="profile"
-                    className="w-full h-[240px] object-cover"
+                    className="w-full md:h-[240px] h-[180px] object-fit"
                   />
                 )}
               </FullFlex>

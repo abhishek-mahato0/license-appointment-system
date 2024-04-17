@@ -2,6 +2,7 @@
 
 import Outline from "@/components/common/FormDetail/Outline";
 import Loader from "@/components/common/Loader";
+import LoaderButton from "@/components/common/LoaderButton";
 import { DatePicker } from "@/components/common/SelectDate";
 import SingleSelect from "@/components/common/ShadComp/SingleSelect";
 import { Button } from "@/components/ui/button";
@@ -150,6 +151,7 @@ export default function SelectDateAndTime() {
 
   async function applyForLicense() {
     try {
+      setLoading({ ...loading, submission: true });
       const res = await apiinstance.post("/apply/new", {
         userId: session?.user?.id || "",
         selectedProv,
@@ -176,9 +178,6 @@ export default function SelectDateAndTime() {
           title: "Success",
           description: "Applied for license successfully",
           variant: "success",
-        });
-        update({
-          hasApplied: true,
         });
         return router.push(
           `/apply/payment?app_id=${res?.data?.appointment?._id as string}`
@@ -209,7 +208,7 @@ export default function SelectDateAndTime() {
     } else {
       if (
         medicalExamination.filter((d) => d.shift === medical.shift)[0]?.count >
-        1
+        10
       ) {
         toast({
           title: "Error",
@@ -218,7 +217,7 @@ export default function SelectDateAndTime() {
         });
       } else if (
         writtenExamination.filter((d) => d.shift === written.shift)[0]?.count >
-        1
+        10
       ) {
         toast({
           title: "Error",
@@ -226,7 +225,7 @@ export default function SelectDateAndTime() {
           variant: "destructive",
         });
       } else if (
-        trialExamination.filter((d) => d.shift === trial.shift)[0]?.count > 1
+        trialExamination.filter((d) => d.shift === trial.shift)[0]?.count > 10
       ) {
         toast({
           title: "Error",
@@ -441,23 +440,13 @@ export default function SelectDateAndTime() {
         </div>
       </Outline>
       <div className=" flex w-full justify-end">
-        <Button
+        <LoaderButton
+          loading={loading.submission}
           onClick={checkOccupancy}
           className=" w-16 float-right"
-          disabled={loading.submission}
         >
-          {loading.submission ? (
-            <Loader
-              color="#ffffff"
-              height="20"
-              width="20"
-              radius="20"
-              type="spinner"
-            />
-          ) : (
-            "Save"
-          )}
-        </Button>
+          Save
+        </LoaderButton>
       </div>
     </div>
   );

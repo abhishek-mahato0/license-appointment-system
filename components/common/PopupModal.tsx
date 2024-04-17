@@ -58,7 +58,7 @@ export function PopupModal({
                   ? " mr-[80px]"
                   : " mr-[15px]"
               }
-              hover:border-red-500 hover:text-red-500
+              hover:border-red-500 hover:text-red-500 w-[100px]
             `}
           >
             {cancelText || "close"}

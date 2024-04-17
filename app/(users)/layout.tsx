@@ -22,7 +22,7 @@ export default function RootLayout({
         <Navbar />
         <SmallNav />
       </div>
-      <main className="w-full lg:pl-[105px] px-6 pt-10 lg:pt-0">
+      <main className="w-full md:pl-[105px] px-6 pt-10 lg:pt-0">
         {children}
       </main>
     </div>

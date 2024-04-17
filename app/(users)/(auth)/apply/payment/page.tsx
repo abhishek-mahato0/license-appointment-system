@@ -11,14 +11,14 @@ export default function page({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const app_id = searchParams?.app_id;
   const { toast } = useToast();
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
 
   let payload = {
-    return_url: `http://localhost:3000/apply/payment/verify/`,
+    return_url: "http://localhost:3000/apply/payment/verify/",
     website_url: "http://localhost:3000/",
     amount: 1000,
     purchase_order_id: app_id,
@@ -36,7 +36,10 @@ export default function page({
       description: "You have to pay Rs 1000 cash to the office",
       variant: "success",
     });
-    router.push("/dashboard");
+    update({
+      hasApplied: true,
+    });
+    return router.push("/dashboard");
   }
   async function makePyament() {
     setLoading(true);
@@ -74,7 +77,7 @@ export default function page({
     <div className=" w-full flex flex-col items-start justify-center">
       <div className=" w-[70%] flex flex-col p-4 bg-custom-50 text-customtext-100">
         <div className=" w-full pl-10">
-          <h2 className=" font-bold">Choose a Payment Method</h2>
+          <h2 className=" font-bold">Choose a Payment Method.</h2>
           <div className=" w-full flex items-center justify-between mt-2 gap-[50px]">
             <Button
               onClick={() => {
@@ -99,6 +102,10 @@ export default function page({
               Pay Rs 1000 cash
             </Button>
           </div>
+          <p className=" text-red-600 text-xs">
+            Note: The khalti payment is not stable and does not work sometimes.
+            In that case please choose cash on payment.{" "}
+          </p>
         </div>
       </div>
     </div>

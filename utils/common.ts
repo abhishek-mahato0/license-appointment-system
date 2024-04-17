@@ -35,3 +35,7 @@ export const getmuniciplityName = (id:string | number) => {
 export function generateOTP(): string {
     return Math.floor(1000 + Math.random() * 9000).toString();
   }
+
+  export const areAllObjectsEmpty = (value: Array<object>) => {
+    return value.every((obj) => Object.keys(obj).length === 0);
+  };

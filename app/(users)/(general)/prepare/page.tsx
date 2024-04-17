@@ -57,10 +57,10 @@ export default function page() {
     getQuestions();
   }, [categoryParams, typeParams, page]);
   return (
-    <div className=" flex flex-col w-full items-start justify-start mt-1">
+    <div className=" flex flex-col w-full items-start justify-start md:mt-1 mt-4">
       <HeaderTitle title="Prepare for Exam" />
       <div className=" w-[98%] flex justify-end mb-4">
-        <div className=" w-[55%] grid grid-cols-3 items-center justify-end gap-3">
+        <div className=" md:w-[55%] w-full grid md:grid-cols-3 grid-cols-1 items-center justify-end gap-3">
           <QuizModal />
           <SingleSelect
             data={categoryData.map((ele) => ({
@@ -91,9 +91,14 @@ export default function page() {
       <div className=" w-[98%] bg-custom-50 grid grid-cols-1 py-6 px-8 gap-6">
         {loading ? (
           <QuizLoader />
+        ) : data?.ques && data?.ques?.length <= 0 ? (
+          <div className="flex items-center justify-center w-full h-[200px] bg-white rounded-lg shadow-md">
+            <h2 className="text-[18px] text-gray-500">
+              No Questions to display.
+            </h2>
+          </div>
         ) : (
-          data?.ques &&
-          data?.ques.map((ele: any, ind: number) => {
+          data?.ques?.map((ele: any, ind: number) => {
             return (
               <div className=" flex flex-col w-full mb-6 gap-3" key={ind}>
                 <h2 className=" flex items-center justify-start gap-2 font-semibold text-[18px] text-gray-600">

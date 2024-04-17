@@ -1,3 +1,4 @@
+import dbconnect from "@/lib/dbConnect";
 import { Administrator } from "@/models/AdministratorsModel";
 import { NewsModel } from "@/models/NewsModel";
 import ShowError from "@/utils/ShowError";
@@ -5,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req:NextRequest){
     try {
+       await dbconnect();
        const featured = await NewsModel.find({ category:'Featured'}).sort({date:-1}).populate({
               path:"createdBy",
               select:"name", 

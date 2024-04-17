@@ -176,12 +176,12 @@ export default function page() {
     }
   }, [session]);
   return (
-    <div className=" flex w-full items-start justify-start flex-col p-2 gap-4 ">
+    <div className=" flex w-full items-start justify-start flex-col p-2 gap-4 mt-5 md:mt-1">
       <HeaderTitle title="Profile Summary" />
       {status === "loading" || loading ? (
         <ProfileLoader />
       ) : (
-        <div className=" w-[95%] flex flex-col gap-5 bg-custom-50 px-8 py-5">
+        <div className=" md:w-[95%] w-[98%] flex flex-col gap-5 bg-custom-50 px-8 py-5">
           <div className=" w-full items-center justify-end gap-3 flex">
             <div className="flex gap-2">
               {personalInformation?.documentStatus?.status !== "verified" ? (
@@ -211,7 +211,7 @@ export default function page() {
                 <PersonalEditForm personalInformation={personalInformation} />
               )}
             </div>
-            <div className=" w-full grid grid-cols-3 gap-3 items-center justify-between px-3 py-2">
+            <div className=" w-full grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between px-3 py-2">
               {session?.user?.avatar && (
                 <img
                   src={session?.user?.avatar}
@@ -219,7 +219,7 @@ export default function page() {
                   className=" w-full h-full rounded-sm"
                 />
               )}
-              <div className=" col-span-2 grid grid-cols-3 gap-3 items-center justify-between w-full px-3 py-2">
+              <div className=" col-span-2 grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between w-full md:px-3 px-1 py-2">
                 {personalData?.map((item: any) => {
                   return (
                     <div
@@ -244,7 +244,7 @@ export default function page() {
                 <AddressEditForm addressInformation={addressInformation} />
               )}
             </div>
-            <div className="grid grid-cols-3 gap-3 items-center justify-between w-full px-3 py-2">
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between w-full md:px-3 px-[2px] py-2">
               {addressInformation?.temporaryaddress &&
                 temporaryaddressData.map((item: any) => {
                   return (
@@ -271,7 +271,7 @@ export default function page() {
                 <AddressEditForm addressInformation={addressInformation} />
               )}
             </div>
-            <div className="grid grid-cols-3 gap-3 items-center justify-between w-full px-3 py-2">
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between w-full px-3 py-2">
               {addressInformation?.permanentAddress &&
                 peraddressData.map((item: any) => {
                   return (
@@ -305,7 +305,7 @@ export default function page() {
                 </>
               )}
             </div>
-            <div className="grid grid-cols-3 gap-3 items-center justify-between w-full px-3 py-2">
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between w-full md:px-3 px-[2px] py-2">
               {citizenshipData.map((item: any) => {
                 return (
                   <div
@@ -321,16 +321,16 @@ export default function page() {
               })}
               <br />
             </div>
-            <div className=" grid grid-cols-2 gap-3 items-center justify-between w-full px-3 py-2">
+            <div className=" grid md:grid-cols-2 grid-cols-1 gap-3 items-center justify-between w-full md:px-3 px-0 py-2">
               <img
                 src={citizenshipInformation?.front}
                 alt="front"
-                className=" w-full h-[250px]"
+                className=" w-full md:h-[250px] h-[160px]"
               />
               <img
                 src={citizenshipInformation?.back}
                 alt="back"
-                className=" w-full h-[250px]"
+                className=" w-full md:h-[250px] h-[160px]"
               />
             </div>
           </Outline>
@@ -350,7 +350,7 @@ export default function page() {
                     </>
                   )}
                 </div>
-                <div className="grid grid-cols-3 gap-3 items-center justify-between w-full px-3 py-2">
+                <div className="grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between w-full md:px-3 px-[2px] py-2">
                   {Object.keys(licenseInformation)?.length > 0 &&
                     licenseData.map((item: any) => {
                       return (
@@ -377,16 +377,16 @@ export default function page() {
                   )}
                   <br />
                 </div>
-                <div className=" grid grid-cols-2 gap-3 items-center justify-between w-full px-3 py-2">
+                <div className=" grid md:grid-cols-2 grid-cols-1 gap-3 items-center justify-between w-full md:px-3 px-0 py-2">
                   <img
                     src={licenseInformation?.front}
                     alt="front"
-                    className=" w-full h-[250px]"
+                    className=" w-full md:h-[250px] h-[160px]"
                   />
                   <img
                     src={licenseInformation?.back}
                     alt="back"
-                    className=" w-full h-[250px]"
+                    className=" w-full md:h-[250px] h-[160px]"
                   />
                 </div>
               </>

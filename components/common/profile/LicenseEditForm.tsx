@@ -94,7 +94,7 @@ export default function LicenseEditForm({ licenseInformation }: any) {
             onSubmit={handleSubmit((data) => handlePersonalData(data))}
           >
             <Outline title="Citizenship Information">
-              <div className="grid grid-cols-2 gap-3 items-center justify-between w-full px-3 py-2">
+              <div className="grid md:grid-cols-2 grid-cols-1 gap-3 items-center justify-between w-full md:px-3 px-0 py-2">
                 {licenseData.map((item: any) => {
                   return (
                     <div className=" flex flex-col gap-1 items-start justify-start">
@@ -104,14 +104,14 @@ export default function LicenseEditForm({ licenseInformation }: any) {
                 })}
               </div>
             </Outline>
-            <Outline title="Citizenship Picture">
-              <div className="flex justify-between items-start w-full gap-2 ">
+            <Outline title="License Picture">
+              <div className=" hidden md:flex justify-between items-start w-full gap-2 md:flex-row flex-col">
                 <FullFlex className=" w-full">
                   {licenseInformation.front && (
                     <img
                       src={licenseInformation.front}
                       alt="profile"
-                      className="w-full h-[180px] object-cover"
+                      className="w-full md:h-[180px] h-[150px] object-cover"
                     />
                   )}
                 </FullFlex>
@@ -120,7 +120,7 @@ export default function LicenseEditForm({ licenseInformation }: any) {
                     <img
                       src={licenseInformation.back}
                       alt="profile"
-                      className="w-full h-[180px] object-cover"
+                      className="w-full md:h-[180px] h-[150px] object-cover"
                     />
                   )}
                 </FullFlex>

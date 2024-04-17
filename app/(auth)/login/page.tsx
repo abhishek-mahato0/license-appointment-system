@@ -64,11 +64,11 @@ export default function page() {
   };
   return (
     <div className="flex w-screen h-screen">
-      <div className=" w-[40%]">
+      <div className=" w-[40%] hidden md:flex">
         <Banner />
       </div>
-      <FullFlex className="w-[60%] flex-col bg-[#e3f2ff]">
-        <h1 className=" text-2xl font-semibold pb-4">Login</h1>
+      <FullFlex className="md:w-[60%] w-full flex-col bg-[#e3f2ff] md:justify-center justify-start">
+        <h1 className=" text-2xl font-semibold pb-4 md:pt-0 pt-10">Login</h1>
         <form
           onSubmit={handleSubmit((data) => handleLogin(data))}
           className=" flex flex-col gap-5 w-[70%]"

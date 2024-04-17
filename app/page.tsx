@@ -8,6 +8,7 @@ import { fetchNews } from "@/redux/slices/newsSlice";
 import NewsCard from "@/components/common/NewsCard";
 import Loader from "@/components/common/dashboard/Loader";
 import HeaderTitle from "@/components/common/HeaderTitle";
+import SmallNav from "@/components/common/SmallNavbar";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -19,10 +20,11 @@ export default function Home() {
   }, []);
   return (
     <div className="w-full h-full flex mb-[30px]">
-      <div className=" fixed z-40 top-0 left-0 bg-white bottom-0 ">
+      <div className=" fixed z-40 top-0 left-0 bg-white md:bottom-0 ">
         <Navbar />
+        <SmallNav />
       </div>
-      <div className="flex flex-col px-2 py-2 w-full h-full pl-[105px]">
+      <div className="flex flex-col px-2 py-2 w-full h-full md:pl-[105px] lg:pt-0">
         <div className=" flex w-full fixed top-0 bg-white py-2 z-20">
           <HeaderTitle title="Today's News" />
         </div>

@@ -6,7 +6,7 @@ export default async function dbconnect() {
   const connectionState = mongoose.connection.readyState;
   try {
     if(connectionState === 1){
-      console.log("ALready Connected.")
+      console.log("Already Connected.")
       return;
     }
     if(connectionState === 2){

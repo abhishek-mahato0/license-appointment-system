@@ -1,7 +1,5 @@
 "use client";
 import EditModal from "@/components/admin/appointments/EditModal";
-import AddOfficeModal from "@/components/admin/offices/AddOfficeModal";
-import DeleteModal from "@/components/common/DeleteModal";
 import HeaderTitle from "@/components/common/HeaderTitle";
 import SearchInput from "@/components/common/SearchInput";
 import { TanTable } from "@/components/common/TanTable";

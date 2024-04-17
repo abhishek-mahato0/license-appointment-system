@@ -316,20 +316,9 @@ export default function page() {
   }, [data]);
 
   return (
-    <div className="w-full flex flex-col gap-3 mt-1 pr-5">
+    <div className="w-full flex flex-col gap-3 md:mt-1 mt-5 pr-5">
       <HeaderTitle title="My Appointments" />
-      {/* <div className="w-full flex items-center justify-between">
-        <SearchInput onClear={() => {}} onChange={() => {}} />
-        <div className="w-full flex items-center gap-2">
-          <div className="w-full flex justify-end items-center gap-2">
-            Filter
-          </div>
-          <RotateCcw
-            className=" text-gray-600"
-            onClick={() => fetchAppointments("", "", "", "")}
-          />
-        </div>
-      </div> */}
+
       <div className="w-full">
         {data && <TanTable columns={columns} data={data} loading={loading} />}
       </div>

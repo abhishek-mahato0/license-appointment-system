@@ -82,7 +82,11 @@ export default function Navbar() {
       short: "Apply",
       params: "new",
       disable: String(session?.user?.hasApplied) === "true" ? true : false,
-      show: true,
+      show: !session?.user
+        ? true
+        : session?.user?.license_id === "none"
+        ? true
+        : false,
     },
     {
       id: 3,
@@ -92,7 +96,7 @@ export default function Navbar() {
       short: "Add",
       params: "add",
       disable: String(session?.user?.hasApplied) === "true" ? true : false,
-      show: true,
+      show: session?.user?.license_id === "none" ? false : true,
     },
     {
       id: 4,
@@ -120,7 +124,7 @@ export default function Navbar() {
       comp: <Bike strokeWidth={2} size={17} width={17} />,
       short: "Appointments",
       params: "",
-      show: String(session?.user?.hasApplied) === "true" ? true : false,
+      show: String(session?.user?.citizenship_id) === "none" ? false : true,
     },
     {
       id: 7,
@@ -130,7 +134,7 @@ export default function Navbar() {
       short: "Profile",
       params: "",
       disable: !session?.user,
-      show: true,
+      show: session?.user,
     },
   ];
   const [active, setAvtive] = useState(

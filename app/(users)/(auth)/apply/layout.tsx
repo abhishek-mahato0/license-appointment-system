@@ -21,10 +21,7 @@ export default function RootLayout({
         "Your document is pending. Please apply after the document is verified.",
     });
     return redirect("/dashboard");
-  } else if (String(session?.user?.hasApplied) === "true") {
-    return redirect("/dashboard");
   }
-
   return (
     <div className="w-full h-full flex flex-col items-center justify-center pt-5 gap-10 mb-5">
       <h1 className=" w-full text-xl text-custom-150 font-bold">

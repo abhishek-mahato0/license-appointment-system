@@ -64,7 +64,7 @@ export default function ChangePassword({
       title="Change Password"
       triggerChildren={triggerChildren}
       onClick={() => {}}
-      btnclassNames=" mr-10"
+      isHidden={true}
     >
       <div className="flex w-full flex-col gap-6">
         <div className="flex flex-col gap-2 w-full">

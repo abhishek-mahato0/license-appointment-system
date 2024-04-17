@@ -106,13 +106,13 @@ export default function CitimageEditForm({ citizenshipImages }: any) {
             onSubmit={handleSubmit((data) => handleImageData())}
           >
             <Outline title="Citizenship Old Image">
-              <div className=" w-full grid grid-cols-2 gap-3 items-center justify-between px-3 py-2">
+              <div className=" w-full grid grid-cols-2 gap-3 items-center justify-between md:px-3 px-0 py-2">
                 <FullFlex className=" w-full">
                   {prevImage && (
                     <img
                       src={prevImage}
                       alt="profile"
-                      className="w-full h-[180px] object-cover"
+                      className="w-full md:h-[180px] h-[100px] object-cover"
                     />
                   )}
                 </FullFlex>
@@ -121,15 +121,15 @@ export default function CitimageEditForm({ citizenshipImages }: any) {
                     <img
                       src={prevImageBack}
                       alt="profile"
-                      className="w-full h-[180px] object-cover"
+                      className="w-full md:h-[180px] h-[100px] object-cover"
                     />
                   )}
                 </FullFlex>
               </div>
             </Outline>
             <Outline title="Citizenship new picture">
-              <div className=" flex gap-3">
-                <FullFlex className="items-start border-[1px] border-custom-100 p-2 flex-col w-[49%]">
+              <div className=" flex gap-3 md:flex-row flex-col">
+                <FullFlex className="items-start border-[1px] border-custom-100 p-2 flex-col md:w-[49%]">
                   <FullFlex className=" w-full items-center gap-2 justify-between mr-4">
                     <div
                       onClick={() => profileFrontref.current?.click()}
@@ -158,12 +158,12 @@ export default function CitimageEditForm({ citizenshipImages }: any) {
                       <img
                         src={newImage}
                         alt="profile"
-                        className="w-full h-[180px] object-cover"
+                        className="w-full md:h-[180px] h-[50px] object-fit"
                       />
                     )}
                   </FullFlex>
                 </FullFlex>
-                <FullFlex className="items-start border-[1px] border-custom-100 p-2 flex-col w-[49%]">
+                <FullFlex className="items-start border-[1px] border-custom-100 p-2 flex-col md:w-[49%]">
                   <FullFlex className=" w-full items-center justify-between mr-4">
                     <div
                       onClick={() => profileBackref?.current?.click()}
@@ -192,7 +192,7 @@ export default function CitimageEditForm({ citizenshipImages }: any) {
                       <img
                         src={newImageBack}
                         alt="profile"
-                        className="w-full h-[180px] object-cover"
+                        className="w-full md:h-[180px] h-[50px] object-fit"
                       />
                     )}
                   </FullFlex>

@@ -102,13 +102,13 @@ export default function LicimageEditForm({ licenseInformation }: any) {
             onSubmit={handleSubmit((data) => handleImageData())}
           >
             <Outline title="License Old Image">
-              <div className=" w-full grid grid-cols-2 gap-3 items-center justify-between px-3 py-2">
+              <div className=" w-full grid grid-cols-2 gap-3 items-center justify-between md:px-3 px-0 py-2">
                 <FullFlex className=" w-full">
                   {prevImage && (
                     <img
                       src={prevImage}
                       alt="profile"
-                      className="w-full h-[180px] object-cover"
+                      className="w-full md:h-[180px] h-[100px] object-fit"
                     />
                   )}
                 </FullFlex>
@@ -117,7 +117,7 @@ export default function LicimageEditForm({ licenseInformation }: any) {
                     <img
                       src={prevImageBack}
                       alt="profile"
-                      className="w-full h-[180px] object-cover"
+                      className="w-full md:h-[180px] h-[100px] object-fit"
                     />
                   )}
                 </FullFlex>
@@ -154,7 +154,7 @@ export default function LicimageEditForm({ licenseInformation }: any) {
                       <img
                         src={newImage}
                         alt="profile"
-                        className="w-full h-[180px] object-cover"
+                        className="w-full md:h-[180px] h-[50px] object-fit"
                       />
                     )}
                   </FullFlex>
@@ -188,7 +188,7 @@ export default function LicimageEditForm({ licenseInformation }: any) {
                       <img
                         src={newImageBack}
                         alt="profile"
-                        className="w-full h-[180px] object-cover"
+                        className="w-full md:h-[180px] h-[50px] object-cover"
                       />
                     )}
                   </FullFlex>
