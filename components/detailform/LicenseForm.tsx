@@ -113,14 +113,14 @@ export default function LicenseForm() {
         description: "Please upload both front and back picture.",
       });
     }
-    const { success, message } = await verifyImage();
-    if (!success) {
-      setLoading(false);
-      return toast({
-        title: "Error",
-        description: message,
-      });
-    }
+    // const { success, message } = await verifyImage();
+    // if (!success) {
+    //   setLoading(false);
+    //   return toast({
+    //     title: "Error",
+    //     description: message,
+    //   });
+    // }
     const payload = {
       ...data,
       category: selectedCat?.map((item: any) => item.value),

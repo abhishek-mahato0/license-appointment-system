@@ -117,8 +117,8 @@ export default function CitizenshipForm() {
           title: "Form Error",
           description: "Please provide both front and back picture",
         });
-      const { success, message } = await verifyImage();
-      if (!success) return toast({ title: "Error", description: message });
+      // const { success, message } = await verifyImage();
+      // if (!success) return toast({ title: "Error", description: message });
       const payload = {
         ...data,
         front: baseFront,
