@@ -118,51 +118,6 @@ export default function page() {
       }
     }
 
-    // async function getDocumentInformation() {
-    //   const { data, success, message } = await fetchUserCitizenshipInformation(
-    //     session?.user?.id as string
-    //   );
-    //   if (success) {
-    //     dispatch(
-    //       setCitizenshipInformation({
-    //         citizenship_no: data?.citizenship.citizenship_no,
-    //         issue_date: convertDate(data?.citizenship.issue_date),
-    //         issue_district: data?.citizenship.issue_district,
-    //         type: data?.citizenship.citizenship_type,
-    //         front: data?.citizenship.image.front,
-    //         back: data?.citizenship.image.back,
-    //       })
-    //     );
-    //   } else {
-    //     return toast({
-    //       title: "Error",
-    //       description: message,
-    //     });
-    //   }
-    // }
-    // async function getLicenseInformation() {
-    //   const { data, success, message } = await fetchUserLicenseInformation(
-    //     session?.user?.id as string
-    //   );
-    //   if (success) {
-    //     dispatch(
-    //       setLicenseInformation({
-    //         licenseno: data?.license.license_no,
-    //         category: data?.license.category,
-    //         issuedate: convertDate(data?.license.license_date),
-    //         expirydate: convertDate(data?.license.expire_date),
-    //         office: data?.license.office,
-    //         front: data?.license.image.front,
-    //         back: data?.license.image.back,
-    //       })
-    //     );
-    //   } else {
-    //     return toast({
-    //       title: "Error",
-    //       description: message,
-    //     });
-    //   }
-    // }
     if (!session?.user?.id) {
       return router.push("/login");
     }

@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useState } from "react";
+import React, { useState } from "react";
 import { PopupModal } from "./PopupModal";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
@@ -106,76 +106,71 @@ export default function ForgetPassword({
     }
   }
   return (
-    <Suspense>
-      <PopupModal
-        title="Forget Password"
-        triggerChildren={triggerChildren}
-        onClick={() => {}}
-        isHidden={true}
-      >
-        <div className={`${params === "forget" ? "flex" : "hidden"} w-full`}>
-          <div className="flex flex-col gap-3 w-full">
-            <label>Email</label>
-            <input
-              type="email"
-              required
-              placeholder="Enter your email"
-              className=" border-2 border-custom-100 outline-none w-full py-[5px] px-3 rounded-[7px] bg-[#e3f2ff]"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className=" absolute bottom-6 right-3">
-            <Button
-              type="submit"
-              variant="default"
-              onClick={handleForgetPassword}
-            >
-              Submit
-            </Button>
-          </div>
+    <PopupModal
+      title="Forget Password"
+      triggerChildren={triggerChildren}
+      onClick={() => {}}
+      isHidden={true}
+    >
+      <div className={`${params === "forget" ? "flex" : "hidden"} w-full`}>
+        <div className="flex flex-col gap-3 w-full">
+          <label>Email</label>
+          <input
+            type="email"
+            required
+            placeholder="Enter your email"
+            className=" border-2 border-custom-100 outline-none w-full py-[5px] px-3 rounded-[7px] bg-[#e3f2ff]"
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
-        <div
-          className={` ${
-            params === "otp" ? "flex" : "w-0 h-0 hidden"
-          } w-full flex-col items-start justify-center gap-4 mb-3 `}
-        >
-          <p>Enter OTP sent to your email.</p>
-          <OTPModal otp={otp} setOtp={setOtp} />
+        <div className=" absolute bottom-6 right-3">
           <Button
-            className=" absolute bottom-6 right-4"
-            onClick={handleOTPMatch}
+            type="submit"
+            variant="default"
+            onClick={handleForgetPassword}
           >
             Submit
           </Button>
         </div>
-        <div
-          className={` ${
-            params === "new" ? "flex" : "w-0 h-0 hidden"
-          } w-full flex-col items-start justify-center gap-4 mb-3 `}
+      </div>
+      <div
+        className={` ${
+          params === "otp" ? "flex" : "w-0 h-0 hidden"
+        } w-full flex-col items-start justify-center gap-4 mb-3 `}
+      >
+        <p>Enter OTP sent to your email.</p>
+        <OTPModal otp={otp} setOtp={setOtp} />
+        <Button className=" absolute bottom-6 right-4" onClick={handleOTPMatch}>
+          Submit
+        </Button>
+      </div>
+      <div
+        className={` ${
+          params === "new" ? "flex" : "w-0 h-0 hidden"
+        } w-full flex-col items-start justify-center gap-4 mb-3 `}
+      >
+        <form
+          onSubmit={handleSubmit((data) => {
+            handleNewPassword(data);
+          })}
+          className=" flex w-full"
         >
-          <form
-            onSubmit={handleSubmit((data) => {
-              handleNewPassword(data);
-            })}
-            className=" flex w-full"
-          >
-            <div className="flex flex-col gap-3 w-full">
-              <label>New Password</label>
-              <input
-                type="password"
-                {...register("password", { required: true })}
-                placeholder="Enter your new password"
-                className=" border-2 border-custom-100 outline-none w-full py-[5px] px-3 rounded-[7px] bg-[#e3f2ff]"
-              />
-            </div>
-            <div className=" absolute bottom-6 right-3">
-              <Button type="submit" variant="default">
-                Submit
-              </Button>
-            </div>
-          </form>
-        </div>
-      </PopupModal>
-    </Suspense>
+          <div className="flex flex-col gap-3 w-full">
+            <label>New Password</label>
+            <input
+              type="password"
+              {...register("password", { required: true })}
+              placeholder="Enter your new password"
+              className=" border-2 border-custom-100 outline-none w-full py-[5px] px-3 rounded-[7px] bg-[#e3f2ff]"
+            />
+          </div>
+          <div className=" absolute bottom-6 right-3">
+            <Button type="submit" variant="default">
+              Submit
+            </Button>
+          </div>
+        </form>
+      </div>
+    </PopupModal>
   );
 }

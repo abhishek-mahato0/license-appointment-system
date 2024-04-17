@@ -153,66 +153,64 @@ export default function SmallNav() {
   }, [location, params]);
 
   return (
-    <Suspense>
-      <div className=" flex w-screen md:hidden">
-        <div className=" w-full items-center justify-between flex relative flex-col">
-          <div className="w-full flex items-center justify-between">
-            <Link
-              href="/"
-              className="flex items-start justify-start gap-2 bg-custom-100 w-[100%] px-[10px] py-3"
-            >
-              <Image src="/images/logo.svg" alt="logo" width={40} height={40} />
-              <div className="flex flex-col gap-1 text-white">
-                <p className=" text-[12px] font-bold">Governmant of Nepal</p>
-                <p className=" text-[11.5px] font-light">
-                  Department of Transport and license
-                </p>
-              </div>
-            </Link>
-            {show ? (
-              <X
-                className=" absolute top-5 right-3 font-bold text-3xl text-white"
-                onClick={() => setShow(!show)}
-              />
-            ) : (
-              <MenuSquare
-                strokeWidth={2}
-                size={20}
-                width={50}
-                className=" absolute top-5 right-1 font-bold text-3xl text-white"
-                onClick={() => setShow(!show)}
-              />
-            )}
-          </div>
-          <div
-            className={`w-full flex flex-col justify-start gap-4 ${
-              show ? "h-full" : "h-0"
-            } overflow-y-auto bg-white duration-500 ease-out mt-3`}
+    <div className=" flex w-screen md:hidden">
+      <div className=" w-full items-center justify-between flex relative flex-col">
+        <div className="w-full flex items-center justify-between">
+          <Link
+            href="/"
+            className="flex items-start justify-start gap-2 bg-custom-100 w-[100%] px-[10px] py-3"
           >
-            {show &&
-              dropLinks
-                .filter((ele) => ele?.show)
-                .map((ele) => {
-                  return (
-                    <Links
-                      href={ele?.disable ? "" : ele.href}
-                      name={ele.name}
-                      className={`${
-                        active?.id === ele.id
-                          ? "bg-custom-50 border-l-custom-100 text-custom-150 border-l-[4px]"
-                          : ""
-                      } hover:text-custom-150 gap-4 hover:bg-custom-50 w-full h-full font-[500] items-start justify-start py-4 flex-row text-[15px]
+            <Image src="/images/logo.svg" alt="logo" width={40} height={40} />
+            <div className="flex flex-col gap-1 text-white">
+              <p className=" text-[12px] font-bold">Governmant of Nepal</p>
+              <p className=" text-[11.5px] font-light">
+                Department of Transport and license
+              </p>
+            </div>
+          </Link>
+          {show ? (
+            <X
+              className=" absolute top-5 right-3 font-bold text-3xl text-white"
+              onClick={() => setShow(!show)}
+            />
+          ) : (
+            <MenuSquare
+              strokeWidth={2}
+              size={20}
+              width={50}
+              className=" absolute top-5 right-1 font-bold text-3xl text-white"
+              onClick={() => setShow(!show)}
+            />
+          )}
+        </div>
+        <div
+          className={`w-full flex flex-col justify-start gap-4 ${
+            show ? "h-full" : "h-0"
+          } overflow-y-auto bg-white duration-500 ease-out mt-3`}
+        >
+          {show &&
+            dropLinks
+              .filter((ele) => ele?.show)
+              .map((ele) => {
+                return (
+                  <Links
+                    href={ele?.disable ? "" : ele.href}
+                    name={ele.name}
+                    className={`${
+                      active?.id === ele.id
+                        ? "bg-custom-50 border-l-custom-100 text-custom-150 border-l-[4px]"
+                        : ""
+                    } hover:text-custom-150 gap-4 hover:bg-custom-50 w-full h-full font-[500] items-start justify-start py-4 flex-row text-[15px]
 
               ${ele?.disable ? "cursor-not-allowed" : "cursor-pointer"}`}
-                      key={ele.id}
-                    >
-                      {ele.comp}
-                    </Links>
-                  );
-                })}
-          </div>
+                    key={ele.id}
+                  >
+                    {ele.comp}
+                  </Links>
+                );
+              })}
         </div>
       </div>
-    </Suspense>
+    </div>
   );
 }

@@ -7,4 +7,7 @@ module.exports = {
     BASE_URL: "http://localhost:3000",
     FLASK_SERVER: "http://127.0.0.1:5000",
   },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 };

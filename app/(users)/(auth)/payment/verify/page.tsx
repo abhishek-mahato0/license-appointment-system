@@ -5,7 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
 import { ArrowRight } from "lucide-react";
 import { redirect, useSearchParams } from "next/navigation";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function page({
   params,
@@ -74,12 +74,10 @@ export default function page({
     searchParams?.pidx && checkPaymentStatus();
   }, [searchParams]);
   return (
-    <Suspense>
-      <div className=" w-screen h-screen flex justify-center items-center">
-        <div className=" shadow-lg bg-slate-300 w-[400px] h-[200px] flex flex-col justify-center items-center gap-5">
-          {!success && <Loader />}
-        </div>
+    <div className=" w-screen h-screen flex justify-center items-center">
+      <div className=" shadow-lg bg-slate-300 w-[400px] h-[200px] flex flex-col justify-center items-center gap-5">
+        {!success && <Loader />}
       </div>
-    </Suspense>
+    </div>
   );
 }
