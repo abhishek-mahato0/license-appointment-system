@@ -13,14 +13,14 @@ export default function RootLayout({
 }) {
   const { barState } = useAppSelector((state) => state.applynew);
   const { toast } = useToast();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   if (session?.user?.documentStatus === "pending") {
     toast({
       title: "Document Status not verified.",
       description:
         "Your document is pending. Please apply after the document is verified.",
     });
-    return redirect("/dashboard");
+    return redirect("/profile");
   }
   return (
     <div className="w-full h-full flex flex-col items-center justify-center pt-5 gap-10 mb-5">

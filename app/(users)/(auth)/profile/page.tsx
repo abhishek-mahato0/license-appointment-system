@@ -95,6 +95,12 @@ export default function page() {
             back: license_id?.license?.image.back,
           })
         );
+        if (session?.user?.documentStatus !== data?.documentVerified?.status) {
+          update({
+            documentStatus: data?.documentVerified?.status,
+          });
+        }
+
         return dispatch(
           setPersonalInformation({
             firstName: others?.first_name,

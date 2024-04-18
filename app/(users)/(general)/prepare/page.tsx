@@ -140,15 +140,13 @@ export default function page() {
       </div>
       <div className=" absolute -bottom-20 right-3">
         {data?.total && (
-          <Suspense>
-            <PaginationComp
-              total={data?.total}
-              current={page ? Number(page) : 1}
-              params="page"
-              previous={data?.previous}
-              next={data?.next}
-            />
-          </Suspense>
+          <PaginationComp
+            total={data?.total}
+            current={page ? Number(page) : 1}
+            params="page"
+            previous={data?.previous}
+            next={data?.next}
+          />
         )}
       </div>
     </div>

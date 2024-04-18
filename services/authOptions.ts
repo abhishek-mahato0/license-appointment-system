@@ -36,6 +36,8 @@ export const authOptions:AuthOptions = {
                   token.license_id=session.license_id
                 }else if(session?.information_id){
                   token.information_id=session.information_id
+                }else if(session?.documentStatus){
+                  token.documentStatus=session.documentStatus
                 }
                 null;
             }

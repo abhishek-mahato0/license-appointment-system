@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import { PopupModal } from "./PopupModal";
 import { useForm } from "react-hook-form";
-import { Button } from "../ui/button";
 import OTPModal from "./OTPModal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "../ui/use-toast";
 import { apiinstance } from "@/services/Api";
+import LoaderButton from "./LoaderButton";
 
 export default function ForgetPassword({
   triggerChildren,
@@ -22,8 +22,10 @@ export default function ForgetPassword({
   const { toast } = useToast();
   const pemail = useSearchParams().get("email");
   const potp = useSearchParams().get("otp");
+  const [loading, setLoading] = useState(false);
 
   async function handleForgetPassword() {
+    setLoading(true);
     if (!email) {
       return toast({
         title: "Error",
@@ -47,10 +49,13 @@ export default function ForgetPassword({
         title: "Error",
         description: error?.response?.data?.message || "Some error occured",
       });
+    } finally {
+      setLoading(false);
     }
   }
 
   async function handleOTPMatch() {
+    setLoading(true);
     try {
       if (!pemail || !otp) {
         return toast({
@@ -74,10 +79,13 @@ export default function ForgetPassword({
         title: "Error",
         description: error?.response?.data?.message || "Some error occured",
       });
+    } finally {
+      setLoading(false);
     }
   }
 
   async function handleNewPassword(data: any) {
+    setLoading(true);
     try {
       if (!data.password || !pemail || !potp) {
         return toast({
@@ -103,6 +111,8 @@ export default function ForgetPassword({
         title: "Error",
         description: error?.response?.data?.message || "Some error occured",
       });
+    } finally {
+      setLoading(false);
     }
   }
   return (
@@ -124,13 +134,14 @@ export default function ForgetPassword({
           />
         </div>
         <div className=" absolute bottom-6 right-3">
-          <Button
+          <LoaderButton
+            loading={loading}
             type="submit"
             variant="default"
             onClick={handleForgetPassword}
           >
             Submit
-          </Button>
+          </LoaderButton>
         </div>
       </div>
       <div
@@ -140,9 +151,13 @@ export default function ForgetPassword({
       >
         <p>Enter OTP sent to your email.</p>
         <OTPModal otp={otp} setOtp={setOtp} />
-        <Button className=" absolute bottom-6 right-4" onClick={handleOTPMatch}>
+        <LoaderButton
+          loading={loading}
+          className=" absolute bottom-6 right-4"
+          onClick={handleOTPMatch}
+        >
           Submit
-        </Button>
+        </LoaderButton>
       </div>
       <div
         className={` ${
@@ -165,9 +180,9 @@ export default function ForgetPassword({
             />
           </div>
           <div className=" absolute bottom-6 right-3">
-            <Button type="submit" variant="default">
+            <LoaderButton loading={loading} type="submit" variant="default">
               Submit
-            </Button>
+            </LoaderButton>
           </div>
         </form>
       </div>

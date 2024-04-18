@@ -46,7 +46,7 @@ export default function PersonalForm() {
   return (
     <div className=" flex flex-col w-full h-fit">
       <form
-        className=" w-[100%] bg-custom-50 p-8 gap-8 flex flex-col md:h-auto min-h-[1300px]"
+        className=" w-[100%] bg-custom-50 p-8 gap-8 flex flex-col md:h-fit max-h-[1300px]"
         onSubmit={handleSubmit((data) => handlePersonalData(data))}
       >
         <Outline title="Personal Information">

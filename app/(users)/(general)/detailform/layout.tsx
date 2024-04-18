@@ -1,26 +1,23 @@
+"use client";
 import HeaderTitle from "@/components/common/HeaderTitle";
-import { authOptions } from "@/services/authOptions";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import FormLoader from "@/components/loaders/FormLoader";
+import PageLoader from "@/components/loaders/PageLoader";
+import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const location = usePathname();
+  if (status === "loading") return <FormLoader />;
+
   if (!session?.user?.token) {
-    return redirect("/login");
-  } else if (session?.user?.citizenship_id === "none") {
-    return redirect("/detailform/citizenship");
-  } else if (session?.user?.license_id === "none") {
-    return redirect("/detailform/license");
-  } else if (
-    session?.user?.information_id !== "none" &&
-    session?.user?.citizenship_id !== "none" &&
-    session?.user?.license_id !== "none"
-  ) {
-    return redirect("/detailform/summary");
+    return router.push("/login");
   }
   return (
     <div className="flex flex-col md:mt-1 mt-5">

@@ -18,7 +18,7 @@ export default function page({
   const [loading, setLoading] = React.useState(false);
 
   let payload = {
-    return_url: "/apply/payment/verify/",
+    return_url: "http://localhost:3000/payment/verify/",
     website_url: process?.env?.BASE_URL,
     amount: 1000,
     purchase_order_id: app_id,
