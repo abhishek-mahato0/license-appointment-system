@@ -125,29 +125,30 @@ export default function page() {
                     <p>No information uploaded yet</p>
                   )}
                 </div>
-                {data?.documentVerified?.status === "verified" ? (
-                  <Badge variant="success">
+
+                <div className=" flex items-center gap-3">
+                  <p className=" text-red-600 text-xs">
+                    {data?.documentVerified?.message}
+                  </p>
+                  <Badge
+                    variant={`${
+                      data?.documentVerified?.status === "verified"
+                        ? "success"
+                        : "secondary"
+                    }`}
+                  >
                     {data?.documentVerified?.status}
                   </Badge>
-                ) : (
-                  <div className=" flex items-center gap-3">
-                    <p className=" text-red-600 text-xs">
-                      {data?.documentVerified?.message}
-                    </p>
-                    <Badge variant="default">
-                      {data?.documentVerified?.status}
-                    </Badge>
-                    <VerifyModal
-                      triggerChildren={<Button>Change Status</Button>}
-                      onSubmit={(data: any, remarks: any) => {
-                        updateStatus(data, remarks);
-                      }}
-                      title="Verify Profile"
-                      initialValue="pending"
-                      loading={loading}
-                    />
-                  </div>
-                )}
+                  <VerifyModal
+                    triggerChildren={<Button>Change Status</Button>}
+                    onSubmit={(data: any, remarks: any) => {
+                      updateStatus(data, remarks);
+                    }}
+                    title="Verify Profile"
+                    initialValue="pending"
+                    loading={loading}
+                  />
+                </div>
               </div>
             </div>
           </div>

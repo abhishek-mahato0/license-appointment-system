@@ -1,4 +1,5 @@
 "use client";
+import ProfileLoader from "@/components/loaders/ProfileLoader";
 import { useAppDispatch } from "@/redux/TypedHooks";
 import { setBarstate } from "@/redux/slices/applynewSlice";
 import { useSession } from "next-auth/react";
@@ -30,37 +31,38 @@ export default function RootLayout({
     }
   }, [location]);
 
-  useEffect(() => {
-    if (!session?.user?.token) return;
-    if (location.includes("/renew") && session?.user.license_id === "none") {
-      return redirect("/detailform/license");
-    } else if (
-      String(session?.user.hasApplied) === "true" &&
-      location.includes("/detailform/license/")
-    ) {
-      return redirect("/dashboard");
-    } else if (
-      String(session?.user.hasApplied) === "true" &&
-      location.includes("/renew")
-    ) {
-      return redirect("/dashboard");
-    } else if (
-      session?.user?.information_id !== "none" &&
-      session?.user?.citizenship_id !== "none" &&
-      session?.user?.license_id !== "none" &&
-      location.includes("/detailform/license")
-    ) {
-      return redirect("/dashboard");
-    }
-  }, [location]);
+  // useEffect(() => {
+  //   if (!session?.user?.token) return;
+  //   // if (location.includes("/renew") && session?.user.license_id === "none") {
+  //   //   return redirect("/detailform/license");
+  //   // } else
+  //   if (
+  //     String(session?.user.hasApplied) === "true" &&
+  //     location.includes("/detailform/license/")
+  //   ) {
+  //     return redirect("/dashboard");
+  //   }
+  //   // else if (
+  //   //   String(session?.user.hasApplied) === "true" &&
+  //   //   location.includes("/renew")
+  //   // ) {
+  //   //   return redirect("/dashboard");
+  //   // }
+  //   else if (
+  //     session?.user?.information_id !== "none" &&
+  //     session?.user?.citizenship_id !== "none" &&
+  //     session?.user?.license_id !== "none" &&
+  //     location.includes("/detailform/license")
+  //   ) {
+  //     return redirect("/dashboard");
+  //   }
+  // }, [location]);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <ProfileLoader />;
   } else {
-    if (!session) return redirect("/login");
-    if (!session?.user) {
-      return redirect("/login");
-    } else if (!session?.user?.token) {
+    if (!session?.user) return redirect("/login");
+    if (!session?.user?.token) {
       return redirect("/login");
     } else if (session?.user?.information_id === "none") {
       return redirect("/detailform/personal");
@@ -70,5 +72,5 @@ export default function RootLayout({
       return redirect("/detailform/license");
     }
   }
-  return <Suspense>{children}</Suspense>;
+  return <>{children}</>;
 }

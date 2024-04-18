@@ -179,8 +179,11 @@ export default function SelectDateAndTime() {
           description: "Applied for license successfully",
           variant: "success",
         });
+        update({
+          hasApplied: true,
+        });
         return router.push(
-          `/apply/payment?app_id=${res?.data?.appointment?._id as string}`
+          `/payment?app_id=${res?.data?.appointment?._id as string}`
         );
       } else {
         toast({

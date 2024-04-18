@@ -21,6 +21,7 @@ import {
   setPendingAppointment,
 } from "@/redux/slices/appointmentSlice";
 import HeaderTitle from "@/components/common/HeaderTitle";
+import Link from "next/link";
 
 type AppointmentColumn = {
   _id?: string;
@@ -148,7 +149,15 @@ export default function page() {
     {
       header: "Payment",
       accessorKey: "payment",
-      cell: ({ row }: any) => row.original?.payment?.status || "No Payment",
+      cell: ({ row }: any) =>
+        row.original?.payment?.status || (
+          <Link
+            href={`/payment?app_id=${row?.original?._id}`}
+            className=" text-blue-700 underline"
+          >
+            Pay Now
+          </Link>
+        ),
     },
     {
       header: "Biometric",
@@ -265,23 +274,6 @@ export default function page() {
               Cancel
             </Button>
           </div>
-          // <RescheduleModal
-          //   title="Reschedule Appointment"
-          //   label="Reschedule"
-          //   initialValue=""
-          //   data={{
-          //     add_id: row.original._id,
-          //     medical: row.original.medical,
-          //     written: row.original.written,
-          //     trial: row.original.trial,
-          //     selectedCat: row.original.category,
-          //     selectedOffice: row.original.office,
-          //   }}
-          //   onSubmit={(value) => {
-          //     console.log(value);
-          //   }}
-          //   triggerChildren={<Button variant="secondary">Reschedule</Button>}
-          // />
         ),
     },
   ];
@@ -307,6 +299,7 @@ export default function page() {
       setLoading(false);
     }
   }
+
   useEffect(() => {
     fetchAppointments("", "", "", "");
   }, []);
