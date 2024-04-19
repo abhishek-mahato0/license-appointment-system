@@ -1,4 +1,3 @@
-import { getSession } from "next-auth/react";
 import { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
@@ -18,7 +17,7 @@ export async function middleware(request: NextRequest) {
   if (
     currentUser &&
     role?.value != "public" &&
-    (path.startsWith("/apply") || path.startsWith("/prepare") || path.startsWith("/profile"))
+    (path.startsWith("/apply") || path.startsWith("/prepare") || path.startsWith("/profile") || path.startsWith("/reschedule") || path.startsWith("/appointments"))
   ) {
     return Response.redirect(new URL("/admin/dashboard", request.url));
   }

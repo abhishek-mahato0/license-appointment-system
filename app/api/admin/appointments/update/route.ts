@@ -97,7 +97,6 @@ export async function PUT(req: NextRequest) {
       const citizenship = await Citizenship.findOne({
         user_id: appointment?.user_id,
       });
-      console.log(citizenship, "citizenship");
       const licenseexists = await License.findOne({
         user_id: appointment?.user_id,
       });
