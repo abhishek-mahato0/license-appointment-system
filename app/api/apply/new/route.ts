@@ -87,11 +87,11 @@ export async function POST(req: NextRequest) {
         if (user?.documentVerified?.status !== "verified") return ShowError(400, 'Your document is not verified.');
 
         // if(user.appointment.some((item:UAppointment)=> item.status==="pending")) return ShowError(400, 'User already has an appointment');
-        // if (user.hasApplied) return ShowError(400, 'You already have an appointment. ');
+        if (user.hasApplied) return ShowError(400, 'You already have an appointment. ');
 
         if (await checkCitizenship(isLogged?._id) === false) return ShowError(400, 'You have not filled and uploaded citizenship details.');
 
-        // if(await checkLicense(userId)===false) return ShowError(400, 'User has not uploaded license');
+        if(await checkLicense(userId)===false) return ShowError(400, 'User has not uploaded license');
         if (await checkInformation(isLogged._id) === false) return ShowError(400, 'You have not filled your details form.');
 
         //check iof the person has failed for three times in any appointment
