@@ -93,7 +93,7 @@ export function accountConfirmationTemplate({
     <div class="container">
         <p>Dear ${name},</p>
         <p>Please click the button below to verify your account:</p>
-        <a href="${process.env.VERIFY_URL}/${userId}?token=${token}" class="text-white button">
+        <a href="${process.env.BASE_URL}/verify/${userId}?token=${token}" class="text-white button">
         Verify Account</a>
         <p>If you did not request this verification, you can safely ignore this email.</p>
         <hr/>
