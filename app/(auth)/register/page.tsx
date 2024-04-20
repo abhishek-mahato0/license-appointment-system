@@ -9,10 +9,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
 import Loader from "@/components/common/Loader";
 import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function page() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
   const profileref = React.useRef<HTMLInputElement>(null);
   const {
     register,
@@ -51,19 +53,14 @@ export default function page() {
       }
       const payload = { ...datas, avatar: profile };
       const res = await apiinstance.post("user/register", payload);
-      if (res.status === 201 || res.status === 200) {
+      if (res?.status == 200) {
         toast({
           title: "Success",
-          description: res.data?.message,
+          description: res.data?.message || "A verification email is sent.",
           variant: "success",
         });
-        return redirect("/login");
+        return router.push("/login");
       }
-      return toast({
-        title: "Error",
-        description: res?.data?.message,
-        variant: "destructive",
-      });
     } catch (error: any) {
       setLoading(false);
       return toast({

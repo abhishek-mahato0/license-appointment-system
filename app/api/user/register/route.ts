@@ -43,8 +43,7 @@ export async function POST(req: NextRequest) {
       }
       await user.save();
       await sendMail(user.email,token,user._id.toString(), user.name)
-     
-      return NextResponse.json({message:"An account verification email is sent. Plase verify you account. "}, {status:201})
+      return NextResponse.json({message:"An account verification email is sent. Plase verify you account. "}, {status:200})
       //return NextResponse.json({message:"User created successfully."}, {status:201})
         
     } catch (error:any) {
