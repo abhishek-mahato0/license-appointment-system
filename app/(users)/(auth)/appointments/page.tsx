@@ -150,13 +150,17 @@ export default function page() {
       header: "Payment",
       accessorKey: "payment",
       cell: ({ row }: any) =>
-        row.original?.payment?.status || (
+        row.original?.payment ? (
+          "Completed"
+        ) : row?.original?.status === "pending" ? (
           <Link
             href={`/payment?app_id=${row?.original?._id}`}
             className=" text-blue-700 underline"
           >
             Pay Now
           </Link>
+        ) : (
+          "Not Paid"
         ),
     },
     {

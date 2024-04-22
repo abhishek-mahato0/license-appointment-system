@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
 
         if (await checkCitizenship(isLogged?._id) === false) return ShowError(400, 'You have not filled and uploaded citizenship details.');
 
-        if(await checkLicense(userId)===false) return ShowError(400, 'User has not uploaded license');
+        // if(await checkLicense(userId)===false) return ShowError(400, 'User has not uploaded license');
         if (await checkInformation(isLogged._id) === false) return ShowError(400, 'You have not filled your details form.');
 
         //check iof the person has failed for three times in any appointment

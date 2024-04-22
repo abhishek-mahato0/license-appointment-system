@@ -59,11 +59,6 @@ export default function page() {
         });
         return redirect("/login");
       }
-      return toast({
-        title: "Error",
-        description: res?.data?.message,
-        variant: "destructive",
-      });
     } catch (error: any) {
       setLoading(false);
       return toast({

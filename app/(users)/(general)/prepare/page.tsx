@@ -41,7 +41,7 @@ export default function page() {
         `/user/question?category=${selectedCategory}&type=${typeParams}&page=${page}`
       );
       return setData({
-        total: res.data?.total,
+        total: +res.data?.total / 10,
         current: page,
         previous: Number(page) - 1,
         next: Number(page) + 1,

@@ -68,6 +68,7 @@ export default function page() {
         return toast({
           title: "Success",
           description: "Administrator deleted successfully.",
+          variant: "success",
         });
       }
       return toast({

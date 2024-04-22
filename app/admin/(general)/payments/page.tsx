@@ -32,7 +32,7 @@ export default function page() {
     {
       accessorKey: "tracking_id",
       header: "Tracking ID",
-      cell: ({ row }: any) => <p>{row.original.appointment_id.tracking_id}</p>,
+      cell: ({ row }: any) => <p>{row.original.appointment_id?.tracking_id}</p>,
     },
     {
       accessorKey: "amount",
@@ -41,7 +41,7 @@ export default function page() {
     {
       accessorKey: "payment_date",
       header: "Payment Date",
-      cell: ({ row }: any) => <p>{convertDate(row.original.payment_date)}</p>,
+      cell: ({ row }: any) => <p>{convertDate(row.original?.payment_date)}</p>,
     },
     {
       accessorKey: "payment_method",
@@ -54,7 +54,9 @@ export default function page() {
     {
       accessorKey: "createdBy",
       header: "Verified By",
-      cell: ({ row }: any) => <p>{row.original.verifiedBy.name}</p>,
+      cell: ({ row }: any) => (
+        <p>{row.original?.verifiedBy?.name || "Khalti"}</p>
+      ),
     },
   ];
   async function fetchPayments(
