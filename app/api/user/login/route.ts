@@ -16,9 +16,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
         if (!exists) {
             return ShowError(400, "Invalid email or password")
         }
-        // if (!exists?.isverifiedByEmail) {
-        //     return ShowError(400, "User not verified.")
-        // }
+        if (!exists?.isverifiedByEmail) {
+            return ShowError(400, "User not verified.")
+        }
 
         const matched = await bcrypt.compare(pass, exists.password)
         if (!matched) {

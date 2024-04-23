@@ -12,39 +12,6 @@ export default function page() {
   const router = useRouter();
   const [success, setSuccess] = useState(false);
   const { toast } = useToast();
-  // async function checkPaymentStatus() {
-  //   try {
-  //     const { data } = await apiinstance.post(
-  //       "https://a.khalti.com/api/v2//epayment/lookup/",
-  //       {
-  //         pidx: pidx,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `key a558b8820fa84abca6fd20cf6c51a0f0`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     if (data?.status === "Completed") {
-  //       makePayment();
-  //     } else {
-  //       toast({
-  //         title: "Payment Failed",
-  //         description: "Your payment has been failed. Please try again.",
-  //         variant: "destructive",
-  //       });
-  //       // return router.push("/appointments");
-  //     }
-  //   } catch (error) {
-  //     toast({
-  //       title: "Payment Failed",
-  //       description: "Your payment has been failed. Please try again.",
-  //       variant: "destructive",
-  //     });
-  //     // return router.push("/appointments");
-  //   }
-  // }
 
   async function makePayment() {
     try {
@@ -75,7 +42,7 @@ export default function page() {
     }
   }
   useEffect(() => {
-    if (!pidx) return router.push("/apply/payment");
+    if (!pidx) return router.push("/appointments");
     pidx && makePayment();
   }, [pidx]);
   return (
