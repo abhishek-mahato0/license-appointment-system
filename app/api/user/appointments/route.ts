@@ -18,14 +18,6 @@ export async function GET(req: NextRequest, res:NextResponse) {
         if(!logged){
             return ShowError(401, "Unauthorized");
         }
-       
-        // const from = req.nextUrl.searchParams.get('from');
-        // const to = req.nextUrl.searchParams.get('to');
-        // const user = await checkAdmins(req);
-        // if(!user){
-        //     return ShowError(401, "Unauthorized");
-        // }
-        // if(user?.role !== "superadmin"){
             const ans = await Appointment.find({user_id:logged?._id}).populate({
                 path:"medical",
                 model:MedicalModal,
@@ -43,9 +35,6 @@ export async function GET(req: NextRequest, res:NextResponse) {
                 select:'name'
             }).sort({bookDate:-1});
             return NextResponse.json(ans, { status: 200 });
-       //}
-        //const ans = await Appointment.find();
-        //return NextResponse.json(ans, { status: 401 });
     } catch (error:any) {
         return ShowError(500, error.message)
     }

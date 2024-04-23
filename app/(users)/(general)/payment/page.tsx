@@ -1,4 +1,5 @@
 "use client";
+import LoaderButton from "@/components/common/LoaderButton";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/use-toast";
@@ -7,8 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
 import { apiinstance } from "@/services/Api";
 import { convertDate } from "@/utils/convertDate";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function page({
@@ -24,50 +24,27 @@ export default function page({
   const { pendingAppointment } = useAppSelector((state) => state.appointments);
   const [paymentUrl, setPaymentUrl] = useState("");
   const dispatch = useAppDispatch();
-  let payload = {
-    return_url: "http://localhost:3000/",
-    website_url: "http://localhost:3000/",
-    amount: 100000,
-    purchase_order_id: app_id,
-    purchase_order_name: session?.user?.id,
-    customer_info: {
-      name: "License Application",
-      email: "licenseappointment@gmail.com",
-      phone: "9800000123",
-    },
-  };
 
   async function getAppointment() {
-    const res = await apiinstance.get(`/admin/appointments/${app_id}`);
-    if (res.status === 200) {
-      if (res?.data?.payment?.status === "completed") {
-        return router.push("/appointments");
+    try {
+      const res = await apiinstance.get(`/admin/appointments/${app_id}`);
+      if (res.status === 200) {
+        if (res?.data?.payment?.status === "completed") {
+          return router.push("/appointments");
+        }
+        return dispatch(setPendingAppointment(res?.data));
       }
-      return dispatch(setPendingAppointment(res?.data));
+    } catch (error: any) {
+      return router.push("/appointments");
     }
   }
   async function makePyament() {
     setLoading(true);
     try {
-      const { data } = await apiinstance.post(
-        "https://a.khalti.com/api/v2/epayment/initiate/",
-        payload,
-        {
-          headers: {
-            Authorization: `key a558b8820fa84abca6fd20cf6c51a0f0`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (data) {
-        if (data?.payment_url) {
-          return router.push(data.payment_url);
-        } else {
-          toast({
-            title: "Payment Failed",
-            description: "Your payment has been failed. Please try again.",
-          });
-        }
+      const res = await apiinstance.get(`payment?app_id=${app_id}`);
+      if (res.status === 200) {
+        router.push(res?.data?.payment_url);
+        return setPaymentUrl(res.data?.payment_url);
       }
     } catch (error) {
       return toast({
@@ -91,6 +68,12 @@ export default function page({
     getAppointment();
   }, []);
 
+  // useEffect(() => {
+  //   if (!paymentUrl) return;
+  //   console.log(paymentUrl);
+  //   document.getElementById("paymentClick")?.click();
+  // }, [paymentUrl]);
+
   return (
     <div className=" w-full h-full flex flex-col items-center justify-center">
       <div className=" w-full md:w-[80%] flex flex-col p-1 md:px-4 py-8 bg-custom-50 text-gray-600 mt-[5%]">
@@ -99,38 +82,52 @@ export default function page({
             <h1 className=" font-bold text-2xl">
               Choose a Payment Method for your appointment
             </h1>
+            <a
+              href={paymentUrl}
+              target="_blank"
+              id="paymentClick"
+              className=" hidden"
+            >
+              Payment
+            </a>
+
             <div className=" w-full flex flex-col gap-2">
               <p className=" font-semibold text-xl my-2 text-custom-150">
                 Appointment Info
               </p>
               <p>
                 <strong>Tracking Id :</strong>
-                {pendingAppointment.tracking_id}
+                {pendingAppointment?.tracking_id}
               </p>
               <p>
                 <strong>Category :</strong>
-                {pendingAppointment.category}
+                {pendingAppointment?.category}
               </p>
               <p>
                 <strong>Book Date: </strong>
-                {convertDate(pendingAppointment.bookDate)}
+                {convertDate(pendingAppointment?.bookDate)}
               </p>
             </div>
+
             <div className=" w-full flex md:flex-row flex-col items-center justify-between mt-4 gap-[50px]">
-              <Button
-                onClick={() => {
-                  makePyament();
-                }}
-                className=" md:w-1/2 w-full "
-                variant="khalti"
-              >
-                <img
-                  src="/images/khaltis.svg"
-                  alt="Khalti"
-                  className=" w-10 h-10 bg-transparent"
-                />
-                Pay Rs 1000 using Khalti
-              </Button>
+              {loading ? (
+                <LoaderButton loading={true}>Loading</LoaderButton>
+              ) : (
+                <Button
+                  onClick={() => {
+                    makePyament();
+                  }}
+                  className=" md:w-1/2 w-full "
+                  variant="khalti"
+                >
+                  <img
+                    src="/images/khaltis.svg"
+                    alt="Khalti"
+                    className=" w-10 h-10 bg-transparent"
+                  />
+                  Pay Rs 1000 using Khalti
+                </Button>
+              )}
               <Button onClick={cashPayment} className=" md:w-1/2 w-full py-2">
                 <img
                   src="/images/cashs.svg"

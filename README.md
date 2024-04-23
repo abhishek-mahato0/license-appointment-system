@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# License Appointment System
 
-## Getting Started
+This project will help people to apply for License and renew Appointment.
 
-First, run the development server:
+## Prerequisits
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Should have node envirnment installed into your computer
+- node version should be > 10
+
+## How to run
+
+#### Clone the repo and run
+
+```http
+ npm install or npm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### To run the project
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```http
+  npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Deployment
 
-## Learn More
+Deployed Url of project
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+  https://license-appointment-system.vercel.app/
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+DB_URL=mongodb+srv://Avishekh:Avishekh@cluster0.7zaq6ti.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0
 
-## Deploy on Vercel
+CLOUDINARY_UPLOAD=evwmejyu
+CLOUD_NAME=dzg8istiw
+API_SECRET=Ml89bVVu8hx89fWKM-Zo3v97Dcc
+API_KEY=347896473673845
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+EMAIL=licenseappointmant@gmail.com
+PASSOWRD=mfgxreslwfjljabf
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+VERIFY_URL=http://localhost:3000/verify/
+
+JWT_SECRET=thisissecret454567877@45
+NEXTAUTH_SECRET=aslkdjsalkdfasdf80980
+BASE_URL=http://localhost:3000
+API_URL=http://localhost:3000/api/
+KHALTI_RETURN_URL=http://localhost:3000/payment/verify/
+KHALTI_SECRET_KEY=a558b8820fa84abca6fd20cf6c51a0f0
+FLASK_SERVER=http://127.0.0.1:5000

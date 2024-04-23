@@ -61,7 +61,9 @@ export default function CitizenshipForm() {
     formdata.append("back_image", pictureBack as Blob);
     try {
       const res = await apiinstance.post(
-        `${process.env.FLASK_SERVER}/predict/citizenship`,
+        `${
+          process.env.FLASK_SERVER || "http://127.0.0.1:5000"
+        }/predict/citizenship`,
         formdata
       );
 
@@ -117,8 +119,8 @@ export default function CitizenshipForm() {
           title: "Form Error",
           description: "Please provide both front and back picture",
         });
-      // const { success, message } = await verifyImage();
-      // if (!success) return toast({ title: "Error", description: message });
+      const { success, message } = await verifyImage();
+      if (!success) return toast({ title: "Error", description: message });
       const payload = {
         ...data,
         front: baseFront,
