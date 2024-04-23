@@ -21,6 +21,19 @@ This project will help people to apply for License and renew Appointment.
   npm run dev
 ```
 
+#### To run the test cases.
+
+```http
+  npx playwright test --headed
+```
+
+#### To run the test cases of particular file where replace integration.spec.ts with any file name.
+
+```http
+  npx playwright test integration.spec.ts --headed
+
+```
+
 ## Deployment
 
 Deployed Url of project
