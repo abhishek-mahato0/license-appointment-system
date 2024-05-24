@@ -8,7 +8,7 @@ import StoreProvider from "@/components/StoreProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Online License Appointment Syatem",
+  title: "Online License Appointment System",
   description:
     "This is an official website of nepal gevernmant for appying for new license.",
 };

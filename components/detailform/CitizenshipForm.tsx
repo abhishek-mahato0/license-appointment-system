@@ -33,7 +33,7 @@ export default function CitizenshipForm() {
     if (e.target.files) {
       setPictureFront(e.target.files[0]);
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(e.target.files[0]);
+      fileReader?.readAsDataURL(e.target.files[0]);
       fileReader.onload = () => {
         setBaseFront(fileReader.result as string);
       };
@@ -44,7 +44,7 @@ export default function CitizenshipForm() {
     if (e.target.files) {
       setPictureBack(e.target.files[0]);
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(e.target.files[0]);
+      fileReader?.readAsDataURL(e.target.files[0]);
       fileReader.onload = () => {
         setBaseBack(fileReader.result as string);
       };
@@ -61,7 +61,9 @@ export default function CitizenshipForm() {
     formdata.append("back_image", pictureBack as Blob);
     try {
       const res = await apiinstance.post(
-        `${process.env.FLASK_SERVER}/predict/citizenship`,
+        `${
+          process.env.FLASK_SERVER || "http://127.0.0.1:5000"
+        }/predict/citizenship`,
         formdata
       );
 
@@ -117,8 +119,8 @@ export default function CitizenshipForm() {
           title: "Form Error",
           description: "Please provide both front and back picture",
         });
-      // const { success, message } = await verifyImage();
-      // if (!success) return toast({ title: "Error", description: message });
+      const { success, message } = await verifyImage();
+      if (!success) return toast({ title: "Error", description: message });
       const payload = {
         ...data,
         front: baseFront,
@@ -202,6 +204,7 @@ export default function CitizenshipForm() {
                     className=" outline-none p-3 w-full bg-[#e3f2ff] hidden"
                     ref={profileFrontref}
                     onChange={onChangeFrontPicture}
+                    accept=".jpeg,jpg,png"
                   />
                 </div>
                 <X
@@ -240,6 +243,7 @@ export default function CitizenshipForm() {
                     className=" outline-none p-3 w-full bg-[#e3f2ff] hidden"
                     ref={profileBackref}
                     onChange={onChangeBackPicture}
+                    accept=".jpeg,jpg,png"
                   />
                 </div>
                 <X

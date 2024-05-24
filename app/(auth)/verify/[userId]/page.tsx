@@ -39,7 +39,7 @@ export default function page({ params }: { params: { userId: string } }) {
       {success ? (
         <div className="flex flex-col px-5 py-3 bg-white shadow-lg justify-center items-center gap-5">
           <h1 className="text-black font-bold text-xl">
-            Email Verification Successfully.
+            Email Verified Successfully.
           </h1>
           <Links
             name="Go to Login"

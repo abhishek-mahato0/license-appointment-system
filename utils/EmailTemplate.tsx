@@ -918,6 +918,99 @@ export function newAdministratorTemplate({
   </html>`;
 }
 
+export function paymentSuccessTemplate({ name }: { name: string }) {
+  return `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Account Verification</title>
+      <style>
+          body {
+              font-family: Arial, sans-serif;
+              background-color: #f5f5f5;
+              margin: 0;
+              padding: 0;
+          }
+          .container-big{
+            width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 2px solid #0388f8;
+          }
+          .container {
+              width: 550px;
+              padding:10px;
+          }
+          .title{
+            width: 590px;
+            display: flex;
+            gap:5px;
+            padding-left: 10px;
+            background-color: #0388f8;
+            color: #ffffff;
+          }
+          .text-white{
+            color: #ffffff;
+          }
+          .text-lg{
+            font-size: 14px;
+          }
+          .text-xs{
+            font-size: 12px;
+          }
+          .flex-col{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-weight: 700;
+            color: #ffffff;
+          }
+          h1 {
+              text-align: start;
+              color: #ffffff;
+          }
+          p {
+              color: #555555;
+              font-size: 16px;
+              line-height: 1.3;
+          }
+          .button {
+              padding: 10px 20px;
+              color: #ffffff;
+              text-decoration: none;
+              border-radius: 5px;
+              border: 2px solid #0388f8;
+          }
+          .button:hover {
+              text-color: #ffffff;
+              scale: 1.1;
+          }
+          .logo {
+              width: 500px;
+              height: 250px;
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container-big">
+      <div class="title">
+      <h2>Payment Successfull.</h2>
+      </div>
+      <div class="container">
+      <p>Dear ${name},</p>
+      <p>Your payment for Rs. 1000 has been successfully recieved.</p>
+          <hr/>
+          <p>Thank you for joining our team. We look forward to working with you!</p>
+          <p>License Appointment System </p>
+          <p>Department of tranport and license</p>
+          <p>Government of Nepal</p>
+    </div>
+      </div>
+  </body>
+  </html>`;
+}
+
 export function passwordChanged({
   email,
   name,

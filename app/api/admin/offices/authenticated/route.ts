@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
         if (!loggedUser) {
             return ShowError(400, "You are not authorized to perform this action");
         }
-        if(loggedUser?.role !== "super admin"){
+        if(loggedUser?.role !== "superadmin"){
             query["province"] = loggedUser?.province;
         }
          
