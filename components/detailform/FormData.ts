@@ -8,63 +8,73 @@ export const personalData=[
         name:"firstName",
         placeholder:"First Name",
         type:"text",
+        required:true
     },
     {
         id:2,
         name:"middlename",
         placeholder:"Middle Name",
-        type:"text",        
+        type:"text", 
+        required:false       
     },
     {
         id:3,
         name:"lastname",
         placeholder:"Last Name",
         type:"text",
+        required:true
     },
     {
         id:4,
         name:"email",
         placeholder:"Email",
-        type:"email",       
+        type:"email", 
+        required:true      
     },
     {
         id:5, 
         name:"phone",
         placeholder:"Phone",
         type:"text",
+        required:true
     },
     {
         id:6, 
         name:"dob",
         placeholder:"Date of Birth",
         type:"date",
+        required:true
     },
     {
         id:7,
         name:"gender",
         placeholder:"Select Gender",
         type:"select",
-        options:[{name:"Male", value:'male'}, { name:'Female', value:"female"}, {name:"Other", value:"other"}]
+        options:[{name:"Male", value:'male'}, { name:'Female', value:"female"}, {name:"Other", value:"other"}],
+        required:true
     },
     {
         id:8,
         name:"bloodgroup",
         placeholder:"Select Blood Group",
         type:"select",
-        options:[{name:"A+", value:'A+'}, { name:'A-', value:"A-"}, {name:"B+", value:"B+"}, {name:"B-", value:"B-"}, {name:"AB+", value:"AB+"}, {name:"AB-", value:"AB-"}, {name:"O+", value:"O+"}, {name:"O-", value:"O-"}]
+        options:[{name:"A+", value:'A+'}, { name:'A-', value:"A-"}, {name:"B+", value:"B+"}, {name:"B-", value:"B-"}, {name:"AB+", value:"AB+"}, {name:"AB-", value:"AB-"}, {name:"O+", value:"O+"}, {name:"O-", value:"O-"}],
+        required:true
     },
     {
         id:9,
         name:"guardiansname",
         placeholder:"Guardian's Full Name",
         type:"text",
+        required:true
     },
     {
         id:10,
         name:"guardiansrelation",
         placeholder:"Select Guardian's Relation",
         type:"select",
-        options:[{name:"Father", value:'father'}, { name:'Mother', value:"mother"}]
+        options:[{name:"Father", value:'father'}, { name:'Mother', value:"mother"}],
+        required:true
     },
     
 ];

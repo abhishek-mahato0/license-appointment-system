@@ -1,19 +1,26 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-function loading() {
+function Loading() {
   return (
-    <div className="w-full h-screen gap-4">
-      <div className="flex justify-between items-start w-full px-4 mt-3">
-        <Skeleton className="w-1/4 h-12" />
-        <Skeleton className="w-1/4 h-12" />
+    <div className="w-full h-screen flex flex-col relative">
+      <div className="fixed z-40 top-0 left-0 bg-white lg:bottom-0 w-full">
+        <div className="p-4">
+          <Skeleton className="w-full h-12" />
+        </div>
+        <div className="p-4">
+          <Skeleton className="w-full h-8" />
+        </div>
       </div>
-      <div className="flex justify-between items-start w-full px-4 mt-3 flex-col gap-3">
-        <Skeleton className="w-full h-40" />
-        <Skeleton className="w-full h-40" />
-        <Skeleton className="w-full h-40" />
-      </div>
+      <main className="w-full md:pl-[105px] px-6 pt-10 lg:pt-0 flex-1">
+        <div className="flex flex-col gap-4">
+          <Skeleton className="w-full h-12" />
+          <Skeleton className="w-full h-64" />
+          <Skeleton className="w-full h-64" />
+          <Skeleton className="w-full h-64" />
+        </div>
+      </main>
     </div>
   );
 }
 
-export default loading;
+export default Loading;

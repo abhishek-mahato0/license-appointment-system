@@ -56,9 +56,16 @@ export default function PersonalForm() {
                 <div className=" flex flex-col gap-1 items-start justify-start">
                   {item.type === "select" ? (
                     <>
-                      <label>{item.placeholder}</label>
+                      <label htmlFor={item?.name}>
+                        {item.placeholder}{" "}
+                        <span className=" text-red-500">
+                          {item?.required && "*"}
+                        </span>
+                      </label>
                       <select
-                        {...register(item.name, { required: true })}
+                        {...register(item.name, {
+                          required: item?.required || true,
+                        })}
                         className=" py-1 px-2 rounded-[6px] w-[90%] bg-custom-50 border-[1px] border-custom-100"
                       >
                         {item.options &&
@@ -73,9 +80,16 @@ export default function PersonalForm() {
                     </>
                   ) : (
                     <>
-                      <label>{item.placeholder}</label>
+                      <label>
+                        {item.placeholder}{" "}
+                        <span className=" text-red-500">
+                          {item?.required && "*"}
+                        </span>
+                      </label>
                       <input
-                        {...register(item.name, { required: true })}
+                        {...register(item.name, {
+                          required: item?.required,
+                        })}
                         placeholder={item.placeholder}
                         className=" w-[90%] py-1 px-2 rounded-[6px] bg-custom-50 border-custom-150 border-[1px] outline-1 focus:outline-none outline-custom-100"
                         type={item.type}
