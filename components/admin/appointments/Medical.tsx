@@ -40,6 +40,7 @@ export default function Medical() {
   const { toast } = useToast();
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
+  const today = new Date();
 
   async function updateBiometricStatus(id: string, status: string) {
     try {
@@ -309,115 +310,84 @@ export default function Medical() {
       accessorKey: "medical",
       cell: ({ row }: any) => (
         <div className=" w-full flex flex-col gap-3">
-          {row.original.medical?.hasOwnProperty("status") && (
-            <EditModal
-              loading={loading}
-              triggerChildren={
-                <div className=" w-full flex flex-col gap-[2px] cursor-pointer hover:scale-105">
-                  <p>
-                    Status:
-                    <Badge
-                      variant={`${
-                        row.original.medical?.status === "passed"
-                          ? "success"
-                          : row.original.medical?.status === "pending"
-                          ? "secondary"
-                          : "destructive"
-                      }`}
-                    >
-                      {row.original.medical?.status}
-                    </Badge>
-                  </p>
-                  <p>Date: {row.original.medical?.date}</p>
-                  <p>Shift: {row.original.medical?.shift}</p>
-                </div>
-              }
-              title="Update Medical Status"
-              label="Select Status"
-              initialValue={row.original.medical?.status}
-              onSubmit={(value) => {
-                const futureDate = new Date();
-                futureDate.setDate(futureDate.getDate() + 3);
-                if (
-                  row.original.medical?.date < convertDate(new Date()) &&
-                  row.original.medical?.date > convertDate(futureDate)
-                ) {
-                  return toast({
-                    title: "Error",
-                    description: "You can't update a past date",
-                  });
+          {row.original.medical?.hasOwnProperty("status") &&
+            (new Date(row.original.medical?.date).getTime() <=
+            today.getTime() ? (
+              <EditModal
+                loading={loading}
+                triggerChildren={
+                  <div className=" w-full flex flex-col gap-[2px] cursor-pointer hover:scale-105">
+                    <p>
+                      Status:
+                      <Badge
+                        variant={`${
+                          row.original.medical?.status === "passed"
+                            ? "success"
+                            : row.original.medical?.status === "pending"
+                            ? "secondary"
+                            : "destructive"
+                        }`}
+                      >
+                        {row.original.medical?.status}
+                      </Badge>
+                    </p>
+                    <p>Date: {row.original.medical?.date}</p>
+                    <p>Shift: {row.original.medical?.shift}</p>
+                  </div>
                 }
-                updateMedicalStatus(
-                  row.original.medical?._id,
-                  value,
-                  "medical",
-                  row.original._id
-                );
-                fetchAppointments("", "", "", "");
-              }}
-            />
-          )}
-        </div>
-      ),
-    },
-    {
-      header: "Trial",
-      accessorKey: "trial",
-      cell: ({ row }: any) =>
-        row.original?.trial?.hasOwnProperty("status") && (
-          <EditModal
-            loading={loading}
-            triggerChildren={
-              <div className=" w-full flex flex-col gap-[2px] cursor-pointer hover:scale-105">
+                title="Update Medical Status"
+                label="Select Status"
+                initialValue={row.original.medical?.status}
+                onSubmit={(value) => {
+                  const futureDate = new Date();
+                  futureDate.setDate(futureDate.getDate() + 3);
+                  if (
+                    row.original.medical?.date < convertDate(new Date()) &&
+                    row.original.medical?.date > convertDate(futureDate)
+                  ) {
+                    return toast({
+                      title: "Error",
+                      description: "You can't update a past date",
+                    });
+                  }
+                  updateMedicalStatus(
+                    row.original.medical?._id,
+                    value,
+                    "medical",
+                    row.original._id
+                  );
+                  fetchAppointments("", "", "", "");
+                }}
+              />
+            ) : (
+              <div className=" w-full flex flex-col gap-[2px] cursor-not-allowed">
                 <p>
                   Status:
                   <Badge
                     variant={`${
-                      row.original?.trial?.status === "completed"
+                      row.original.medical?.status === "passed"
                         ? "success"
-                        : row.original?.trial?.status === "pending"
+                        : row.original.medical?.status === "pending"
                         ? "secondary"
                         : "destructive"
                     }`}
                   >
-                    {row.original?.trial?.status}
+                    {row.original.medical?.status}
                   </Badge>
                 </p>
-                <p>Date: {row.original?.trial?.date}</p>
-                <p>Shift: {row.original?.trial?.shift}</p>
+                <p>Date: {row.original.medical?.date}</p>
+                <p>Shift: {row.original.medical?.shift}</p>
               </div>
-            }
-            title="Update Trial Status"
-            label="Select Status"
-            initialValue={row.original?.trial?.status}
-            onSubmit={(value) => {
-              const futureDate = new Date();
-              futureDate.setDate(futureDate.getDate() + 3);
-              if (
-                row.original?.trial?.date < convertDate(new Date()) &&
-                row.original?.trial?.date > convertDate(futureDate)
-              ) {
-                return toast({
-                  title: "Error",
-                  description: "You can't update a past date",
-                });
-              }
-              updateMedicalStatus(
-                row.original?.trial?._id,
-                value,
-                "trial",
-                row?.original?._id
-              );
-              fetchAppointments("", "", "", "");
-            }}
-          />
-        ),
+            ))}
+        </div>
+      ),
     },
     {
       header: "Written",
       accessorKey: "written",
       cell: ({ row }: any) =>
-        row?.original?.written?.hasOwnProperty("status") && (
+        row?.original?.written?.hasOwnProperty("status") &&
+        (new Date(row.original.written?.date).getTime() <= today.getTime() ? (
           <EditModal
             loading={loading}
             triggerChildren={
@@ -464,7 +434,99 @@ export default function Medical() {
               fetchAppointments("", "", "", "");
             }}
           />
-        ),
+        ) : (
+          <div className=" w-full flex flex-col gap-[2px] cursor-not-allowed">
+            <p>
+              Status:
+              <Badge
+                variant={`${
+                  row?.original?.written?.status === "completed"
+                    ? "success"
+                    : row?.original?.written?.status === "pending"
+                    ? "secondary"
+                    : "destructive"
+                }`}
+              >
+                {row?.original?.written?.status}
+              </Badge>
+            </p>
+            <p>Date: {row?.original?.written?.date}</p>
+            <p>Shift: {row?.original?.written?.shift}</p>
+          </div>
+        )),
+    },
+    {
+      header: "Trial",
+      accessorKey: "trial",
+      cell: ({ row }: any) =>
+        row.original?.trial?.hasOwnProperty("status") &&
+        (new Date(row.original.trial?.date).getTime() <= today.getTime() ? (
+          <EditModal
+            loading={loading}
+            triggerChildren={
+              <div className=" w-full flex flex-col gap-[2px] cursor-pointer hover:scale-105">
+                <p>
+                  Status:
+                  <Badge
+                    variant={`${
+                      row.original?.trial?.status === "completed"
+                        ? "success"
+                        : row.original?.trial?.status === "pending"
+                        ? "secondary"
+                        : "destructive"
+                    }`}
+                  >
+                    {row.original?.trial?.status}
+                  </Badge>
+                </p>
+                <p>Date: {row.original?.trial?.date}</p>
+                <p>Shift: {row.original?.trial?.shift}</p>
+              </div>
+            }
+            title="Update Trial Status"
+            label="Select Status"
+            initialValue={row.original?.trial?.status}
+            onSubmit={(value) => {
+              const futureDate = new Date();
+              futureDate.setDate(futureDate.getDate() + 3);
+              if (
+                row.original?.trial?.date < convertDate(new Date()) &&
+                row.original?.trial?.date > convertDate(futureDate)
+              ) {
+                return toast({
+                  title: "Error",
+                  description: "You can't update a past date",
+                });
+              }
+              updateMedicalStatus(
+                row.original?.trial?._id,
+                value,
+                "trial",
+                row?.original?._id
+              );
+              fetchAppointments("", "", "", "");
+            }}
+          />
+        ) : (
+          <div className=" w-full flex flex-col gap-[2px] cursor-not-allowed">
+            <p>
+              Status:
+              <Badge
+                variant={`${
+                  row.original?.trial?.status === "completed"
+                    ? "success"
+                    : row.original?.trial?.status === "pending"
+                    ? "secondary"
+                    : "destructive"
+                }`}
+              >
+                {row.original?.trial?.status}
+              </Badge>
+            </p>
+            <p>Date: {row.original?.trial?.date}</p>
+            <p>Shift: {row.original?.trial?.shift}</p>
+          </div>
+        )),
     },
   ];
   async function fetchAppointments(

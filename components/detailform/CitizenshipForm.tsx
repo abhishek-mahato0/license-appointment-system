@@ -33,7 +33,7 @@ export default function CitizenshipForm() {
     if (e.target.files) {
       setPictureFront(e.target.files[0]);
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(e.target.files[0]);
+      fileReader?.readAsDataURL(e.target.files[0]);
       fileReader.onload = () => {
         setBaseFront(fileReader.result as string);
       };
@@ -44,7 +44,7 @@ export default function CitizenshipForm() {
     if (e.target.files) {
       setPictureBack(e.target.files[0]);
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(e.target.files[0]);
+      fileReader?.readAsDataURL(e.target.files[0]);
       fileReader.onload = () => {
         setBaseBack(fileReader.result as string);
       };
@@ -204,6 +204,7 @@ export default function CitizenshipForm() {
                     className=" outline-none p-3 w-full bg-[#e3f2ff] hidden"
                     ref={profileFrontref}
                     onChange={onChangeFrontPicture}
+                    accept=".jpeg,jpg,png"
                   />
                 </div>
                 <X
@@ -242,6 +243,7 @@ export default function CitizenshipForm() {
                     className=" outline-none p-3 w-full bg-[#e3f2ff] hidden"
                     ref={profileBackref}
                     onChange={onChangeBackPicture}
+                    accept=".jpeg,jpg,png"
                   />
                 </div>
                 <X

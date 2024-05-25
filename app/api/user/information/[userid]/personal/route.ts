@@ -25,7 +25,7 @@ export async function POST(req:NextRequest,{params}:any) {
        }
        const informationData = {
         first_name: personalInformation?.firstName,
-        middle_name: personalInformation?.middlename,
+        middle_name: personalInformation?.middlename || "ku",
         last_name: personalInformation?.lastname,
         user_id: user._id,
         guardian_name: {name: personalInformation.guardiansname, relation: personalInformation.guardiansrelation},

@@ -167,11 +167,13 @@ export default function page() {
             />
           </div>
           <Outline title="Personal Information">
-            <div className=" w-full items-center flex justify-end">
-              {Object.keys(personalInformation).length > 0 && (
-                <PersonalEditForm personalInformation={personalInformation} />
-              )}
-            </div>
+            {personalInformation?.documentStatus?.status !== "verified" && (
+              <div className=" w-full items-center flex justify-end">
+                {Object.keys(personalInformation).length > 0 && (
+                  <PersonalEditForm personalInformation={personalInformation} />
+                )}
+              </div>
+            )}
             <div className=" w-full grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between px-3 py-2">
               {session?.user?.avatar && (
                 <img
@@ -200,11 +202,13 @@ export default function page() {
             </div>
           </Outline>
           <Outline title="Temporary Address">
-            <div className=" w-full items-center flex justify-end">
-              {addressInformation?.permanentAddress?.province != "" && (
-                <AddressEditForm addressInformation={addressInformation} />
-              )}
-            </div>
+            {personalInformation?.documentStatus?.status !== "verified" && (
+              <div className=" w-full items-center flex justify-end">
+                {addressInformation?.permanentAddress?.province != "" && (
+                  <AddressEditForm addressInformation={addressInformation} />
+                )}
+              </div>
+            )}
             <div className="grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between w-full md:px-3 px-[2px] py-2">
               {addressInformation?.temporaryaddress &&
                 temporaryaddressData.map((item: any) => {
@@ -227,11 +231,13 @@ export default function page() {
             </div>
           </Outline>
           <Outline title="Permanent Address">
-            <div className=" w-full items-center flex justify-end">
-              {addressInformation?.permanentAddress?.province != "" && (
-                <AddressEditForm addressInformation={addressInformation} />
-              )}
-            </div>
+            {personalInformation?.documentStatus?.status !== "verified" && (
+              <div className=" w-full items-center flex justify-end">
+                {addressInformation?.permanentAddress?.province != "" && (
+                  <AddressEditForm addressInformation={addressInformation} />
+                )}
+              </div>
+            )}
             <div className="grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between w-full px-3 py-2">
               {addressInformation?.permanentAddress &&
                 peraddressData.map((item: any) => {
@@ -254,18 +260,20 @@ export default function page() {
             </div>
           </Outline>
           <Outline title="Citizenship Information">
-            <div className=" w-full items-center flex justify-end gap-4">
-              {Object.keys(citizenshipInformation).length > 0 && (
-                <>
-                  <CitizenshipEditForm
-                    citizenshipInformation={citizenshipInformation}
-                  />
-                  <CitimageEditForm
-                    citizenshipImages={citizenshipInformation}
-                  />
-                </>
-              )}
-            </div>
+            {personalInformation?.documentStatus?.status !== "verified" && (
+              <div className=" w-full items-center flex justify-end gap-4">
+                {Object.keys(citizenshipInformation).length > 0 && (
+                  <>
+                    <CitizenshipEditForm
+                      citizenshipInformation={citizenshipInformation}
+                    />
+                    <CitimageEditForm
+                      citizenshipImages={citizenshipInformation}
+                    />
+                  </>
+                )}
+              </div>
+            )}
             <div className="grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between w-full md:px-3 px-[2px] py-2">
               {citizenshipData.map((item: any) => {
                 return (
