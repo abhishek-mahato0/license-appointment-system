@@ -27,7 +27,7 @@ export default function AddNewsModal({
   const [image, setImage] = React.useState<string | null>(null);
 
   const [selectedType, setSelectedType] = React.useState(
-    defaultValues?.type || "general"
+    defaultValues?.category || "General"
   );
 
   useEffect(() => {

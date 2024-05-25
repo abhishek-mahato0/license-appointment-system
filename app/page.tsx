@@ -62,7 +62,7 @@ export default function Home() {
                 <Link
                   href={`/news/${item._id}`}
                   key={item._id}
-                  className=" flex w-full items-start justify-center gap-3 py-1 hover:scale-105 duration-75 drop-shadow-xl shadow-lg"
+                  className=" flex w-full items-center justify-center gap-3 py-1 hover:scale-105 duration-75 drop-shadow-xl shadow-lg"
                 >
                   <div className=" w-[38%]">
                     <img
@@ -78,7 +78,7 @@ export default function Home() {
                       {convertDate(item.date || "NA")}
                     </span>
                     <h1 className="text-lg font-bold text-custom-150">
-                      {item.title}
+                      {item.title.slice(0, 50)}
                     </h1>
                     <p className="text-sm text-customtext-100">
                       {item.description.slice(0, 100)}

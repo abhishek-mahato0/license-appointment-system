@@ -17,9 +17,12 @@ export default function Loader() {
           {Array.from({ length: 4 }).map((_, i) => (
             <div
               className="flex gap-3 items-start justify-start w-full pl-10"
-              key={i}
+              key={`${i}title`}
             >
-              <Skeleton key={i} className="h-[140px] w-[230px]" />
+              <Skeleton
+                key={`${i.toString()}i`}
+                className="h-[140px] w-[230px]"
+              />
               <div className="flex flex-col gap-3">
                 <Skeleton className="h-[20px] w-[150px]" />
                 <Skeleton className="h-[20px] w-[160px]" />

@@ -195,7 +195,7 @@ export default function page() {
                 editNews(data);
               }}
               type="edit"
-              defaultValues={row.original}
+              defaultValues={row?.original}
               triggerChildren={
                 <Pencil
                   size={20}

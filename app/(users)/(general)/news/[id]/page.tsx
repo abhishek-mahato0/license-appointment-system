@@ -46,7 +46,9 @@ export default function page() {
           >
             <ChevronLeft /> Go Back
           </span>
-          <HeaderTitle title={news?.title} />
+          <h1 className=" text-xl text-gray-600 font-bold py-2">
+            {news?.title}
+          </h1>
           <div className=" w-full">
             <img
               src={news?.img}
@@ -54,14 +56,14 @@ export default function page() {
               className=" lg:h-[500px] h-[300px] w-full"
             />
           </div>
-          <div className=" flex items-center justify-start text-xs font-normal mb-1">
+          <div className=" flex items-center justify-start text-xs font-normal my-1">
             <span className=" flex gap-2">
               <p>{news?.createdBy?.name}</p>
               <p className=" font-extrabold">|</p>
               {new Date(news?.date).toDateString()}
             </span>
           </div>
-          <div className="w-full flex justify-between items-center text-customtext-100 text-lg">
+          <div className="w-full flex justify-between items-center font-[500] text-gray-600 text-lg">
             {news?.description}
           </div>
         </Appear>

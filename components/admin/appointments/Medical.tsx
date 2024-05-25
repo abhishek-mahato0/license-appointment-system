@@ -35,10 +35,12 @@ type AppointmentColumn = {
   written: Array<IWrittenSchema>;
 };
 export default function Medical() {
+  const [filteredData, setFilteredData] = useState<Record<string, any>>([]);
+  const [searchText, setSearchText] = useState<String>("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Record<string, any>>([]);
   const [isFetching, setIsFetching] = useState(false);
   const today = new Date();
 
@@ -229,29 +231,18 @@ export default function Medical() {
       accessorKey: "payment",
       cell: ({ row }: any) =>
         row?.original?.payment?.payment_status ? (
-          <PaymentModal
-            loading={loading}
-            triggerChildren={
-              <Badge
-                variant={`${
-                  row.original?.payment?.payment_status === "pending"
-                    ? "secondary"
-                    : row.original?.payment?.payment_status === "passed"
-                    ? "success"
-                    : "destructive"
-                }`}
-                className=" cursor-not-allowed"
-              >
-                {row.original?.payment?.payment_status || "No Payment"}
-              </Badge>
-            }
-            title="Update Payment Status"
-            label="Select Status"
-            initialValue={row.original?.payment?.payment_status || "pending"}
-            onSubmit={(value) => {
-              updatePayment(row.original?.payment?._id, value);
-            }}
-          />
+          <Badge
+            variant={`${
+              row.original?.payment?.payment_status === "pending"
+                ? "secondary"
+                : row.original?.payment?.payment_status === "completed"
+                ? "success"
+                : "destructive"
+            }`}
+            className=" cursor-not-allowed"
+          >
+            {row.original?.payment?.payment_status || "No Payment"}
+          </Badge>
         ) : (
           <AddPaymentModal
             loading={loading}
@@ -260,7 +251,7 @@ export default function Medical() {
                 variant={`${
                   row.original?.payment?.payment_status === "pending"
                     ? "secondary"
-                    : row.original?.payment?.payment_status === "passed"
+                    : row.original?.payment?.payment_status === "completed"
                     ? "success"
                     : "destructive"
                 }`}
@@ -396,7 +387,7 @@ export default function Medical() {
                   Status:
                   <Badge
                     variant={`${
-                      row?.original?.written?.status === "completed"
+                      row?.original?.written?.status === "passed"
                         ? "success"
                         : row?.original?.written?.status === "pending"
                         ? "secondary"
@@ -440,7 +431,7 @@ export default function Medical() {
               Status:
               <Badge
                 variant={`${
-                  row?.original?.written?.status === "completed"
+                  row?.original?.written?.status === "passed"
                     ? "success"
                     : row?.original?.written?.status === "pending"
                     ? "secondary"
@@ -469,7 +460,7 @@ export default function Medical() {
                   Status:
                   <Badge
                     variant={`${
-                      row.original?.trial?.status === "completed"
+                      row.original?.trial?.status === "passed"
                         ? "success"
                         : row.original?.trial?.status === "pending"
                         ? "secondary"
@@ -556,12 +547,23 @@ export default function Medical() {
   useEffect(() => {
     fetchAppointments("", "", "", "");
   }, []);
+  useEffect(() => {
+    if (searchText.length > 2) {
+      const appointments: any = data?.filter((item: any) => {
+        return item?.tracking_id?.includes(searchText.toLowerCase());
+      });
+      setFilteredData(appointments);
+    }
+  }, [searchText]);
 
   return (
     <div className="w-full flex flex-col pr-5">
       <HeaderTitle title="Appointments" />
       <div className="w-full flex items-center justify-between">
-        <SearchInput onClear={() => {}} onChange={() => {}} />
+        <SearchInput
+          onClear={() => setSearchText("")}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
         <div className="w-full flex items-center gap-2">
           <div className="w-full flex justify-end items-center gap-2">
             <FilterModal onsubmit={fetchAppointments} />
@@ -574,7 +576,11 @@ export default function Medical() {
       </div>
       <div className="w-full mt-2">
         {data && (
-          <TanTable columns={columns} data={data} loading={isFetching} />
+          <TanTable
+            columns={columns}
+            data={searchText.length > 2 ? filteredData : data}
+            loading={isFetching}
+          />
         )}
       </div>
     </div>

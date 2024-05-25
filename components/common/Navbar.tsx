@@ -228,7 +228,7 @@ export default function Navbar() {
             ) : (
               <Avatar>
                 <AvatarFallback className=" bg-custom-100 text-white text-sm">
-                  {session.user.name?.split("")[0]}
+                  {session?.user?.name?.split("")[0]}
                 </AvatarFallback>
               </Avatar>
             )}

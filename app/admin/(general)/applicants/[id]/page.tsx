@@ -192,7 +192,7 @@ export default function page() {
                 {data?.citizenship_id !== "none" &&
                 data?.citizenship_id?.hasOwnProperty("user_id") ? (
                   citizenshipJsonData?.map((ele, index) => (
-                    <div className="flex gap-[2px] mb-1" key={ele.id}>
+                    <div className="flex gap-3 mb-1" key={ele.id}>
                       <p className=" font-bold">
                         {capitalizeFirstLetter(ele.name)} :&nbsp;
                       </p>
@@ -227,7 +227,7 @@ export default function page() {
                   licenseJsonData?.map((ele, index) => (
                     <div className="flex gap-3" key={ele.id}>
                       <p className=" font-bold">
-                        {capitalizeFirstLetter(ele.name)} :&bnsp;
+                        {capitalizeFirstLetter(ele.name)} :
                       </p>
                       <p>{data?.license_id?.license[ele.value]}</p>
                     </div>
@@ -236,7 +236,7 @@ export default function page() {
                   <p>No license uploaded yet.</p>
                 )}
               </div>
-              <div className=" flex w-full justify-between items-center px-5">
+              <div className=" flex w-full justify-between items-center px-5 mt-3">
                 {data?.license_id?.license?.image && (
                   <div className=" grid grid-cols-2 w-[90%] gap-10">
                     <img
