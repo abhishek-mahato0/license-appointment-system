@@ -2,13 +2,14 @@
 import { convertDate } from "@/utils/convertDate";
 import Navbar from "../components/common/Navbar";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
 import { fetchNews } from "@/redux/slices/newsSlice";
 import NewsCard from "@/components/common/NewsCard";
 import Loader from "@/components/common/dashboard/Loader";
 import HeaderTitle from "@/components/common/HeaderTitle";
 import SmallNav from "@/components/common/SmallNavbar";
+import Appear from "@/components/FramerMotion/Appear";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -31,9 +32,9 @@ export default function Home() {
         {loading ? (
           <Loader />
         ) : (
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 w-full h-full px-4 pt-[80px]">
+          <Appear className="grid lg:grid-cols-5 grid-cols-1 gap-10 w-full h-full px-4 pt-[80px]">
             {newsList && newsList?.featured?.length > 0 && (
-              <div className="w-full h-full shadow-xl">
+              <div className="w-full h-full shadow-xl lg:col-span-3">
                 <div className="w-full h-fit">
                   <img
                     src={newsList?.featured[0]?.img}
@@ -56,7 +57,7 @@ export default function Home() {
                 </div>
               </div>
             )}
-            <div className=" w-full h-full flex flex-col gap-4">
+            <div className=" w-full h-full flex flex-col gap-4 col-span-2">
               {newsList?.featured?.slice(1)?.map((item) => (
                 <Link
                   href={`/news/${item._id}`}
@@ -86,7 +87,7 @@ export default function Home() {
                 </Link>
               ))}
             </div>
-          </div>
+          </Appear>
         )}
 
         {newsList && newsList?.general?.length > 0 && (

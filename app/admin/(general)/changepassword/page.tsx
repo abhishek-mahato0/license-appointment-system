@@ -1,5 +1,6 @@
 "use client";
 import LoaderButton from "@/components/common/LoaderButton";
+import Appear from "@/components/FramerMotion/Appear";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
@@ -46,7 +47,7 @@ export default function page() {
     }
   };
   return (
-    <div className=" w-full flex items-center justify-center h-screen backdrop-blur-sm">
+    <Appear className=" w-full flex items-center justify-center h-screen backdrop-blur-sm">
       <div className=" w-[450px] flex flex-col px-4 py-3 backdrop-blur-lg bg-custom-50 gap-2 shadow-lg">
         <h1 className=" text-xl font-bold pl-3">Change Password</h1>
         <form
@@ -118,6 +119,6 @@ export default function page() {
           </LoaderButton>
         </form>
       </div>
-    </div>
+    </Appear>
   );
 }

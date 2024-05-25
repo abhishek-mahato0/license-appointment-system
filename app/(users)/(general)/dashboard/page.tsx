@@ -23,6 +23,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import ChartCard from "@/components/recharts/ChartCard";
 import HeaderTitle from "@/components/common/HeaderTitle";
 import { getAllOffices } from "@/utils/officeInfo";
+import Appear from "@/components/FramerMotion/Appear";
+import { framerStyles } from "@/utils/framer";
+import { motion } from "framer-motion";
 
 export default function page() {
   const [offices, setOffices] = useState<any>([]);
@@ -174,12 +177,12 @@ export default function page() {
           })}
       </div>
       <div className=" w-full flex flex-col items-start justify-start gap-4">
-        <h1 className=" mb-2 text-xl font-medium">
+        <motion.h1 {...framerStyles} className=" mb-2 text-xl font-medium">
           Total Occupancy of category {selectedCat} in{" "}
           {officename ? officename : "All Offices"}
-        </h1>
+        </motion.h1>
         <div className=" grid grid-cols-3 w-full gap-x-3 gap-y-6"></div>
-        <div className=" grid lg:grid-cols-2 grid-cols-1 w-full gap-x-3 gap-y-10 pr-5 lg:pr-3">
+        <Appear className=" grid lg:grid-cols-2 grid-cols-1 w-full gap-x-3 gap-y-10 pr-5 lg:pr-3">
           {medical && (
             <ChartCard title="Medical">
               <CustomBarChart
@@ -204,7 +207,7 @@ export default function page() {
               />
             </ChartCard>
           )}
-        </div>
+        </Appear>
       </div>
     </div>
   );

@@ -5,6 +5,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { apiinstance } from "@/services/Api";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { framerStyles2 } from "@/utils/framer";
+import Appear from "@/components/FramerMotion/Appear";
+import { ChevronLeft } from "lucide-react";
 
 export default function page() {
   const params = useParams();
@@ -35,7 +39,13 @@ export default function page() {
       {loading ? (
         <NewsLoader />
       ) : (
-        <div className=" w-full flex flex-col px-8 gap-2">
+        <Appear className=" w-full flex flex-col px-8 mt-4">
+          <span
+            className=" text-custom-150 flex items-center justify-start gap-1 cursor-pointer"
+            onClick={() => router.push("/")}
+          >
+            <ChevronLeft /> Go Back
+          </span>
           <HeaderTitle title={news?.title} />
           <div className=" w-full">
             <img
@@ -54,7 +64,7 @@ export default function page() {
           <div className="w-full flex justify-between items-center text-customtext-100 text-lg">
             {news?.description}
           </div>
-        </div>
+        </Appear>
       )}
     </>
   );

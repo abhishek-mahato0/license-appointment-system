@@ -1,5 +1,6 @@
 "use client";
 import Links from "@/components/common/Links";
+import Appear from "@/components/FramerMotion/Appear";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,7 +21,7 @@ export default function Banner() {
         </div>
       </Link>
 
-      <div className="flex flex-col items-start justify-start text-left text-white leading-6 px-5 mt-5 mb-3 text-lg">
+      <Appear className="flex flex-col items-start justify-start text-left text-white leading-6 px-5 mt-5 mb-3 text-lg">
         Welcome to our official government licensing website, where we offer a
         modernized approach to license applications, renewals, and preparation.
         <p className="py-4">
@@ -30,7 +31,7 @@ export default function Banner() {
         </p>
         Trust us with your licensing requirements, and experience a more
         convenient and straightforward process for all your licensing needs.
-      </div>
+      </Appear>
       {/* <div className="mt-3 justify-center items-center">
         {pathname && (
           <Links

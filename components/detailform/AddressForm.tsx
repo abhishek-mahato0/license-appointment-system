@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { apiinstance } from "@/services/Api";
 import { useSession } from "next-auth/react";
 import { Updatelocalstorage } from "@/utils/Updatelocalstorage";
+import Appear from "../FramerMotion/Appear";
 
 export default function AddressForm() {
   const { data: session, update } = useSession();
@@ -145,7 +146,7 @@ export default function AddressForm() {
     );
   }, [temporaryaddress]);
   return (
-    <div className=" flex flex-col w-full">
+    <Appear className=" flex flex-col w-full">
       <div className=" w-[100%] bg-custom-50 p-8 gap-8 flex flex-col md:h-auto h-[1300px]">
         <Outline title="Permanent Address">
           <div className="grid md:grid-cols-3 grid-cols-1 gap-3 items-center justify-between w-full px-3 py-2">
@@ -296,6 +297,6 @@ export default function AddressForm() {
           </Button>
         </div>
       </div>
-    </div>
+    </Appear>
   );
 }

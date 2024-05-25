@@ -15,6 +15,7 @@ import { apiinstance } from "@/services/Api";
 import { useSession } from "next-auth/react";
 import { Updatelocalstorage } from "@/utils/Updatelocalstorage";
 import LoaderButton from "../common/LoaderButton";
+import Appear from "../FramerMotion/Appear";
 
 export default function CitizenshipForm() {
   const { toast } = useToast();
@@ -165,7 +166,7 @@ export default function CitizenshipForm() {
     }
   };
   return (
-    <div className=" flex flex-col w-full">
+    <Appear className=" flex flex-col w-full">
       <form
         className=" w-[100%] bg-custom-50 p-8 gap-8 flex flex-col md:h-auto h-[1300px]"
         encType="multipart/form-data"
@@ -281,6 +282,6 @@ export default function CitizenshipForm() {
           </LoaderButton>
         </div>
       </form>
-    </div>
+    </Appear>
   );
 }
