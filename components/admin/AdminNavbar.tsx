@@ -228,7 +228,7 @@ export default function AdminNavbar() {
           <FullFlex className=" justify-between gap-2">
             <Avatar>
               <AvatarFallback className=" bg-custom-100 text-white text-sm">
-                {session.user.name?.split("")[0]}
+                {session.user?.email?.split("")[0]}
               </AvatarFallback>
             </Avatar>
             {showfull && (

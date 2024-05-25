@@ -55,7 +55,7 @@ export const licenseJsonData = [
     {
         id:1,
         name:"License Number",
-        value:"license_number"
+        value:"license_no"
     },
     {
         id:2,
