@@ -13,6 +13,7 @@ import { signIn } from "next-auth/react";
 import ForgetPassword from "@/components/common/ForgetPassword";
 import { useAppDispatch } from "@/redux/TypedHooks";
 import { setUser } from "@/redux/slices/userSlice";
+import Appear from "@/components/FramerMotion/Appear";
 
 export default function page() {
   const router = useRouter();
@@ -67,7 +68,7 @@ export default function page() {
       <div className=" w-[40%] hidden md:flex">
         <Banner />
       </div>
-      <FullFlex className="md:w-[60%] w-full flex-col bg-[#e3f2ff] md:justify-center justify-start">
+      <Appear className=" flex items-center md:w-[60%] w-full flex-col bg-[#e3f2ff] md:justify-center justify-start">
         <h1 className=" text-2xl font-semibold pb-4 md:pt-0 pt-10">Login</h1>
         <form
           onSubmit={handleSubmit((data) => handleLogin(data))}
@@ -155,7 +156,7 @@ export default function page() {
             className=" hover:underline"
           ></Links>
         </form>
-      </FullFlex>
+      </Appear>
     </div>
   );
 }

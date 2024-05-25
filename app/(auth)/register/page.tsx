@@ -10,6 +10,7 @@ import { apiinstance } from "@/services/Api";
 import Loader from "@/components/common/Loader";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import Appear from "@/components/FramerMotion/Appear";
 
 export default function page() {
   const [loading, setLoading] = useState(false);
@@ -77,7 +78,7 @@ export default function page() {
       <div className=" hidden md:flex w-[40%]">
         <Banner />
       </div>
-      <div className="md:w-[60%] flex items-center md:justify-center w-full flex-col bg-custom-50 h-full">
+      <Appear className="md:w-[60%] flex items-center md:justify-center w-full flex-col bg-custom-50 h-full">
         <h1 className=" text-2xl font-semibold pb-4 pt-4">Register</h1>
         <form
           onSubmit={handleSubmit((datas) => registerUser(datas))}
@@ -256,7 +257,7 @@ export default function page() {
             className=" hover:underline"
           ></Links>
         </form>
-      </div>
+      </Appear>
     </div>
   );
 }

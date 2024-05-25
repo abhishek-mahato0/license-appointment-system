@@ -1,6 +1,7 @@
 "use client";
 import { examData } from "@/components/Exam/CatA";
 import { signQues } from "@/components/Exam/Sign";
+import Appear from "@/components/FramerMotion/Appear";
 import QuizModal from "@/components/common/Examination/QuizModal";
 import HeaderTitle from "@/components/common/HeaderTitle";
 import PaginationComp from "@/components/common/PaginationComp";
@@ -100,7 +101,7 @@ export default function page() {
         ) : (
           data?.ques?.map((ele: any, ind: number) => {
             return (
-              <div className=" flex flex-col w-full mb-6 gap-3" key={ind}>
+              <Appear className=" flex flex-col w-full mb-6 gap-3" key={ind}>
                 <h2 className=" flex items-center justify-start gap-2 font-semibold text-[18px] text-gray-600">
                   <span>
                     {parseInt(page ? page : "1") > 1
@@ -133,7 +134,7 @@ export default function page() {
                     );
                   })}
                 </div>
-              </div>
+              </Appear>
             );
           })
         )}
