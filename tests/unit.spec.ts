@@ -14,8 +14,8 @@ test.describe('Unit tests', () => {
      await page.goto('http://localhost:3000/login');
      await page.waitForURL("http://localhost:3000/login");
      await page.fill('input[name="email"]', 'avishekh.mahato34');
-    await page.fill('input[name="pass"]', '1234567A135@');
-    await page.locator('//input[@type="submit"]').click();
+     await page.fill('input[name="pass"]', '1234567A135@');
+     await page.locator('//input[@type="submit"]').click();
     page.getByText('Invalid email pattern');
   })
 

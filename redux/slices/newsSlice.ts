@@ -16,6 +16,9 @@ type TNewsState={
     newsList:{ featured:INews[], general:INews[], featuredall:INews[] } | null,
     loading:boolean,
     error:boolean,
+    allNews:{
+        loading:boolean,
+        news:INews[]}
 }
 
 const initialState:TNewsState={
@@ -23,13 +26,23 @@ const initialState:TNewsState={
     newsList: null,
     loading:false,
     error:false,
+    allNews:{
+        loading:false,
+        news:[]
+    }
 }
 
-export const fetchNews = createAsyncThunk("fetchNews", async () => {
-
-    const res = await apiinstance.get(`user/news`);
+export const fetchNews = createAsyncThunk("fetchNews", async ({from, to}:{ to:string, from:string }) => {
+    const res = await apiinstance.get(`user/news?start=${from}&end=${to}`);
     return res.data;
  });
+
+export const fetchallNews = createAsyncThunk("fetchallNews", async ({from, to}:{ to:string, from:string }) => {
+    const res = await apiinstance.get(`user/news/all?start=${from}&end=${to}`);
+    return res.data;
+ 
+});
+
  export const fetchAdminNews = createAsyncThunk("fetchAdminNews", async ({to, from, category}:{to:string, from:string, category:string}) => {
     const res = await apiinstance.get(`admin/news?to=${to}&from=${from}&category=${category}`);
     return res.data;
@@ -59,6 +72,16 @@ export const newsListSlice = createSlice({
          state.adminNewsList = action.payload;
         })
         builder.addCase(fetchAdminNews.rejected, (state, action) => {
+         state.error =true;
+        })
+        builder.addCase(fetchallNews.pending, (state, action) => {
+         state.allNews.loading = true;
+        })
+        builder.addCase(fetchallNews.fulfilled, (state, action) => {
+         state.allNews.loading = false;
+         state.allNews.news = action.payload;
+        })
+        builder.addCase(fetchallNews.rejected, (state, action) => {
          state.error =true;
         })
        }, 

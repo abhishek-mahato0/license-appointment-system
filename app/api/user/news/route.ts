@@ -17,12 +17,8 @@ export async function GET(req:NextRequest){
         select:"name", 
         model:Administrator
  })
-       const general = await NewsModel.find().sort({date:-1}).populate({
-        path:"createdBy",
-        select:"name", 
-        model:Administrator
-        })
-        return NextResponse.json({featured, general, featuredall}, {status:200});
+ 
+        return NextResponse.json({featured,featuredall}, {status:200});
     } catch (error:any) {
         return ShowError(500, error.message);
     }

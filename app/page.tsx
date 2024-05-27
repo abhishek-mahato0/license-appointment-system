@@ -2,23 +2,35 @@
 import { convertDate } from "@/utils/convertDate";
 import Navbar from "../components/common/Navbar";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/TypedHooks";
-import { fetchNews } from "@/redux/slices/newsSlice";
+import { fetchallNews, fetchNews } from "@/redux/slices/newsSlice";
 import NewsCard from "@/components/common/NewsCard";
 import Loader from "@/components/common/dashboard/Loader";
 import HeaderTitle from "@/components/common/HeaderTitle";
 import SmallNav from "@/components/common/SmallNavbar";
 import Appear from "@/components/FramerMotion/Appear";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Home() {
   const dispatch = useAppDispatch();
+  const [to, setTo] = useState("");
+  const [from, setFrom] = useState("");
   const { loading, newsList, error } = useAppSelector((state) => state.news);
+  const allNews = useAppSelector((state) => state.news.allNews);
 
   useEffect(() => {
     if (newsList) return;
-    dispatch(fetchNews());
+    dispatch(fetchNews({ to: "", from: "" }));
+    // if (to && from) return;
+    // dispatch(fetchallNews({ to: "", from: "" }));
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchallNews({ to, from }));
+  }, [to, from]);
+
   return (
     <div className="w-full h-full flex mb-[30px]">
       <div className=" fixed z-40 top-0 left-0 bg-white md:bottom-0 ">
@@ -90,18 +102,57 @@ export default function Home() {
           </Appear>
         )}
 
-        {newsList && newsList?.general?.length > 0 && (
-          <div className=" w-full flex items-start justify-start gap-2 flex-col mt-8">
+        <div className=" w-full flex items-start justify-start gap-2 flex-col mt-10">
+          <div className=" w-full flex items-center justify-between pr-3">
             <h1 className=" font-bold text-xl text-gray-600 w-full pl-4">
               General News
             </h1>
+            <div className="flex items-center flex-col lg:flex-row lg:justify-center gap-5 w-full md:w-auto">
+              <div className=" flex items-center justify-center gap-2">
+                <input
+                  type="date"
+                  className=" border-b-2 border-x-[0px] border-t-[0px] hover:border-custom-100 border-customtext-100 outline-none"
+                  onChange={(e) => setFrom(e.target.value)}
+                  value={from}
+                />
+                <p>to</p>
+                <input
+                  type="date"
+                  className=" border-b-2 border-x-[0px] border-t-[0px] hover:border-custom-100 border-customtext-100 outline-none"
+                  onChange={(e) => setTo(e.target.value)}
+                  value={to}
+                />
+              </div>
+              <Button
+                variant="outline"
+                className=" border-red-500 hover:text-red-500"
+                onClick={() => {
+                  setFrom("");
+                  setTo("");
+                }}
+              >
+                Clear
+              </Button>
+            </div>
+          </div>
+          {allNews?.loading ? (
+            <div className="flex gap-3 items-center justify-between mt-10 w-full">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="h-[310px] w-[23%]" />
+              ))}
+            </div>
+          ) : allNews && allNews?.news?.length > 0 ? (
             <div className="lg:grid lg:grid-cols-4 grid-cols-1 gap-5 w-full h-full px-4 py-2">
-              {newsList?.general?.map((item) => (
+              {allNews?.news?.map((item) => (
                 <NewsCard item={item} type="vertical" />
               ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <h1 className="text-center text-xl font-bold text-gray-500">
+              No news found
+            </h1>
+          )}
+        </div>
       </div>
     </div>
   );

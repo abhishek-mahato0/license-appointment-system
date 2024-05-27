@@ -32,11 +32,11 @@ export default function Loader() {
           ))}
         </div>
       </div>
-      <div className="flex gap-3 items-center justify-between mt-10 w-full">
+      {/* <div className="flex gap-3 items-center justify-between mt-10 w-full">
         {Array.from({ length: 4 }).map((_, i) => (
           <Skeleton key={i} className="h-[310px] w-[23%]" />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
