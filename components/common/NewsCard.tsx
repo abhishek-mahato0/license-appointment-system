@@ -37,7 +37,7 @@ export default function NewsCard({
         </span>
         <h1 className="text-lg font-bold text-custom-150">{item.title}</h1>
         <p className="text-sm text-customtext-100">
-          {item.description.slice(0, 100)}
+          {item.description.slice(0, 100)} ...
         </p>
       </div>
     </Link>
