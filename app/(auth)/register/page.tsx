@@ -86,7 +86,9 @@ export default function page() {
           encType="multipart/form-data"
         >
           <FullFlex className="flex-col items-start">
-            <label>Full Name</label>
+            <label className=" flex items-center justify-center gap-1">
+              Full Name <span className=" text-red-500">*</span>
+            </label>
             <input
               {...register("name", {
                 min: 10,
@@ -103,7 +105,9 @@ export default function page() {
             )}
           </FullFlex>
           <FullFlex className="flex-col items-start">
-            <label>Email</label>
+            <label className=" flex items-center justify-center gap-1">
+              Email <span className=" text-red-500">*</span>
+            </label>
             <input
               {...register("email", {
                 pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
@@ -122,7 +126,9 @@ export default function page() {
             )}
           </FullFlex>
           <FullFlex className="flex-col items-start">
-            <label>Phone</label>
+            <label className=" flex items-center justify-center gap-1">
+              Phone <span className=" text-red-500">*</span>
+            </label>
             <input
               {...register("phone", {
                 required: true,
@@ -144,7 +150,9 @@ export default function page() {
             )}
           </FullFlex>
           <FullFlex className="flex-col items-start">
-            <label>Password</label>
+            <label className=" flex items-center justify-center gap-1">
+              Password <span className=" text-red-500">*</span>
+            </label>
             <div className="flex justify-between items-center w-full border-b-2 border-b-custom-100 py-0">
               <input
                 {...register("password", {
@@ -183,7 +191,9 @@ export default function page() {
             ) : null}
           </FullFlex>
           <FullFlex className="flex-col items-start">
-            <label>Confirm Password</label>
+            <label className=" flex items-center justify-center gap-1">
+              Confirm Password <span className=" text-red-500">*</span>
+            </label>
             <div className="flex justify-between items-center w-full border-b-2 border-b-custom-100 py-0">
               <input
                 {...register("cpassword", {

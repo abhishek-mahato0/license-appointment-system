@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   if (
     currentUser &&
     role?.value != "public" &&
-    (path.startsWith("/apply") || path.startsWith("/prepare") || path.startsWith("/profile") || path.startsWith("/reschedule") || path.startsWith("/appointments"))
+    (path.startsWith("/apply") || path.startsWith('/dashboard') || path.startsWith("/prepare") || path.startsWith("/profile") || path.startsWith("/reschedule") || path.startsWith("/appointments"))
   ) {
     return Response.redirect(new URL("/admin/dashboard", request.url));
   }
